@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>CodeEverest · CSS test</title>
+
+  <!-- Only these three files. No font links needed.
+       This file sits in the project root. If you move it into /pages, use ../css/... -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- Header -->
+<header class="site-header" id="hdr">
+  <div class="header-inner">
+    <a href="#top" class="logo">
+      <svg viewBox="0 0 32 32" aria-label="CodeEverest logo"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(var(--c-primary))"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>
+      <span class="logo-text">Code<span>Everest</span></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a class="nl on" href="#typography">Typography</a>
+      <a class="nl" href="#buttons">Buttons</a>
+      <a class="nl" href="#cards">Cards</a>
+      <a class="nl" href="#forms">Forms</a>
+    </nav>
+    <div class="header-actions">
+      <div class="stat-pill"><span><span class="material-symbols-outlined text-tertiary">local_fire_department</span>14d</span><span><span class="material-symbols-outlined text-secondary">bolt</span>3,450 XP</span></div>
+      <span class="header-divider"></span>
+      <button class="ic" title="Notifications"><span class="material-symbols-outlined">notifications</span><span class="notif-dot"></span></button>
+      <div class="avatar">S</div>
+    </div>
+  </div>
+</header>
+
+<main id="top" class="page-offset">
+  <div class="container stack gap-12" style="padding-block: var(--space-12)">
+
+    <!-- Status checks (filled by JS) -->
+    <section class="card card-lowest" id="status">
+      <h2 class="card-title">Setup check</h2>
+      <ul class="stack gap-2 fc" id="checks"></ul>
+    </section>
+
+    <!-- Typography -->
+    <section id="typography" class="stack gap-4">
+      <h1 class="h1">Learn to code, <span class="grad">one line at a time</span></h1>
+      <h2 class="h2">Heading 2 (Plus Jakarta Sans)</h2>
+      <h3 class="h3">Heading 3</h3>
+      <h4 class="h4">Heading 4</h4>
+      <p class="lead">Lead paragraph in Inter. This is the body font.</p>
+      <p class="fs text-muted">Small text with inline <code>code()</code>. Mono label: <span class="fc text-secondary">JetBrains Mono</span></p>
+      <p class="row gap-3 wrap">
+        <span class="text-primary">primary</span><span class="text-secondary">secondary</span>
+        <span class="text-tertiary">tertiary</span><span class="text-error">error</span>
+        <span class="text-muted">muted</span><span class="text-outline">outline</span>
+      </p>
+      <p class="row gap-3">
+        <span class="material-symbols-outlined">terminal</span>
+        <span class="material-symbols-outlined text-primary filled">favorite</span>
+        <span class="material-symbols-outlined text-secondary">smart_toy</span>
+        <span class="fs text-muted">Icons should render as symbols, not words</span>
+      </p>
+    </section>
+
+    <!-- Buttons / badges -->
+    <section id="buttons" class="stack gap-4">
+      <h2 class="h2">Buttons, pills &amp; chips</h2>
+      <div class="row gap-4 wrap">
+        <button class="btn btn-primary"><span class="material-symbols-outlined">bolt</span>Primary</button>
+        <button class="btn btn-secondary"><span class="material-symbols-outlined rotate-hover">terminal</span>Secondary</button>
+        <button class="btn btn-primary btn-sm">Small</button>
+        <button class="btn btn-primary" disabled>Disabled</button>
+        <a href="#top" class="btn btn-primary shine">Shine link</a>
+      </div>
+      <div class="row gap-3 wrap">
+        <span class="badge"><span class="status-dot"></span>Badge</span>
+        <span class="pill">Pill</span><span class="pill pill-secondary">Secondary</span><span class="pill pill-tertiary">Tertiary</span>
+        <button class="chip">Chip</button><button class="chip">Hover me</button>
+      </div>
+      <div class="tabs" id="tabs">
+        <button class="tab active">All</button><button class="tab">Beginner</button><button class="tab">Advanced</button>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section id="cards" class="stack gap-6">
+      <h2 class="h2">Cards</h2>
+      <div class="grid gap-6" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))">
+        <article class="card spot rv">
+          <div class="card-icon"><span class="material-symbols-outlined">tune</span></div>
+          <h3 class="card-title">Spotlight card</h3>
+          <p class="card-text">Hover to lift and see the cursor glow. Fades in on scroll.</p>
+          <div class="panel">
+            <div class="row fc" style="justify-content:space-between"><span>Progress</span><span class="text-primary">76%</span></div>
+            <div class="progress-track" style="margin-top:8px"><div class="progress-fill" id="bar" style="--w:0%"></div></div>
+          </div>
+        </article>
+        <article class="card spot rv">
+          <div class="card-icon secondary"><span class="material-symbols-outlined">psychology</span></div>
+          <h3 class="card-title">Hint ladder</h3>
+          <p class="card-text">Segments show step progress.</p>
+          <div class="panel"><div class="row gap-2"><i class="seg on"></i><i class="seg on pulse-seg"></i><i class="seg"></i></div></div>
+        </article>
+        <article class="card spot rv">
+          <div class="card-icon tertiary"><span class="material-symbols-outlined">deployed_code</span></div>
+          <h3 class="card-title">Typing</h3>
+          <p class="card-text">Tutor typing dots:</p>
+          <div class="panel"><span class="dots"><i></i><i></i><i></i></span></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Forms -->
+    <section id="forms" class="stack gap-4" style="max-width:420px">
+      <h2 class="h2">Inputs</h2>
+      <div class="row gap-2">
+        <input class="input" placeholder="Ask your tutor anything...">
+        <button class="icon-send" title="Send"><span class="material-symbols-outlined">arrow_upward</span></button>
+      </div>
+      <input class="input input-field" placeholder="Email (rectangular form field)">
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-text">Code<span>Everest</span></span>
+        <p>Footer brand text. Muted color, max width 320px.</p>
+      </div>
+      <div class="footer-col"><h4>Curriculum</h4><ul><li><a href="#">Learning paths</a></li><li><a href="#">Free modules</a></li></ul></div>
+      <div class="footer-col"><h4>Platform</h4><ul><li><a href="#">AI tutor</a></li><li><a href="#">Sandboxes</a></li></ul></div>
+      <div class="footer-col"><h4>Legal</h4><ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 CodeEverest</span><div class="links"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+  </div>
+</footer>
+
+<script>
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+
+  /* scroll progress + header shrink + nav highlight */
+  addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - innerHeight;
+    $('#prog').style.transform = `scaleX(${h ? scrollY / h : 0})`;
+    $('#hdr').classList.toggle('scrolled', scrollY > 20);
+    let cur = '#typography';
+    for (const k of ['#buttons', '#cards', '#forms']) {
+      if ($(k).getBoundingClientRect().top < innerHeight * .4) cur = k;
+    }
+    $$('#nav .nl').forEach(a => a.classList.toggle('on', a.getAttribute('href') === cur));
+  }, { passive: true });
+
+  /* reveal on scroll + progress bar fill */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .15 });
+  $$('.rv').forEach(el => io.observe(el));
+  setTimeout(() => $('#bar').style.setProperty('--w', '76%'), 600);
+
+  /* cursor spotlight */
+  document.addEventListener('mousemove', e => {
+    const c = e.target.closest && e.target.closest('.spot');
+    if (c) { const r = c.getBoundingClientRect(); c.style.setProperty('--mx', e.clientX - r.left + 'px'); c.style.setProperty('--my', e.clientY - r.top + 'px'); }
+  });
+
+  /* tabs */
+  $$('#tabs .tab').forEach(t => t.onclick = () => $$('#tabs .tab').forEach(x => x.classList.toggle('active', x === t)));
+
+  /* setup checks */
+  const cs = getComputedStyle(document.documentElement);
+  const checks = [
+    ['variables.css loaded', cs.getPropertyValue('--c-primary').trim() === '110 231 168'],
+    ['global.css loaded (body bg is dark green)', getComputedStyle(document.body).backgroundColor === 'rgb(13, 21, 18)'],
+    ['components.css loaded (.btn is flex)', (() => { const b = document.createElement('button'); b.className = 'btn'; document.body.append(b); const ok = getComputedStyle(b).display === 'inline-flex'; b.remove(); return ok; })()],
+  ];
+  const out = $('#checks');
+  const show = (label, ok) => out.insertAdjacentHTML('beforeend', `<li class="row gap-2"><span class="material-symbols-outlined ${ok ? 'text-tertiary' : 'text-error'}" style="font-size:16px">${ok ? 'check_circle' : 'error'}</span>${label}</li>`);
+  checks.forEach(([l, ok]) => show(l, ok));
+  document.fonts.ready.then(() => {
+    show('Inter loaded', document.fonts.check('14px Inter'));
+    show('Plus Jakarta Sans loaded', document.fonts.check('700 14px "Plus Jakarta Sans"'));
+    show('JetBrains Mono loaded', document.fonts.check('12px "JetBrains Mono"'));
+    show('Material Symbols loaded', document.fonts.check('20px "Material Symbols Outlined"'));
+  });
+</script>
+</body>
+</html>

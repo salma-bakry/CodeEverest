@@ -1,20 +1,26 @@
-/* ==========================================================================
-   CodeEverest — Global styles (global.css)
+/* 
    Load order:  variables.css → global.css → components.css → page css
+   Dark mode only.
 
-   Add these to the <head> of EVERY page (fonts + icons):
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
-   ========================================================================== */
+   Fonts (Inter, Plus Jakarta Sans, JetBrains Mono) and Material Symbols
+   icons are loaded below, so pages do NOT need any font <link> tags.
+ */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block");
+
 
 /* ---------- Reset ---------- */
 *,
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-height);   /* anchor links clear the fixed header */
+  -webkit-text-size-adjust: 100%;
+  scrollbar-width: none;
+}
 
 body,
 h1, h2, h3, h4, h5, h6,
@@ -40,6 +46,7 @@ button {
 
 input, textarea { outline: none; }
 
+
 /* ---------- Base ---------- */
 body {
   min-height: 100vh;
@@ -53,23 +60,23 @@ body {
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color var(--t-theme), color var(--t-theme);
 }
 
-main { flex: 1; position: relative; overflow: hidden; }
+/* overflow-x: clip (not hidden) hides blob overflow without breaking position: sticky.
+   Need a section to clip fully? Add the .clip class to it. */
+main { flex: 1; position: relative; overflow-x: clip; }
+.clip { overflow: hidden; }
 
-/* Hidden scrollbars (matches reference) */
+/* Hidden scrollbars (matches the reference design) */
 ::-webkit-scrollbar { display: none; }
-html { scrollbar-width: none; }
 
-::selection {
-  background: rgb(var(--c-primary) / 0.3);
-}
+::selection { background: rgb(var(--c-primary) / 0.3); }
 
 :focus-visible {
   outline: 2px solid rgb(var(--c-primary));
   outline-offset: 2px;
 }
+
 
 /* ---------- Typography ---------- */
 .fh {                      /* heading font */
@@ -106,7 +113,7 @@ html { scrollbar-width: none; }
 
 .lead { font-size: var(--fs-lead); line-height: 1.625; color: rgb(var(--c-on-surface-variant)); }
 
-/* Inline code inside small text */
+/* Inline code */
 .fs code,
 code.inline {
   font-family: var(--font-code);
@@ -120,6 +127,7 @@ code.inline {
 .uppercase { text-transform: uppercase; }
 .tracking-wider { letter-spacing: 0.05em; }
 .italic { font-style: italic; }
+.text-center { text-align: center; }
 
 /* Animated gradient text */
 .grad {
@@ -130,6 +138,7 @@ code.inline {
   color: transparent;
   animation: shift 6s linear infinite;
 }
+
 
 /* ---------- Icons (Material Symbols) ---------- */
 .material-symbols-outlined {
@@ -148,6 +157,8 @@ code.inline {
   font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+.material-symbols-outlined.filled { font-variation-settings: 'FILL' 1; }
+
 
 /* ---------- Layout helpers ---------- */
 .container {
@@ -160,7 +171,7 @@ code.inline {
   .container { padding-inline: var(--container-pad-sm); }
 }
 
-.container-wide { max-width: var(--container-wide); }
+.container-wide { max-width: var(--container-wide); }   /* use together with .container */
 
 .section { padding-block: var(--section-pad-y); position: relative; }
 
@@ -170,8 +181,9 @@ code.inline {
 .wrap    { flex-wrap: wrap; }
 .grid    { display: grid; }
 
-.gap-1 { gap: var(--space-1); } .gap-2 { gap: var(--space-2); } .gap-3 { gap: var(--space-3); }
-.gap-4 { gap: var(--space-4); } .gap-6 { gap: var(--space-6); } .gap-10 { gap: var(--space-10); }
+.gap-1 { gap: var(--space-1); }  .gap-2 { gap: var(--space-2); }  .gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }  .gap-5 { gap: var(--space-5); }  .gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }  .gap-10 { gap: var(--space-10); } .gap-12 { gap: var(--space-12); }
 
 .hidden { display: none; }
 .sr-only {
@@ -182,13 +194,16 @@ code.inline {
 /* Page content sits below the fixed header */
 .page-offset { padding-top: var(--header-height); }
 
+
 /* ---------- Text color utilities ---------- */
 .text-primary   { color: rgb(var(--c-primary)); }
 .text-secondary { color: rgb(var(--c-secondary)); }
 .text-tertiary  { color: rgb(var(--c-tertiary)); }
 .text-error     { color: rgb(var(--c-error)); }
+.text-main      { color: rgb(var(--c-on-surface)); }
 .text-muted     { color: rgb(var(--c-on-surface-variant)); }
 .text-outline   { color: rgb(var(--c-outline)); }
+
 
 /* ---------- Scroll progress bar (needs <div id="prog"></div>) ---------- */
 #prog {
@@ -203,6 +218,7 @@ code.inline {
   z-index: var(--z-progress);
 }
 
+
 /* ---------- Background blobs ---------- */
 .blob {
   position: absolute;
@@ -211,6 +227,7 @@ code.inline {
   pointer-events: none;
   animation: fl 14s ease-in-out infinite alternate;
 }
+
 
 /* ---------- Scroll reveal (add .rv; JS adds .in) ---------- */
 .rv {
@@ -221,6 +238,7 @@ code.inline {
     transform var(--t-reveal) var(--ease-out);
 }
 .rv.in { opacity: 1; transform: none; }
+
 
 /* ---------- Motion helpers ---------- */
 .float { animation: bob 6s ease-in-out infinite; }
@@ -253,6 +271,15 @@ code.inline {
 }
 .spot:hover::before { opacity: 1; }
 
+/* FIX: .spot (above) would override .rv's transition, so the fade-in never animated.
+   This keeps the reveal fade AND the quick hover lift when both classes are used. */
+.rv.spot {
+  transition:
+    opacity var(--t-reveal) var(--ease-out),
+    transform var(--t-base),
+    box-shadow var(--t-base);
+}
+
 .tilt.in { transition: transform 0.2s ease-out, box-shadow var(--t-base), opacity var(--t-reveal); }
 
 /* Shine sweep for primary CTA buttons */
@@ -269,6 +296,7 @@ code.inline {
   animation: sh 3.5s infinite;
 }
 
+
 /* ---------- Keyframes ---------- */
 @keyframes shift { to { background-position: 250% 0; } }
 @keyframes fl    { to { transform: translate(60px, 40px) scale(1.15); } }
@@ -282,6 +310,7 @@ code.inline {
 @keyframes spin  { to { transform: rotate(360deg); } }
 @keyframes ping  { 75%, 100% { transform: scale(2); opacity: 0; } }
 
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -290,4 +319,5 @@ code.inline {
     scroll-behavior: auto !important;
   }
   .rv { opacity: 1; transform: none; }
+  .line { opacity: 1; transform: none; }
 }

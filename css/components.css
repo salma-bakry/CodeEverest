@@ -1,6 +1,6 @@
 /* 
-Reusable components 
-  
+   Load after variables.css and global.css.
+
    Contents:
      1. Header / navigation
      2. Buttons
@@ -10,11 +10,11 @@ Reusable components
      6. Tabs / filters
      7. Progress & step indicators
      8. Status dot & typing dots
-     9. Footer
-*/
+     9. Footer 
+     */
 
 
-/* 1. Header / navigation  */
+/* 1. Header / navigation ------------------- */
 .site-header {
   position: fixed;
   top: 0;
@@ -137,6 +137,7 @@ Reusable components
 .avatar {
   width: 32px;
   height: 32px;
+  flex: none;
   border-radius: var(--radius-full);
   display: grid;
   place-items: center;
@@ -148,7 +149,7 @@ Reusable components
 }
 
 
-/* 2. Buttons */
+/* 2. Buttons --------------------------------*/
 .btn {
   display: inline-flex;
   align-items: center;
@@ -163,6 +164,8 @@ Reusable components
   transition: transform var(--t-fast), filter var(--t-fast), background-color var(--t-fast), color var(--t-fast);
 }
 .btn:active { transform: scale(0.95); }
+.btn:disabled,
+.btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
 
 .btn-primary {
   background: rgb(var(--c-primary));
@@ -177,14 +180,14 @@ Reusable components
 }
 .btn-secondary:hover { background: rgb(var(--c-surface-container-highest)); }
 
-.btn-ghost {
+.btn-ghost {                         /* for always-dark bands (CTA section) */
   background: rgb(255 255 255 / 0.1);
   color: #fff;
   border: 1px solid rgb(255 255 255 / 0.1);
 }
 .btn-ghost:hover { background: rgb(255 255 255 / 0.15); }
 
-.btn-soft {            
+.btn-soft {                          /* full-width soft button (cards) */
   width: 100%;
   padding-block: var(--space-3);
   border-radius: var(--radius-lg);
@@ -197,12 +200,11 @@ Reusable components
 .btn-sm { height: 36px; padding: 0 var(--space-4); font-size: var(--fs-body-sm); }
 .btn-lg { padding: var(--space-3) var(--space-8); }
 .btn .material-symbols-outlined { font-size: 18px; }
-.btn-secondary:hover .rotate-hover { transform: rotate(45deg); }
 .rotate-hover { transition: transform var(--t-base); }
+.btn-secondary:hover .rotate-hover { transform: rotate(45deg); }
 
 
-
-/* 3. Cards */
+/* 3. Cards ---------------------------- */
 .card {
   display: flex;
   flex-direction: column;
@@ -240,8 +242,7 @@ Reusable components
 }
 
 
-/* 4. Badges, pills & chips */
-
+/* 4. Badges, pills & chips --------------------*/
 .badge {
   display: inline-flex;
   align-items: center;
@@ -278,8 +279,7 @@ Reusable components
 .chip:hover { background: rgb(var(--c-primary)); color: rgb(var(--c-on-primary)); }
 
 
-
-/* 5. Inputs */
+/* 5. Inputs ----------------------------------*/
 .input {
   width: 100%;
   padding: var(--space-2) var(--space-4);
@@ -292,6 +292,7 @@ Reusable components
 }
 .input::placeholder { color: rgb(var(--c-outline)); }
 .input:focus { border-color: rgb(var(--c-primary)); }
+.input:focus-visible { outline: none; }          /* border already shows focus */
 
 /* Rectangular version for forms (login, signup, editor) */
 .input-field {
@@ -315,7 +316,7 @@ Reusable components
 .icon-send:active { transform: scale(0.9); }
 
 
-/*  6. Tabs / filters */
+/* 6. Tabs / filters ------------------------------------------------------- */
 .tabs {
   display: flex;
   gap: var(--space-1);
@@ -336,7 +337,9 @@ Reusable components
 .tab:hover { color: rgb(var(--c-on-surface)); }
 .tab.active { background: rgb(var(--c-surface-container-high)); color: rgb(var(--c-on-surface)); }
 
-/* 7. Progress & step indicators  */
+
+/* 7. Progress & step indicators ------------------------------------------ */
+/* Set the value with style="--w: 76%" on .progress-fill */
 .progress-track {
   height: 6px;
   border-radius: var(--radius-full);
@@ -355,7 +358,8 @@ Reusable components
 .seg.on { background: rgb(var(--c-primary)); }
 .seg.pulse-seg { animation: pu 1.4s infinite; }
 
-/* 8. Status dot & typing dots  */
+
+/* 8. Status dot & typing dots -------------------------------------------- */
 .status-dot {
   display: inline-block;
   width: 8px;
@@ -377,8 +381,7 @@ Reusable components
 .dots i:nth-child(3) { animation-delay: 0.3s; }
 
 
-
-/* 9. Footer */
+/* 9. Footer --------------------------------------------------------------- */
 .site-footer {
   background: rgb(var(--c-surface-container-lowest));
   border-top: 1px solid rgb(var(--c-outline-variant) / 0.4);
