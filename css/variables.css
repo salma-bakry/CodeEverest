@@ -1,0 +1,138 @@
+/* 
+Notes: (mmkn nshelhom abl el discussion
+   Load order: variables.css, then global.css, then components.css, then the page’s own CSS.
+
+   The site is DARK MODE ONLY. There is no light theme and no theme toggle.
+   Colors are stored as space-separated RGB triplets so you can add opacity:
+       color: rgb(var(--c-primary));
+       background: rgb(var(--c-primary) / 0.15);
+*/
+
+/* Dark theme colors  */
+:root {
+  --c-background: 13 21 18;
+  --c-surface-container-lowest: 8 16 13;
+  --c-surface-container-low: 18 27 23;
+  --c-surface-container: 23 33 28;
+  --c-surface-container-high: 30 42 36;
+  --c-surface-container-highest: 40 53 46;
+
+  --c-on-surface: 221 230 224;
+  --c-on-surface-variant: 188 202 193;
+  --c-outline: 134 148 139;
+  --c-outline-variant: 61 74 66;
+
+  --c-primary: 110 231 168;
+  --c-on-primary: 0 57 31;
+  --c-primary-fixed-dim: 76 214 143;
+  --c-secondary: 79 216 180;
+  --c-on-secondary: 0 56 43;
+  --c-secondary-container: 20 184 143;
+  --c-tertiary: 181 232 107;
+  --c-on-tertiary: 31 51 0;
+  --c-error: 255 180 171;
+
+  --shadow-header: 0 4px 24px rgba(0, 0, 0, 0.18);
+  --shadow-hover: 0 16px 40px -12px rgba(0, 0, 0, 0.35);
+  --hero-image-opacity: 0.3;
+
+  color-scheme: dark;
+}
+
+/* ---------- Shared tokens ---------- */
+:root {
+  /* Always-dark surfaces (CTA band, hero overlays) */
+  --c-cta-bg: 12 21 17;
+  --c-cta-accent: 139 233 191;
+  --c-amber: 245 158 11;           /* editor "minimize" dot */
+
+  /* Convenience color aliases (use when you don't need opacity) */
+  --color-bg: rgb(var(--c-background));
+  --color-text: rgb(var(--c-on-surface));
+  --color-text-muted: rgb(var(--c-on-surface-variant));
+  --color-border: rgb(var(--c-outline-variant) / 0.4);
+  --color-border-strong: rgb(var(--c-outline-variant) / 0.5);
+  --color-primary: rgb(var(--c-primary));
+  --color-secondary: rgb(var(--c-secondary));
+  --color-tertiary: rgb(var(--c-tertiary));
+  --color-error: rgb(var(--c-error));
+
+  /* Brand gradients */
+  --gradient-brand: linear-gradient(90deg, rgb(var(--c-primary)), rgb(var(--c-secondary)), rgb(var(--c-tertiary)));
+  --gradient-brand-loop: linear-gradient(90deg, rgb(var(--c-primary)), rgb(var(--c-secondary)), rgb(var(--c-tertiary)), rgb(var(--c-primary)));
+  --gradient-avatar: linear-gradient(135deg, rgb(var(--c-primary)), rgb(var(--c-secondary)));
+
+  /* Typography */
+  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+
+  --fs-xs: 10px;
+  --fs-sm: 11.5px;
+  --fs-code: 12px;
+  --fs-small: 12px;
+  --fs-body-sm: 13px;
+  --fs-body: 14px;
+  --fs-lead: 16px;
+  --fs-h4: 18px;
+  --fs-h3: 22px;
+  --fs-h2: clamp(24px, 3vw, 32px);
+  --fs-h1: clamp(32px, 5vw, 48px);
+  --fs-cta: clamp(28px, 4vw, 44px);
+
+  --lh-body: 22px;
+  --lh-relaxed: 1.6;
+  --lh-tight: 1.1;
+  --ls-heading: -0.01em;
+  --ls-h2: -0.02em;
+  --ls-h1: -0.03em;
+
+  /* Spacing (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.25), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+
+  /* Layout */
+  --header-height: 64px;
+  --header-height-scrolled: 56px;
+  --container-max: 1280px;          /* max-w-7xl */
+  --container-wide: 1600px;         /* header */
+  --container-pad: 16px;
+  --container-pad-sm: 32px;         /* >= 640px */
+  --section-pad-y: 80px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --t-fast: 0.2s;
+  --t-base: 0.3s;
+  --t-theme: 0.25s;
+  --t-reveal: 0.7s;
+
+  /* Z-index scale */
+  --z-header: 50;
+  --z-progress: 60;
+
+}
