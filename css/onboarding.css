@@ -1,0 +1,30 @@
+/* onboarding.css - only for pages/onboarding.html */
+
+.ob { padding-block: var(--space-10); }
+
+/* .card sets display:flex, which would show hidden steps. This keeps them hidden. */
+.step[hidden], #backBtn[hidden] { display: none; }
+
+.chips-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+/* Reuse the shared .chip, add a "selected" look */
+.chip { cursor: pointer; }
+.chip.selected { background: rgb(var(--c-primary)); color: rgb(var(--c-on-primary)); }
+
+/* Placement test answer buttons */
+.opt {
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: rgb(var(--c-surface-container));
+  border: 1px solid rgb(var(--c-outline-variant) / 0.5);
+  transition: var(--t-fast);
+}
+.opt:hover { border-color: rgb(var(--c-primary)); }
+.opt.selected { background: rgb(var(--c-primary) / 0.15); border-color: rgb(var(--c-primary)); }
+
+.ob-actions { justify-content: space-between; }
+.ob-actions #nextBtn { margin-left: auto; }
+
+.sum-row { display: flex; justify-content: space-between; gap: var(--space-4); }
