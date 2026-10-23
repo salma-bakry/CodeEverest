@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Quiz · CodeEverest</title>
+
+  <script>
+    try {
+      if (localStorage.getItem('sx-theme') === 'light')
+        document.documentElement.classList.remove('dark');
+    } catch (e) {}
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700&family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================
+       1. DESIGN TOKENS
+       ========================================================== */
+    :root {
+      --font-body: Inter, system-ui, sans-serif;
+      --font-head: 'Plus Jakarta Sans', Inter, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+      --fs-xs: .75rem;
+      --fs-sm: .8125rem;
+      --fs-md: .875rem;
+
+      --r-md: .5rem;
+      --r-lg: .75rem;
+      --r-pill: 9999px;
+
+      --t-fast: .15s;
+      --t-base: .25s;
+      --ease: cubic-bezier(.2, .7, .2, 1);
+
+      --shadow-sm: 0 1px 3px rgb(0 0 0/.12);
+      --shadow-lg: 0 20px 50px -12px rgb(0 0 0/.4);
+
+      /* light theme colours */
+      --c-bg: 244 250 246;
+      --c-surface: 255 255 255;
+      --c-surface-2: 235 245 239;
+      --c-surface-3: 255 255 255;
+      --c-surface-4: 227 239 232;
+      --c-surface-5: 211 227 217;
+      --c-text: 18 28 23;
+      --c-text-2: 61 74 66;
+      --c-text-3: 100 114 105;
+      --c-line: 160 178 167;
+      --c-brand: 4 120 87;
+      --c-on-brand: 255 255 255;
+      --c-accent: 15 118 110;
+      --c-lime: 77 124 15;
+      --c-ok: 77 124 15;
+
+      --seam: linear-gradient(90deg, transparent, #047857, #059669, #4d7c0f, transparent);
+      --neon: #b3a100;
+      --neong: #047857;
+
+      color-scheme: light;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    :root.dark {
+      --c-bg: 13 21 18;
+      --c-surface: 8 16 13;
+      --c-surface-2: 18 27 23;
+      --c-surface-3: 23 33 28;
+      --c-surface-4: 30 42 36;
+      --c-surface-5: 40 53 46;
+      --c-text: 221 230 224;
+      --c-text-2: 188 202 193;
+      --c-text-3: 134 148 139;
+      --c-line: 61 74 66;
+      --c-brand: 110 231 168;
+      --c-on-brand: 0 57 31;
+      --c-accent: 79 216 180;
+      --c-lime: 181 232 107;
+      --c-ok: 181 232 107;
+
+      --seam: linear-gradient(90deg, transparent, #34d399, #6ee7a8, #a3e635, transparent);
+      --neon: #f5ff3d;
+      --neong: #39ff9c;
+
+      color-scheme: dark;
+    }
+
+    /* ==========================================================
+       2. RESET & BASE
+       ========================================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      background: rgb(var(--c-bg));
+      color: rgb(var(--c-text));
+      font: 400 var(--fs-md)/1.6 var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+      transition: background-color var(--t-base), color var(--t-base);
+    }
+
+    h1, h2, h3, p, ul { margin: 0; }
+    ul { padding: 0; list-style: none; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, summary { font: inherit; color: inherit; }
+    button { background: none; border: 0; padding: 0; cursor: pointer; }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-thumb { background: rgb(var(--c-line)/.45); border-radius: 9px; }
+    ::selection { background: rgb(var(--c-brand)/.3); }
+    :focus-visible { outline: 2px solid rgb(var(--c-brand)); outline-offset: 2px; }
+    [hidden] { display: none !important; }
+
+    /* ==========================================================
+       3. GENERIC COMPONENTS
+       ========================================================== */
+    .icon { font-family: 'Material Symbols Outlined'; font-size: 20px; line-height: 1; vertical-align: middle; font-weight: 400; font-style: normal; flex: none; }
+    .eyebrow { font: 600 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: rgb(var(--c-accent)); }
+    .muted { color: rgb(var(--c-text-2)); }
+    .h { font-family: var(--font-head); font-weight: 700; letter-spacing: -.02em; line-height: 1.2; }
+
+    /* gradient headline */
+    .aurora { background: linear-gradient(100deg, #34d399, #6ee7a8 25%, #a3e635 50%, #4ade80 75%, #34d399); background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: aurora 8s ease-in-out infinite; }
+    :root:not(.dark) .aurora { background-image: linear-gradient(100deg, #047857, #059669 30%, #3f6b0d 60%, #065f46); }
+    @keyframes aurora { 0%, 100% { background-position: 0 50%; } 50% { background-position: 100% 50%; } }
+
+    /* buttons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; height: 2.25rem; padding: 0 1rem; border-radius: var(--r-md); font: 600 var(--fs-sm)/1 var(--font-head); white-space: nowrap; transition: transform var(--t-fast), filter var(--t-fast), background var(--t-base); }
+    .btn:active { transform: scale(.97); }
+    .btn:disabled { opacity: .45; pointer-events: none; }
+    .btn-primary { background: rgb(var(--c-brand)); color: rgb(var(--c-on-brand)); box-shadow: var(--shadow-sm); }
+    .btn-primary:hover { filter: brightness(1.1); transform: translateY(-2px); }
+    .btn-secondary { background: rgb(var(--c-surface-4)); border: 1px solid rgb(var(--c-line)/.35); }
+    .btn-secondary:hover { background: rgb(var(--c-surface-5)); border-color: rgb(var(--c-brand)); }
+    .btn-icon { width: 2.25rem; padding: 0; color: rgb(var(--c-text-2)); }
+    .btn-icon:hover { background: rgb(var(--c-surface-4)); color: rgb(var(--c-text)); }
+    .btn-lg { height: 3rem; padding: 0 1.4rem; font-size: .95rem; }
+    a.btn, .btn { cursor: pointer; }
+    a.btn { text-decoration: none; }
+
+    .shine { position: relative; overflow: hidden; }
+    .shine::after { content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; transform: skewX(-20deg); background: linear-gradient(90deg, transparent, rgb(255 255 255/.35), transparent); animation: sheen 3.5s infinite; pointer-events: none; }
+    @keyframes sheen { to { left: 140%; } }
+
+    /* badges & brand */
+    .badge { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .65rem; border-radius: var(--r-pill); font: 600 var(--fs-xs)/1.4 var(--font-mono); background: rgb(var(--c-surface-4)); color: rgb(var(--c-text-2)); }
+    .badge-brand { background: rgb(var(--c-brand)/.15); color: rgb(var(--c-brand)); }
+    .brand { display: inline-flex; align-items: center; gap: .5rem; font: 700 1.1rem/1 var(--font-head); }
+    .brand b { color: rgb(var(--c-brand)); }
+
+    /* background effects */
+    .glow { position: fixed; width: 26rem; height: 26rem; border-radius: 50%; filter: blur(70px); pointer-events: none; background: rgb(var(--c-brand)/.09); animation: drift 14s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform: translate(60px, 40px) scale(1.15); } }
+    .spot { position: fixed; left: 0; top: 0; width: 26rem; height: 26rem; margin: -13rem 0 0 -13rem; transform: translate3d(var(--mx, -999px), var(--my, -999px), 0); background: radial-gradient(closest-side, rgb(110 231 168/.12), rgb(52 211 153/0)); pointer-events: none; z-index: 4; opacity: 0; transition: opacity .5s; }
+    .spot.on { opacity: 1; }
+
+    .anim { animation: rise .5s var(--ease); }
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ==========================================================
+       4. APP SHELL (top bar, sidebar, main area)
+       ========================================================== */
+    .app { position: relative; display: flex; flex-direction: column; height: 100%; }
+
+    .top { position: relative; height: 3.5rem; flex: none; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: 0 .75rem; background: rgb(var(--c-surface-2)/.85); backdrop-filter: blur(8px); }
+    .top::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--seam); opacity: .8; }
+    .top-l, .top-r { display: flex; align-items: center; gap: .5rem; }
+
+    .body { flex: 1; display: flex; min-height: 0; position: relative; }
+
+    .main { flex: 1; min-width: 0; padding: .5rem; display: flex; flex-direction: column; gap: .5rem; }
+    .main > .pane { flex: 1; }
+    #app { max-width: 46rem; margin: 0 auto; }
+
+    /* sidebar */
+    .side { flex: none; width: 18rem; position: relative; z-index: 30; background: rgb(var(--c-surface-2)/.7); border-right: 1px solid rgb(var(--c-brand)/.35); transition: width var(--t-base) ease; }
+    .side-closed .side { width: 0; border-right-color: transparent; }
+    .side-closed .side-in { visibility: hidden; }
+    .side-in { width: 18rem; height: 100%; display: flex; flex-direction: column; }
+    .side-head { padding: 1rem 1rem .75rem; display: flex; flex-direction: column; gap: .5rem; }
+    .side-head .h { font-size: 1.15rem; }
+    .side .pick .btn { width: 100%; }
+    .side .pop { left: 0; right: auto; }
+    .srow { display: flex; align-items: center; justify-content: space-between; }
+    .sidetab { position: fixed; left: 0; top: 50%; z-index: 35; display: none; align-items: center; justify-content: center; width: 2rem; height: 3.5rem; margin-top: -1.75rem; border-radius: 0 var(--r-md) var(--r-md) 0; background: rgb(var(--c-surface-2)); border: 1px solid rgb(var(--c-brand)/.5); border-left: 0; color: rgb(var(--c-brand)); box-shadow: 0 0 14px -4px rgb(var(--c-brand)/.6); }
+    .side-foot { display: flex; gap: .5rem; padding: .75rem; border-top: 1px solid rgb(var(--c-brand)/.3); }
+    .side-foot .btn { flex: 1; }
+    .side-reset { padding: .25rem .75rem; }
+    .rst { display: inline-flex; align-items: center; gap: .4rem; font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-3)); padding: .3rem .4rem; border-radius: var(--r-md); }
+    .rst:hover { color: #e5484d; background: rgb(var(--c-surface-4)); }
+    .rst .icon { font-size: 16px; }
+
+    /* progress bar */
+    .bar { height: .4rem; border-radius: var(--r-pill); background: rgb(var(--c-surface-5)); overflow: hidden; }
+    .bar i { display: block; height: 100%; background: linear-gradient(90deg, rgb(var(--c-accent)), rgb(var(--c-brand)), rgb(var(--c-lime))); transition: width .5s; }
+    .bar-txt { display: flex; justify-content: space-between; font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-3)); }
+
+    /* search */
+    .search { display: flex; align-items: center; gap: .5rem; height: 2.4rem; padding: 0 .7rem; border-radius: var(--r-md); background: rgb(var(--c-surface-3)); border: 1px solid rgb(var(--c-brand)/.45); }
+    .search:focus-within { box-shadow: 0 0 0 3px rgb(var(--c-brand)/.2); border-color: rgb(var(--c-brand)); }
+    .search .icon { color: rgb(var(--c-brand)); font-size: 18px; }
+    .search input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; }
+    .nores { padding: .75rem; font-size: var(--fs-sm); }
+
+    /* unit / lesson list */
+    .units { flex: 1; overflow-y: auto; padding: 0 .5rem .5rem; }
+    .unit { margin-bottom: .25rem; border-left: 2px solid rgb(var(--c-brand)/.25); margin-left: .4rem; }
+    .unit[open] { border-left-color: rgb(var(--c-brand)); }
+    .unit summary { list-style: none; display: flex; align-items: center; gap: .5rem; padding: .5rem; border-radius: var(--r-md); cursor: pointer; font: 600 var(--fs-sm)/1.2 var(--font-head); color: rgb(var(--c-text-2)); }
+    .unit summary::-webkit-details-marker { display: none; }
+    .unit summary:hover { background: rgb(var(--c-surface-4)); }
+    .unit summary .chev { margin-left: auto; transition: transform var(--t-fast); }
+    .unit[open] summary .chev { transform: rotate(180deg); }
+    .unit summary .icon:not(.chev), .les .icon { color: rgb(var(--c-brand)); }
+    .cnt { font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-3)); }
+    .les { display: flex; align-items: center; gap: .6rem; width: 100%; text-align: left; padding: .45rem .5rem .45rem .75rem; border-radius: var(--r-md); font-size: var(--fs-sm); color: rgb(var(--c-text-2)); }
+    .les:hover:not(:disabled) { background: rgb(var(--c-surface-4)); }
+    .les .icon { font-size: 18px; }
+    .les.done .icon { color: rgb(var(--c-ok)); }
+    .les.lock { opacity: .5; cursor: not-allowed; }
+    .les.cur { background: rgb(var(--c-brand)/.15); color: rgb(var(--c-brand)); font-weight: 600; box-shadow: inset 3px 0 0 rgb(var(--c-brand)); }
+
+    /* panes */
+    .pane { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; background: rgb(var(--c-surface)/.92); border: 1px solid rgb(var(--c-brand)/.3); border-radius: var(--r-lg); box-shadow: 0 0 24px -12px rgb(var(--c-brand)/.5); }
+    .pane-head { position: relative; flex: none; display: flex; align-items: center; gap: .5rem; padding: .5rem .75rem; background: rgb(var(--c-surface-2)); font: 600 var(--fs-sm)/1 var(--font-head); }
+    .pane-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--seam); }
+    .pane-head .icon { color: rgb(var(--c-brand)); font-size: 18px; }
+    .pane-body { flex: 1; min-height: 0; overflow: auto; padding: 1.25rem; }
+    .sp { margin-left: auto; display: flex; gap: .5rem; align-items: center; }
+
+    /* ==========================================================
+       5. SHARED LESSON / WORKSPACE STYLES (kept for consistency
+          with the other CodeEverest pages)
+       ========================================================== */
+    .ws { flex: 1; min-width: 0; min-height: 0; display: flex; gap: 0; overflow: hidden; }
+    .ws > .split { flex: none; width: 8px; }
+    .ws > .pane[data-pane=lesson] .pane-body > div { max-width: 60rem; margin: 0 auto; }
+    .split { position: relative; z-index: 2; touch-action: none; }
+    .split::after { content: ""; position: absolute; border-radius: 9px; background: linear-gradient(180deg, transparent, rgb(var(--c-brand)/.8), transparent); opacity: .45; transition: opacity var(--t-fast), box-shadow var(--t-fast); }
+    .split:hover::after, .split.drag::after { opacity: 1; box-shadow: 0 0 10px rgb(var(--c-brand)/.8); }
+    #vs { cursor: col-resize; }
+    #vs::after { left: 3px; width: 2px; top: 0; bottom: 0; }
+    #hs { cursor: row-resize; }
+    #hs::after { top: 3px; height: 2px; left: 0; right: 0; background: var(--seam); }
+
+    .hero { position: relative; padding: 1.1rem 1.25rem; margin-bottom: 1.25rem; border-radius: var(--r-lg); background: linear-gradient(135deg, rgb(var(--c-brand)/.14), rgb(var(--c-accent)/.04)); border: 1px solid rgb(var(--c-brand)/.3); overflow: hidden; display: flex; flex-direction: column; gap: .5rem; }
+    .hero::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, #34d399, #a3e635); }
+    .hero svg { position: absolute; right: -.5rem; bottom: -.5rem; width: 9rem; opacity: .28; }
+    .hero .h { font-size: 1.7rem; }
+    .meta { display: flex; gap: .4rem; flex-wrap: wrap; }
+
+    .sec { position: relative; margin: 0 0 1.25rem .5rem; padding-left: 1.25rem; border-left: 2px solid rgb(var(--c-brand)/.45); }
+    .sec::before { content: ""; position: absolute; left: -.4rem; top: .1rem; width: .7rem; height: .7rem; border-radius: 50%; background: rgb(var(--c-brand)); box-shadow: 0 0 0 4px rgb(var(--c-brand)/.2); }
+    .sec h3 { font: 700 .95rem/1.3 var(--font-head); margin-bottom: .4rem; display: flex; gap: .5rem; align-items: center; }
+    .sec p { color: rgb(var(--c-text-2)); }
+    .sec code { font: .8rem var(--font-mono); padding: .1rem .35rem; border-radius: .3rem; background: rgb(var(--c-brand)/.14); color: rgb(var(--c-brand)); }
+
+    .code-block { border-radius: var(--r-lg); background: rgb(var(--c-surface-2)); border: 1px solid rgb(var(--c-brand)/.3); overflow: hidden; margin-top: .5rem; }
+    .code-head { display: flex; align-items: center; justify-content: space-between; padding: .5rem 1rem; background: rgb(var(--c-surface-4)); font: var(--fs-xs)/1 var(--font-mono); }
+    .code-body { padding: 1rem; font: .8rem/1.6 var(--font-mono); white-space: pre; overflow-x: auto; margin: 0; }
+    .cw { display: flex; }
+    .cw .code-body { flex: 1; min-width: 0; }
+    .gut { margin: 0; padding: 1rem .6rem 1rem .8rem; text-align: right; color: rgb(var(--c-text-3)); font: .8rem/1.6 var(--font-mono); border-right: 1px solid rgb(var(--c-brand)/.3); background: rgb(var(--c-brand)/.06); user-select: none; white-space: pre; }
+    .dots { display: flex; gap: .375rem; }
+    .dots i { width: .65rem; height: .65rem; border-radius: 50%; background: rgb(255 120 110/.8); }
+    .dots i:nth-child(2) { background: #f59e0b; }
+    .dots i:nth-child(3) { background: rgb(var(--c-lime)); }
+    .try { padding: .75rem 1rem; border-radius: var(--r-md); background: rgb(var(--c-lime)/.12); border: 1px dashed rgb(var(--c-lime)/.6); color: rgb(var(--c-text)) !important; }
+    .lesson-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-top: 1rem; }
+    .qcta { display: flex; justify-content: center; margin-top: 1.75rem; }
+    .qbig { width: min(100%, 26rem); height: 3.6rem; font-size: 1.1rem; border-radius: var(--r-lg); box-shadow: 0 10px 28px -10px rgb(var(--c-brand)/.7); }
+    .qbig .icon { font-size: 26px; }
+
+    .sb { display: flex; flex-direction: column; height: auto; flex: 1; min-height: 0; }
+    .sb textarea { flex: 1; min-height: 6rem; width: 100%; resize: none; border: 0; outline: 0; padding: 1rem; background: transparent; font: .82rem/1.6 var(--font-mono); tab-size: 4; white-space: pre; overflow: auto; }
+    .out { flex: none; height: 35%; min-height: 5rem; overflow: auto; padding: .75rem 1rem; background: rgb(var(--c-surface-2)); border-top: 2px solid rgb(var(--c-brand)/.5); font: .78rem/1.6 var(--font-mono); }
+    .out .ok { color: rgb(var(--c-ok)); }
+    .out .dim { color: rgb(var(--c-text-3)); }
+
+    .ai { display: flex; flex-direction: column; height: auto; flex: 1; min-height: 0; }
+    .chat { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: .75rem; }
+    .msg { max-width: 88%; padding: .6rem .85rem; border-radius: var(--r-lg); font-size: var(--fs-sm); line-height: 1.5; animation: rise .3s; }
+    .msg.bot { align-self: flex-start; background: rgb(var(--c-surface-4)); border-left: 3px solid rgb(var(--c-brand)); }
+    .msg.me { align-self: flex-end; background: rgb(var(--c-brand)/.18); }
+    .chips { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0 1rem .5rem; }
+    .chip { padding: .3rem .65rem; border-radius: var(--r-pill); border: 1px solid rgb(var(--c-brand)/.45); font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-accent)); }
+    .chip:hover { background: rgb(var(--c-surface-4)); }
+    .compose { display: flex; gap: .5rem; padding: .75rem; border-top: 1px solid rgb(var(--c-brand)/.3); }
+    .input { flex: 1; height: 2.5rem; padding: 0 .9rem; border-radius: var(--r-md); background: rgb(var(--c-surface-3)); border: 1px solid rgb(var(--c-line)/.6); outline: 0; }
+    .input:focus { border-color: rgb(var(--c-brand)); box-shadow: 0 0 0 3px rgb(var(--c-brand)/.2); }
+
+    .pick { position: relative; }
+    .pop { position: absolute; right: 0; top: calc(100% + .5rem); z-index: 60; width: 20.5rem; max-width: 90vw; padding: 1rem; border-radius: var(--r-lg); background: rgb(var(--c-surface-3)); border: 1px solid rgb(var(--c-brand)/.5); box-shadow: var(--shadow-lg); display: none; }
+    .pop.open { display: block; }
+    .pop h3 { font: 600 var(--fs-xs)/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: rgb(var(--c-text-3)); margin: 0 0 .6rem; }
+    .pop h3:not(:first-child) { margin-top: 1rem; }
+    .opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+    .opt { display: flex; flex-direction: column; align-items: center; gap: .4rem; padding: .5rem; border-radius: var(--r-md); border: 1px solid transparent; font-size: var(--fs-xs); line-height: 1.2; color: rgb(var(--c-text-2)); text-align: center; }
+    .opt:hover { background: rgb(var(--c-surface-4)); }
+    .opt[aria-pressed=true] { border-color: rgb(var(--c-brand)); background: rgb(var(--c-brand)/.12); color: rgb(var(--c-brand)); }
+    .thumb { display: grid; gap: 3px; width: 100%; height: 2.8rem; }
+    .thumb.t2 { grid-template-columns: 1fr 1fr; }
+    .thumb.t3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+    .thumb.t3 span:first-child { grid-row: 1/3; }
+    .thumb span { display: flex; align-items: center; justify-content: center; border-radius: 4px; font: 700 .6rem/1 var(--font-mono); color: rgb(var(--c-text)); }
+    .thumb .L { background: rgb(var(--c-brand)/.4); }
+    .thumb .S { background: rgb(var(--c-accent)/.4); }
+    .thumb .A { background: rgb(var(--c-lime)/.4); }
+
+    .tools { position: relative; flex: none; display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; padding: .4rem .6rem .4rem .8rem; border-radius: var(--r-lg); background: rgb(var(--c-surface-2)/.85); border: 1px solid rgb(var(--c-brand)/.4); }
+    .tools::before { content: ""; position: absolute; left: 0; top: .4rem; bottom: .4rem; width: 3px; border-radius: 3px; background: linear-gradient(180deg, #34d399, #a3e635); }
+    .tl { display: inline-flex; align-items: center; gap: .4rem; font: 700 var(--fs-sm)/1 var(--font-head); color: rgb(var(--c-brand)); }
+    .lays { display: flex; gap: .4rem; flex-wrap: wrap; }
+    .lays .opt { flex-direction: row; gap: .5rem; padding: .3rem .6rem; border-color: rgb(var(--c-line)/.4); }
+    .lays .thumb { width: 2.2rem; height: 1.5rem; }
+    .lays .thumb span { font-size: .5rem; }
+    .hint { margin-left: auto; font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-3)); }
+
+    .frame { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: .5rem; }
+    .ftabs { flex: none; display: flex; gap: .4rem; padding: .35rem; border-radius: var(--r-lg); background: rgb(var(--c-surface-2)/.85); border: 1px solid rgb(var(--c-brand)/.4); }
+    .ftab { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .8rem; border-radius: var(--r-md); font: 600 var(--fs-sm)/1 var(--font-head); color: rgb(var(--c-text-2)); }
+    .ftab .icon { font-size: 18px; color: rgb(var(--c-brand)); }
+    .ftab:hover { background: rgb(var(--c-surface-4)); }
+    .ftab.on { background: rgb(var(--c-brand)/.15); color: rgb(var(--c-brand)); box-shadow: inset 0 -2px 0 rgb(var(--c-brand)); }
+    #focus { margin-left: auto; }
+    .fscroll { position: relative; flex: 1; min-height: 0; overflow-y: auto; scroll-snap-type: y mandatory; display: flex; flex-direction: column; gap: .5rem; }
+    .fscroll > .pane { flex: 0 0 100%; scroll-snap-align: start; border: 2px solid rgb(var(--c-brand)/.75); box-shadow: 0 0 0 4px rgb(var(--c-brand)/.08), 0 0 28px -10px rgb(var(--c-brand)/.7); }
+    .fscroll > .pane[data-pane=ai] { border-color: rgb(var(--c-accent)/.85); box-shadow: 0 0 0 4px rgb(var(--c-accent)/.08), 0 0 28px -10px rgb(var(--c-accent)/.7); }
+    .fscroll > .pane .pane-head { background: rgb(var(--c-brand)/.14); }
+    .fscroll > .pane[data-pane=ai] .pane-head { background: rgb(var(--c-accent)/.16); }
+    .fscroll > .pane[data-pane=ai] .pane-head .icon { color: rgb(var(--c-accent)); }
+
+    /* code editor */
+    .ed { flex: 1; min-height: 6rem; display: flex; overflow: hidden; }
+    .ed .gut { font-size: .82rem; overflow: hidden; flex: none; }
+    .stack { position: relative; flex: 1; min-width: 0; }
+    .stack textarea, .hlp { position: absolute; inset: 0; margin: 0; padding: 1rem; font: .82rem/1.6 var(--font-mono); tab-size: 4; white-space: pre; border: 0; }
+    .stack textarea { width: 100%; height: 100%; min-height: 0; color: transparent; caret-color: rgb(var(--c-brand)); background: transparent; overflow: auto; resize: none; outline: 0; z-index: 2; }
+    .hlp { overflow: hidden; color: rgb(var(--c-text)); pointer-events: none; z-index: 1; }
+    .tc { color: rgb(var(--c-text-3)); font-style: italic; }
+    .ts { color: rgb(var(--c-lime)); }
+    .tk { color: rgb(var(--c-brand)); font-weight: 600; }
+    .tf, .tb { color: rgb(var(--c-accent)); }
+    .tn { color: #d97706; }
+    :root.dark .tn { color: #fbbf24; }
+    .chk { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-top: .6rem; }
+    .chkmsg { font-size: var(--fs-sm); color: rgb(var(--c-text-2)); }
+    .chkmsg.ok { color: rgb(var(--c-ok)); font-weight: 600; }
+    .chkmsg.bad { color: #e5484d; }
+
+    /* certificate + confetti */
+    .confetti { position: fixed; inset: 0; pointer-events: none; z-index: 200; }
+    .cert-ov { position: fixed; inset: 0; z-index: 150; display: flex; align-items: center; justify-content: center; padding: 1rem; background: rgb(0 0 0/.6); backdrop-filter: blur(4px); overflow: auto; }
+    .cert { width: 100%; max-width: 36rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: .7rem; padding: 2rem 1.5rem; border-radius: var(--r-lg); background: rgb(var(--c-surface)); border: 2px solid rgb(var(--c-brand)); outline: 6px solid rgb(var(--c-brand)/.15); outline-offset: -12px; box-shadow: 0 0 60px -10px rgb(var(--c-brand)/.7); animation: rise .6s var(--ease); }
+    .cert .h { font-size: 1.9rem; }
+    .certname { width: 100%; max-width: 22rem; text-align: center; background: none; border: 0; border-bottom: 2px solid rgb(var(--c-brand)); outline: 0; font: 700 1.6rem/1.3 var(--font-head); color: rgb(var(--c-text)); padding: .2rem; }
+    .certstats { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center; font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-2)); }
+    .certstats span { padding: .25rem .7rem; border-radius: var(--r-pill); background: rgb(var(--c-brand)/.14); color: rgb(var(--c-brand)); }
+    .cert-actions { display: flex; gap: .5rem; margin-top: .5rem; }
+
+    /* ==========================================================
+       6. XP / STREAK / TOAST
+       ========================================================== */
+    .stats { position: relative; display: flex; flex-direction: column; gap: .6rem; padding: .7rem .7rem .7rem .9rem; border-radius: var(--r-lg); background: rgb(var(--c-brand)/.08); border: 1px solid rgb(var(--c-brand)/.3); }
+    .stats::before { content: ""; position: absolute; left: 0; top: .5rem; bottom: .5rem; width: 3px; border-radius: 3px; background: linear-gradient(180deg, #34d399, #a3e635); }
+    .chips2 { display: flex; gap: .4rem; }
+    .stat { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: .3rem; padding: .4rem .5rem; border-radius: var(--r-md); background: rgb(var(--c-surface-3)); border: 1px solid rgb(var(--c-line)/.4); font: 700 var(--fs-sm)/1 var(--font-head); }
+    .stat .icon { font-size: 18px; }
+    .stat.xp .icon { color: rgb(var(--c-brand)); }
+    .stat.fire .icon { color: rgb(var(--c-text-3)); }
+    .stat.fire.on .icon { color: #f59e0b; animation: flick 1.6s ease-in-out infinite alternate; }
+    @keyframes flick { to { transform: scale(1.18) rotate(-7deg); } }
+    .week { display: flex; justify-content: space-between; }
+    .wd { display: flex; flex-direction: column; align-items: center; gap: .2rem; font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-3)); }
+    .wd i { width: 1.1rem; height: 1.1rem; border-radius: 50%; border: 2px solid rgb(var(--c-line)/.6); }
+    .wd.on i { background: rgb(var(--c-brand)); border-color: rgb(var(--c-brand)); box-shadow: 0 0 8px rgb(var(--c-brand)/.6); }
+    .wd.today { color: rgb(var(--c-brand)); font-weight: 700; }
+    .toast { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 220; display: flex; align-items: center; gap: .6rem; padding: .65rem 1rem; border-radius: var(--r-lg); background: rgb(var(--c-surface-5)); border: 1px solid rgb(var(--c-brand)/.6); box-shadow: var(--shadow-lg); font-weight: 600; transform: translateY(6rem); opacity: 0; pointer-events: none; transition: .3s ease-out; }
+    .toast.show { transform: none; opacity: 1; }
+    .xpop { animation: popx .5s; }
+    @keyframes popx { 40% { transform: scale(1.3); } }
+
+    /* ==========================================================
+       7. QUIZ PAGE
+       ========================================================== */
+    .qpage { flex: 1; min-height: 0; overflow: auto; padding: 1.5rem; border: 2px solid rgb(var(--c-brand)/.6); border-radius: var(--r-lg); background: rgb(var(--c-surface)/.92); box-shadow: 0 0 24px -12px rgb(var(--c-brand)/.5); }
+    .qwrap { max-width: 44rem; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem; }
+
+    /* -- setup screen -- */
+    .chooser { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+    .qch { display: flex; flex-direction: column; align-items: center; gap: .25rem; padding: .85rem .5rem; border-radius: var(--r-lg); border: 1px solid rgb(var(--c-line)/.5); background: rgb(var(--c-surface-2)); text-align: center; transition: var(--t-fast); }
+    .qch:hover { border-color: rgb(var(--c-brand)); transform: translateY(-2px); }
+    .qch[aria-pressed=true] { border-color: rgb(var(--c-brand)); background: rgb(var(--c-brand)/.14); box-shadow: inset 0 0 0 1px rgb(var(--c-brand)); }
+    .qch .icon { color: rgb(var(--c-brand)); font-size: 26px; }
+    .qch b { font: 700 var(--fs-md)/1.2 var(--font-head); }
+    .qch small { font-size: var(--fs-xs); color: rgb(var(--c-text-2)); }
+    .qact { display: flex; gap: .6rem; flex-wrap: wrap; justify-content: center; margin-top: .5rem; }
+
+    .stepper { display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin: .3rem 0 .7rem; }
+    .stepper .btn-icon { width: 2.75rem; height: 2.75rem; }
+    .nbig { display: flex; flex-direction: column; align-items: center; min-width: 4.5rem; }
+    .nbig b { font: 700 1.7rem/1 var(--font-head); color: var(--neong); }
+    :root.dark .nbig b { text-shadow: 0 0 14px rgb(57 255 156/.65); }
+    .nbig small { font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-3)); }
+
+    #qrange { -webkit-appearance: none; appearance: none; width: 100%; height: .5rem; border-radius: 99px; outline: 0; accent-color: var(--neon); background: linear-gradient(90deg, var(--neong) var(--v, 40%), rgb(var(--c-surface-5)) var(--v, 40%)); }
+    :root.dark #qrange { box-shadow: 0 0 14px -2px rgb(57 255 156/.55); }
+    #qrange::-webkit-slider-thumb { -webkit-appearance: none; width: 1.3rem; height: 1.3rem; border-radius: 50%; background: var(--neong); border: 3px solid rgb(var(--c-surface)); cursor: pointer; }
+    #qrange::-moz-range-thumb { width: 1.3rem; height: 1.3rem; border-radius: 50%; background: var(--neong); border: 3px solid rgb(var(--c-surface)); cursor: pointer; }
+    :root.dark #qrange::-webkit-slider-thumb { box-shadow: 0 0 14px var(--neong); }
+    :root.dark #qrange::-moz-range-thumb { box-shadow: 0 0 14px var(--neong); }
+
+    /* -- loading screen (radar) -- */
+    .qload { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1rem; padding: 3.5rem 1rem; }
+    .qring { position: relative; width: 5.5rem; height: 5.5rem; }
+    .qring::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 4px solid rgb(var(--c-brand)/.2); border-top-color: rgb(var(--c-brand)); animation: spin 1s linear infinite; }
+    .qring .icon { position: absolute; inset: 0; display: grid; place-items: center; font-size: 36px; color: rgb(var(--c-brand)); }
+    .qstat { font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-accent)); }
+    .radar { position: relative; width: 15rem; height: 15rem; max-width: 80vw; max-height: 80vw; display: grid; place-items: center; margin: .25rem 0; }
+    .rwave { position: absolute; inset: 0; border-radius: 50%; background: rgb(var(--c-brand)/.06); animation: ping 2.2s cubic-bezier(0, 0, .2, 1) infinite; }
+    .rr { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .rr1 { animation: spin 48s linear infinite; }
+    .rr2 { inset: 7%; width: 86%; height: 86%; animation: spin 28s linear infinite reverse; }
+    .rdisc { position: absolute; width: 77%; height: 77%; border-radius: 50%; background: rgb(var(--c-surface-2)); box-shadow: 0 8px 32px rgb(0 0 0/.35); overflow: hidden; display: grid; place-items: center; }
+    .rsweep { position: absolute; inset: 0; border-radius: 50%; opacity: .7; background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, rgb(var(--c-brand)/.32) 360deg); animation: spin 5s linear infinite; }
+    .rcont { position: absolute; border-radius: 50%; }
+    .rpeak { position: relative; z-index: 2; width: 72%; height: 72%; }
+    .pk-ping { transform-box: fill-box; transform-origin: center; animation: ping 1.6s cubic-bezier(0, 0, .2, 1) infinite; }
+    @keyframes ping { 75%, 100% { transform: scale(1.35); opacity: 0; } }
+
+    /* -- question screen -- */
+    .qtop { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+    .qcount { margin-left: auto; font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-3)); }
+    .qopts { display: grid; gap: .5rem; }
+    .qopt { text-align: left; padding: .6rem .85rem; border-radius: var(--r-md); border: 1px solid rgb(var(--c-line)/.5); background: rgb(var(--c-surface-2)); transition: var(--t-fast); }
+    .qopt:hover { border-color: rgb(var(--c-brand)); background: rgb(var(--c-brand)/.1); }
+    .qopt:disabled { cursor: default; }
+    .qopt:disabled:hover { background: rgb(var(--c-surface-2)); border-color: rgb(var(--c-line)/.5); }
+    .qopt.right { border-color: rgb(var(--c-ok)); background: rgb(var(--c-ok)/.18); box-shadow: inset 3px 0 0 rgb(var(--c-ok)); }
+    .qopt.right:disabled:hover { background: rgb(var(--c-ok)/.18); border-color: rgb(var(--c-ok)); }
+    .qopt.wrong { border-color: #e5484d; background: rgb(229 72 77/.12); animation: shk .35s; }
+    @keyframes shk { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    .qfb { margin-top: .6rem; font-size: var(--fs-sm); }
+
+    /* -- results screen -- */
+    .score { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+    .gring { width: 8rem; height: 8rem; border-radius: 50%; display: grid; place-items: center; flex: none; background: conic-gradient(rgb(var(--c-brand)) calc(var(--p)*1%), rgb(var(--c-surface-5)) 0); }
+    .gring::before { content: ""; grid-area: 1/1; width: 6.2rem; height: 6.2rem; border-radius: 50%; background: rgb(var(--c-surface)); }
+    .gring b { grid-area: 1/1; z-index: 1; font: 700 1.9rem/1 var(--font-head); }
+    .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .card { padding: 1rem; border-radius: var(--r-lg); border: 1px solid rgb(var(--c-brand)/.4); background: rgb(var(--c-surface-2)); }
+    .card.weak { border-color: rgb(245 158 11/.6); }
+    .card.good { border-color: rgb(var(--c-ok)/.5); }
+    .card h3 { font: 700 .95rem/1.3 var(--font-head); display: flex; gap: .4rem; align-items: center; margin-bottom: .5rem; }
+    .tb2 { margin: .55rem 0; }
+    .tb2 .bar { height: .5rem; }
+    .tb2.weak .bar i { background: #f59e0b; }
+    .rev { border: 1px solid rgb(var(--c-line)/.4); border-radius: var(--r-lg); padding: .6rem 1rem; }
+    .rev summary { cursor: pointer; font: 600 var(--fs-sm)/1.6 var(--font-head); }
+    .ri { display: flex; flex-direction: column; gap: .15rem; padding: .6rem 0 .6rem .8rem; margin-top: .5rem; border-left: 3px solid rgb(var(--c-ok)); font-size: var(--fs-sm); }
+    .ri.bad { border-left-color: #e5484d; }
+    .ri small { color: rgb(var(--c-text-3)); }
+
+    .rhero { position: relative; overflow: hidden; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; padding: 1.4rem; border-radius: var(--r-lg); background: linear-gradient(135deg, rgb(var(--c-brand)/.2), rgb(var(--c-accent)/.06) 60%, transparent); border: 1px solid rgb(var(--c-brand)/.45); box-shadow: 0 0 40px -18px rgb(var(--c-brand)/.7); }
+    .rhero > svg { position: absolute; right: -.5rem; bottom: -.8rem; width: 11rem; opacity: .2; pointer-events: none; }
+    .rring { --p: 0; flex: none; width: 9.5rem; height: 9.5rem; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(from 0deg, #34d399, #a3e635 calc(var(--p)*1%), rgb(var(--c-surface-5)) 0); box-shadow: 0 0 30px -8px rgb(var(--c-brand)/.7); }
+    .rin { display: flex; align-items: center; justify-content: center; gap: .1rem; width: 7.6rem; height: 7.6rem; border-radius: 50%; background: rgb(var(--c-surface)); }
+    .rin b { font: 700 2.4rem/1 var(--font-head); }
+    .rin span { font: 700 1rem/1 var(--font-head); color: rgb(var(--c-text-3)); margin-top: .6rem; }
+    .rtxt { position: relative; flex: 1; min-width: 14rem; display: flex; flex-direction: column; gap: .45rem; }
+    .rtxt .h { font-size: 1.7rem; }
+    .rchips { display: flex; gap: .4rem; flex-wrap: wrap; }
+    .rchip { display: inline-flex; align-items: center; gap: .35rem; padding: .3rem .7rem; border-radius: var(--r-pill); background: rgb(var(--c-surface-3)); border: 1px solid rgb(var(--c-line)/.45); font: 600 var(--fs-xs)/1.2 var(--font-mono); }
+    .rchip .icon { font-size: 16px; color: rgb(var(--c-brand)); }
+    .rchip.yel { color: var(--neon); border-color: var(--neon); }
+    .rchip.yel .icon { color: var(--neon); }
+
+    .qmap { display: flex; gap: .45rem; flex-wrap: wrap; justify-content: center; }
+    .qdot { width: 2.2rem; height: 2.2rem; border-radius: 50%; display: grid; place-items: center; font: 700 var(--fs-xs) var(--font-mono); border: 2px solid; transition: transform var(--t-fast); }
+    .qdot:hover { transform: scale(1.15); }
+    .qdot.good { border-color: rgb(var(--c-ok)); background: rgb(var(--c-ok)/.18); color: rgb(var(--c-ok)); }
+    .qdot.bad { border-color: #e5484d; background: rgb(229 72 77/.14); color: #e5484d; }
+
+    .tchips { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .tchip { display: inline-flex; align-items: center; gap: .3rem; padding: .25rem .6rem; border-radius: var(--r-pill); font: 600 var(--fs-xs)/1.2 var(--font-mono); background: rgb(var(--c-ok)/.15); color: rgb(var(--c-ok)); }
+    .tchip.bad { background: rgb(245 158 11/.15); color: #f59e0b; }
+    .tchip em { font-style: normal; opacity: .8; }
+    .tchip .icon { font-size: 14px; }
+
+    .sk { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr auto; gap: .8rem; align-items: center; padding: .55rem 0; border-top: 1px solid rgb(var(--c-line)/.25); }
+    .sk:first-of-type { border-top: 0; }
+    .sname { display: flex; flex-direction: column; gap: .2rem; font-size: var(--fs-sm); }
+    .stag { font: 600 .65rem/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+    .stag.ok { color: rgb(var(--c-ok)); }
+    .stag.mid { color: #f59e0b; }
+    .stag.bad { color: #e5484d; }
+    .rb { height: .65rem; border-radius: 99px; background: rgb(var(--c-surface-5)); overflow: hidden; }
+    .rb i { display: block; height: 100%; width: 0; border-radius: inherit; transition: width .9s var(--ease); }
+    .rb i.ok { background: linear-gradient(90deg, #34d399, #a3e635); }
+    .rb i.mid { background: #f59e0b; }
+    .rb i.bad { background: #e5484d; }
+    .spct { font: var(--fs-xs) var(--font-mono); color: rgb(var(--c-text-3)); text-align: right; }
+
+    .rq { border: 1px solid rgb(var(--c-line)/.4); border-left: 4px solid; border-radius: var(--r-md); background: rgb(var(--c-surface)); margin-top: .5rem; }
+    .rq.good { border-left-color: rgb(var(--c-ok)); }
+    .rq.bad { border-left-color: #e5484d; }
+    .rq summary { display: flex; align-items: center; gap: .6rem; padding: .6rem .8rem; cursor: pointer; list-style: none; }
+    .rq summary::-webkit-details-marker { display: none; }
+    .rq.good summary .icon { color: rgb(var(--c-ok)); }
+    .rq.bad summary .icon { color: #e5484d; }
+    .rn { flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%; display: grid; place-items: center; background: rgb(var(--c-surface-4)); font: 700 var(--fs-xs) var(--font-mono); }
+    .rt { flex: 1; font-size: var(--fs-sm); }
+    .rbody { padding: .2rem .9rem .9rem 2.7rem; display: flex; flex-direction: column; gap: .35rem; font-size: var(--fs-sm); align-items: flex-start; }
+    .rbody p { margin: 0; }
+    .rhead { display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; margin-bottom: .5rem; }
+    .rhead h3 { margin: 0; }
+
+    .choices { list-style: none; margin: .2rem 0 0; padding: 0; display: flex; flex-direction: column; gap: .35rem; width: 100%; }
+    .ch { display: flex; align-items: center; gap: .6rem; padding: .5rem .7rem; border-radius: var(--r-md); border: 1px solid rgb(var(--c-line)/.4); background: rgb(var(--c-surface-2)); font-size: var(--fs-sm); }
+    .ch .mk { flex: none; width: 1.3rem; height: 1.3rem; border-radius: 50%; display: grid; place-items: center; font: 700 .7rem var(--font-mono); }
+    .ch.right { border-color: rgb(var(--c-ok)); background: rgb(var(--c-ok)/.14); }
+    .ch.right .mk { background: rgb(var(--c-ok)); color: rgb(var(--c-on-brand)); }
+    .ch.wrong { border-color: #e5484d; background: rgb(229 72 77/.12); }
+    .ch.wrong .mk { background: #e5484d; color: #fff; }
+    .ch em { margin-left: auto; font: 600 .65rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: .05em; color: rgb(var(--c-text-2)); }
+    .ch.wrong em { color: #e5484d; }
+    .ch.right em { color: rgb(var(--c-ok)); }
+
+    /* -- "what's next" cards -- */
+    .next { padding: 1.2rem; border-radius: var(--r-lg); border: 1px solid rgb(var(--c-brand)/.5); background: linear-gradient(135deg, rgb(var(--c-brand)/.14), transparent); }
+    .nxt { padding: 1.3rem; border-radius: var(--r-lg); border: 1px solid rgb(var(--c-brand)/.55); background: linear-gradient(135deg, rgb(var(--c-brand)/.16), rgb(var(--c-accent)/.05)); box-shadow: 0 0 36px -16px rgb(var(--c-brand)/.7); }
+    .nxt-h { display: flex; gap: .9rem; align-items: flex-start; margin-bottom: 1rem; }
+    .nxt-ic { font-size: 34px; color: var(--neong); flex: none; margin-top: .1rem; }
+    .nxt-h h3 { font: 800 1.35rem/1.2 var(--font-head); letter-spacing: -.01em; margin: 0 0 .35rem; color: rgb(var(--c-text)); }
+    .nxt-sub { font-size: 1rem; line-height: 1.6; color: rgb(var(--c-text)); }
+    .tg { color: rgb(var(--c-ok)); }
+    .tw { color: #f59e0b; }
+    .ncards { display: grid; gap: .7rem; }
+    .ncard { display: flex; align-items: center; gap: 1rem; width: 100%; text-align: left; padding: 1rem 1.1rem; border-radius: var(--r-lg); background: rgb(var(--c-surface)); border: 1px solid rgb(var(--c-line)/.5); color: inherit; text-decoration: none; cursor: pointer; transition: transform .2s var(--ease), box-shadow .2s, border-color .2s, background .2s; }
+    .ncard:hover { transform: translateY(-3px); border-color: rgb(var(--c-brand)); background: rgb(var(--c-brand)/.12); box-shadow: 0 12px 28px -12px rgb(var(--c-brand)/.75); }
+    .ncard.hot { border-color: rgb(245 158 11/.7); background: rgb(245 158 11/.08); }
+    .ncard.hot:hover { border-color: #f59e0b; background: rgb(245 158 11/.16); box-shadow: 0 12px 28px -12px rgb(245 158 11/.7); }
+    .nc-ic { font-size: 30px; color: rgb(var(--c-brand)); flex: none; }
+    .ncard.hot .nc-ic { color: #f59e0b; }
+    .nc-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: .25rem; }
+    .nc-t b { font: 700 1.05rem/1.2 var(--font-head); }
+    .nc-t small { font-size: var(--fs-sm); color: rgb(var(--c-text-2)); }
+    .nc-go { flex: none; color: rgb(var(--c-text-3)); transition: transform .2s, color .2s; }
+    .ncard:hover .nc-go { transform: translateX(5px); color: rgb(var(--c-brand)); }
+
+    /* ==========================================================
+       8. RESPONSIVE / PRINT / MOTION
+       ========================================================== */
+    @media (max-width: 900px) {
+      .side { background: linear-gradient(180deg, rgb(var(--c-brand)/.28), rgb(var(--c-brand)/.14)), rgb(var(--c-surface-2)) !important; border-right: 2px solid rgb(var(--c-brand)); position: absolute; z-index: 40; top: 0; bottom: 0; left: 0; box-shadow: var(--shadow-lg); }
+      .xp { display: none; }
+      .hint { display: none; }
+      .ws { flex-direction: column; overflow-y: auto; }
+      .ws > .pane[data-pane=lesson] { flex: 0 0 auto !important; min-height: 75vh; }
+      .frame { flex: 0 0 auto; height: 100vh; }
+      #vs { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      .cols, .chooser { grid-template-columns: 1fr; }
+      .sk { grid-template-columns: 1fr auto; }
+      .sk .rb { grid-column: 1/-1; order: 3; }
+    }
+
+    @media print {
+      .app, .glow, .spot, .confetti { display: none !important; }
+      body { overflow: visible; background: #fff; }
+      .cert-ov { position: static; background: none; backdrop-filter: none; padding: 0; }
+      .cert-actions { display: none; }
+      .cert { box-shadow: none; animation: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- background effects -->
+  <div class="glow" style="top:-8rem;right:-6rem"></div>
+  <div class="glow" style="bottom:-10rem;left:20%;animation-delay:-6s"></div>
+  <div class="spot" id="spot"></div>
+
+  <div class="app">
+
+    <!-- ===== TOP BAR ===== -->
+    <header class="top">
+      <div class="top-l">
+        <button class="btn btn-icon" id="sideBtn" type="button" aria-label="Toggle lesson sidebar">
+          <span class="icon">left_panel_close</span>
+        </button>
+        <a class="brand" href="codeeverest.html">
+          <svg viewBox="0 0 32 32" width="26" height="26">
+            <path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(var(--c-brand))"/>
+            <path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/>
+          </svg>
+          Code<b>Everest</b>
+        </a>
+      </div>
+      <div class="top-r">
+        <button class="btn btn-icon" id="theme" type="button" aria-label="Toggle theme">
+          <span class="icon">light_mode</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="body" id="body">
+
+      <!-- ===== SIDEBAR ===== -->
+      <aside class="side">
+        <div class="side-in">
+          <div class="side-head">
+            <div class="srow"><span class="eyebrow">Course</span></div>
+            <h2 class="h aurora">Python Roadmap</h2>
+            <div class="bar"><i id="bar"></i></div>
+            <div class="bar-txt"><span id="barL"></span><span id="barR"></span></div>
+            <label class="search">
+              <span class="icon">search</span>
+              <input id="q" type="search" placeholder="Search lessons…" autocomplete="off" aria-label="Search lessons">
+            </label>
+            <button class="btn btn-primary shine" id="resume" type="button" style="width:100%"></button>
+          </div>
+
+          <div class="units" id="units"></div>
+
+          <div class="side-reset">
+            <button class="rst" id="rstAll" type="button"><span class="icon">restart_alt</span>Reset progress</button>
+          </div>
+          <div class="side-foot">
+            <button class="btn btn-secondary" id="prev" type="button"><span class="icon">arrow_back</span>Prev</button>
+            <button class="btn btn-primary shine" id="next" type="button">Next<span class="icon">arrow_forward</span></button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ===== QUIZ PANE ===== -->
+      <main class="main">
+        <section class="pane">
+          <div class="pane-head">
+            <span class="icon">quiz</span>Quiz
+            <span class="sp">
+              <span class="badge badge-brand" id="xpB"></span>
+              <span class="badge" id="stB"></span>
+              <span class="badge" id="qUnit"></span>
+            </span>
+          </div>
+          <div class="pane-body" id="qbody">
+            <div id="app"></div>
+          </div>
+        </section>
+      </main>
+
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================
+       1. HELPERS & STORAGE
+       ========================================================== */
+    const $  = s => document.querySelector(s);
+    const $$ = s => [...document.querySelectorAll(s)];
+
+    // localStorage wrapper that never throws
+    const store = {
+      get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+      set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} }
+    };
+
+    // escape text before putting it in innerHTML
+    const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+
+    // read a JSON value from storage with a fallback
+    const load = (key, fallback) => {
+      try { return JSON.parse(store.get(key)) || fallback; }
+      catch (e) { return fallback; }
+    };
+
+    /* ==========================================================
+       2. THEME TOGGLE & MOUSE SPOTLIGHT
+       ========================================================== */
+    const root = document.documentElement;
+    const themeIcon = $('#theme .icon');
+    const syncTheme = () => themeIcon.textContent = root.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+    syncTheme();
+
+    $('#theme').onclick = () => {
+      root.classList.toggle('dark');
+      store.set('sx-theme', root.classList.contains('dark') ? 'dark' : 'light');
+      syncTheme();
+    };
+
+    (() => {
+      const spot = $('#spot');
+      addEventListener('mousemove', e => {
+        spot.style.setProperty('--mx', e.clientX + 'px');
+        spot.style.setProperty('--my', e.clientY + 'px');
+        spot.classList.add('on');
+      });
+      document.addEventListener('mouseleave', () => spot.classList.remove('on'));
+    })();
+
+    /* ==========================================================
+       3. PROGRESS STATE
+       ========================================================== */
+    const done   = new Set(load('ce-done', [0, 1, 2, 3])); // completed lesson indexes
+    const ch     = new Set(load('ce-ch', []));
+    const grades = load('ce-grades', {});                   // best quiz % per lesson
+    const gradeOf = i => grades[i] ?? 100;
+    const state  = { cur: 0, done };
+
+    const nextOpen = () => {
+      for (let i = 0; i < L.length; i++) if (!done.has(i)) return i;
+      return -1;
+    };
+
+    // decorative mountain used in hero banners
+    const peaks = '<svg viewBox="0 0 120 70"><path d="M0 70 38 12l20 30 10-14 52 42z" fill="rgb(52 211 153)"/><path d="M38 12 27 32l8 5 4-5 5 6 8-5z" fill="#fff" opacity=".8"/></svg>';
+
+    /* ==========================================================
+       4. COURSE CONTENT
+       Each lesson: [title, summary, example code, explanation, exercise]
+       ========================================================== */
+    const UNITS = [
+      ['Unit 1 · Python Basics', [
+        ['Hello, Python', 'Use print() to show output on the screen.',
+          'print("Hello, Everest!")',
+          'A function is a named action. <code>print()</code> takes whatever you put inside the parentheses and shows it on screen. Text must sit inside quotes so Python reads it as a string, not as a command.',
+          'Change the message to your name and run it.'],
+        ['Variables', 'Variables are names that store values.',
+          'peak = "Everest"\nheight = 8849\nprint(peak, height)',
+          'A variable is a label pointing at a value. Use <code>=</code> to assign, then reuse the name anywhere. Names are case-sensitive and cannot start with a digit.',
+          'Add a variable for your age and print it too.'],
+        ['Data types', 'Core types: int, float, str and bool.',
+          'print(type(3), type(3.5), type("hi"), type(True))',
+          'Every value has a type: <code>int</code> for whole numbers, <code>float</code> for decimals, <code>str</code> for text and <code>bool</code> for True or False. <code>type()</code> tells you which you have.',
+          'Print type(None) and type([1, 2]).'],
+        ['Operators', 'Arithmetic and comparison operators.',
+          'print(7 // 2, 7 % 2, 2 ** 5)',
+          '<code>//</code> divides and rounds down, <code>%</code> gives the remainder and <code>**</code> raises to a power. Comparisons like <code>==</code> and <code>&gt;</code> return True or False.',
+          'Predict 10 // 3 and 10 % 3 before running.']
+      ]],
+
+      ['Unit 2 · Control Flow', [
+        ['If / else', 'Branch your code based on conditions.',
+          'altitude = 5300\nif altitude > 5000:\n    print("High camp")\nelse:\n    print("Base area")',
+          'Python runs the indented block under the first true condition. Indentation is syntax: four spaces mark what belongs inside. Add <code>elif</code> for extra branches.',
+          'Add an elif for altitude above 8000 that prints "Summit zone".'],
+        ['Loops', 'Repeat work with for and while.',
+          'for camp in range(1, 5):\n    print("Camp", camp)',
+          'A <code>for</code> loop visits each item in a sequence. <code>range(1, 5)</code> yields 1 to 4, stopping before 5. A <code>while</code> loop repeats as long as its condition stays true.',
+          'Count down from 4 to 1 with range(4, 0, -1).'],
+        ['Break & continue', 'Skip or stop a loop early.',
+          'for n in range(10):\n    if n == 3:\n        continue\n    if n == 6:\n        break\n    print(n)',
+          '<code>continue</code> jumps to the next round; <code>break</code> leaves the loop entirely. Use them to ignore unwanted items or to stop once you found what you needed.',
+          'Make the loop skip every even number.']
+      ]],
+
+      ['Unit 3 · Functions', [
+        ['Defining functions', 'Package reusable logic with def.',
+          'def greet(name):\n    return "Hi, " + name\n\nprint(greet("Ada"))',
+          '<code>def</code> names a reusable block. Parameters are inputs and <code>return</code> hands a value back. Call the function with parentheses and arguments.',
+          'Write shout(text) that returns text.upper().'],
+        ['Arguments & returns', 'Default arguments and return values.',
+          'def climb(m, step=100):\n    return m + step\n\nprint(climb(5000))',
+          'A default value makes an argument optional. Callers can pass by position or by name, like <code>climb(5000, step=250)</code>.',
+          'Call climb with step=250.'],
+        ['Scope & lambdas', 'Local vs global names and tiny functions.',
+          'double = lambda x: x * 2\nprint(double(21))',
+          'Names created inside a function are local and vanish when it ends. A <code>lambda</code> is a one-line anonymous function, handy for short throwaway logic.',
+          'Write a lambda that adds 10 to x.']
+      ]],
+
+      ['Unit 4 · Data Structures', [
+        ['Lists', 'Ordered, changeable collections.',
+          'camps = ["Base", "Camp 1", "Camp 2"]\ncamps.append("Camp 3")\nprint(camps)',
+          'Lists keep order and can change. Index from 0, use <code>append</code> to add, and negative indexes count from the end: <code>camps[-1]</code> is the last item.',
+          'Print camps[-1] and len(camps).'],
+        ['Dicts & sets', 'Key-value maps and unique collections.',
+          'peak = {"name": "Everest", "m": 8849}\nprint(peak["name"])',
+          'A dict maps keys to values for fast lookup by name. A set stores unique items only, so duplicates vanish.',
+          'Add a "country" key and print it.'],
+        ['Comprehensions', 'Build lists in one expressive line.',
+          'squares = [n * n for n in range(5)]\nprint(squares)',
+          '<code>[expr for x in items]</code> builds a list in one line. Add an <code>if</code> to filter, like <code>[n for n in range(10) if n % 2 == 0]</code>.',
+          'Build a list of cubes from 0 to 5.']
+      ]],
+
+      ['Unit 5 · Object-Oriented', [
+        ['Classes & objects', 'Bundle data and behavior together.',
+          'class Climber:\n    def __init__(self, name):\n        self.name = name\n\nprint(Climber("Ada").name)',
+          'A class is a blueprint; an object is one instance made from it. <code>__init__</code> runs on creation and <code>self</code> refers to that instance.',
+          'Add a method climb() that prints the name and "is climbing".'],
+        ['Inheritance', 'Reuse and extend existing classes.',
+          'class Guide(Climber):\n    pass',
+          'A subclass receives everything from its parent, then adds or overrides. Write <code>class Guide(Climber)</code> to inherit and use <code>super()</code> to call the parent.',
+          'Give Guide a role attribute using super().__init__.']
+      ]],
+
+      ['Unit 6 · Files & Errors', [
+        ['Reading files', 'Open, read and close files safely.',
+          'with open("notes.txt") as f:\n    print(f.read())',
+          '<code>with</code> closes the file for you, even when errors happen. <code>read()</code> returns everything; looping over <code>f</code> gives one line at a time.',
+          'Loop over f and print each line with .strip().'],
+        ['Exceptions', 'Handle errors with try / except.',
+          'try:\n    int("abc")\nexcept ValueError:\n    print("Not a number")',
+          '<code>try</code> runs risky code and <code>except</code> catches a specific error so the program keeps going. Catch narrow errors, not everything.',
+          'Add an else: block that prints "ok" on success.']
+      ]],
+
+      ['Unit 7 · Summit', [
+        ['Modules & pip', 'Import code and install packages.',
+          'import math\nprint(math.sqrt(81))',
+          '<code>import</code> loads someone else’s code. The standard library ships with Python; <code>pip install</code> fetches third-party packages.',
+          'Import random and print random.randint(1, 6).'],
+        ['Final project', 'Combine everything in one program.',
+          '# Build your summit project here\n',
+          'Combine variables, loops, functions and a class into one small program, such as a climb tracker. Plan first, build small and run often.',
+          'Build a Climber class that stores camps in a list and prints progress.']
+      ]]
+    ];
+
+    // flatten UNITS into one list of lessons (L)
+    const L = [];
+    UNITS.forEach((u, ui) =>
+      u[1].forEach(l => L.push({ u: ui, t: l[0], d: l[1], c: l[2], x: l[3], q: l[4] }))
+    );
+
+    /* ==========================================================
+       5. QUESTION BANKS
+       ========================================================== */
+
+    // One "core" question per lesson: [question, options, correctIndex, explanation]
+    const QUIZ = [
+      ["What does print('Hello') do?", ["Shows Hello on the screen", "Saves Hello to a file", "Deletes Hello", "Asks the user for input"], 0, "print() sends its argument to the output."],
+      ["Which line stores 8849 in a variable named height?", ["8849 = height", "height = 8849", "height == 8849", "set height 8849"], 1, "Assignment puts the name on the left of a single =."],
+      ["What is type(3.5)?", ["int", "str", "float", "bool"], 2, "Numbers with a decimal point are floats."],
+      ["What does 7 // 2 give?", ["3.5", "3", "4", "1"], 1, "Floor division drops the fraction, so 7 // 2 is 3."],
+      ["Which keyword adds an extra branch between if and else?", ["elseif", "otherwise", "elif", "switch"], 2, "Python spells it elif."],
+      ["What does range(1, 5) produce?", ["1, 2, 3, 4, 5", "1, 2, 3, 4", "0, 1, 2, 3, 4", "2, 3, 4, 5"], 1, "The start is included and the stop is excluded."],
+      ["What does continue do inside a loop?", ["Stops the whole loop", "Skips to the next round", "Restarts the program", "Exits the function"], 1, "continue abandons only the current round."],
+      ["What does a function return when it has no return statement?", ["0", "An empty string", "None", "An error"], 2, "Without return, Python gives back None."],
+      ["Given def climb(m, step=100), what does climb(5000) return?", ["5000", "5100", "100", "An error"], 1, "The default step of 100 is added to 5000."],
+      ["Where is a variable created inside a function visible?", ["Everywhere", "Only inside that function", "Only in other functions", "In every module"], 1, "Names assigned inside a function are local."],
+      ["What is camps[-1]?", ["The first item", "The last item", "An error", "The list length"], 1, "Negative indexes count from the end."],
+      ["How do you read the value for key name from the dict peak?", ["peak.name", "peak('name')", "peak['name']", "peak{name}"], 2, "Dicts are indexed with square brackets and the key."],
+      ["What does [n * n for n in range(3)] give?", ["[0, 1, 4]", "[1, 4, 9]", "[0, 1, 2]", "[0, 2, 4]"], 0, "n takes 0, 1, 2 and each is squared."],
+      ["What does self refer to inside a method?", ["The class itself", "The current object", "The parent class", "The module"], 1, "self is the specific object the method was called on."],
+      ["Which line makes Guide inherit from Climber?", ["class Guide(Climber):", "class Guide < Climber:", "class Guide extends Climber:", "Guide = Climber()"], 0, "The parent goes in parentheses after the class name."],
+      ["Why use with open(...) when working with files?", ["It makes the file faster", "It closes the file automatically", "It encrypts the file", "It creates the file twice"], 1, "with closes the file even if an error occurs."],
+      ["Which block runs only when the try block raised an error?", ["else", "finally", "except", "continue"], 2, "except handles the error; else runs on success."],
+      ["What does pip install do?", ["Imports a module", "Downloads and installs a package", "Runs a script", "Deletes a package"], 1, "pip fetches packages from PyPI."],
+      ["What is the best approach for a larger program?", ["Write it all at once", "Build and test in small steps", "Skip planning", "Avoid functions"], 1, "Small tested steps make bugs easy to find."]
+    ];
+
+    // Extra questions per lesson.
+    // Each entry: [ [topic1, topic2, topic3], [ [difficulty, topicIndex, question, options, correctIndex, explanation], ... ] ]
+    const QB = [
+      // 0 · Hello, Python
+      [["print()", "Strings", "Errors"], [
+        [0, 1, "Which is a valid string literal?", ["Hello", "'Hello'", "(Hello)", "<Hello>"], 1, "Strings are wrapped in quotes."],
+        [1, 0, "What does print('a', 'b') display?", ["ab", "a b", "a,b", "'a' 'b'"], 1, "print separates its arguments with a space."],
+        [1, 2, "Which call raises a NameError?", ["print('Hi')", "print(Hi)", "print('Hi', 'Yo')", "print()"], 1, "Without quotes, Hi is treated as a variable name that does not exist."],
+        [2, 2, "Why does Print('x') fail?", ["Python is case-sensitive", "The quotes are wrong", "A colon is missing", "x is undefined"], 0, "The function is spelled print in lowercase."],
+        [2, 1, "What does print('5' + '5') show?", ["10", "55", "Error", "5 5"], 1, "Adding two strings joins them."]
+      ]],
+      // 1 · Variables
+      [["Assignment", "Naming", "Reassigning"], [
+        [0, 1, "Which is a valid variable name?", ["2peak", "peak-height", "peak_height", "class"], 2, "Names use letters, digits and underscores, and cannot start with a digit or be a keyword."],
+        [1, 2, "After x = 5 and then x = x + 2, what is x?", ["5", "2", "7", "Error"], 2, "The right side is evaluated first, then x is rebound to 7."],
+        [1, 1, "Which name follows Python style?", ["SummitHeight", "summit_height", "summit-height", "summit height"], 1, "PEP 8 prefers lowercase words joined by underscores."],
+        [2, 0, "After a = 3, b = a, a = 10, what does print(b) show?", ["10", "3", "13", "Error"], 1, "b still points at 3; rebinding a does not change b."],
+        [2, 2, "What happens if you print a name that was never assigned?", ["It prints None", "It prints 0", "NameError", "It prints the name"], 2, "Using an undefined name raises NameError."]
+      ]],
+      // 2 · Data types
+      [["Numbers", "Strings & bools", "Conversion"], [
+        [0, 1, "Which values are booleans?", ["'True' and 'False'", "True and False", "1 and 0 only", "yes and no"], 1, "Booleans are the capitalised keywords True and False."],
+        [1, 2, "What does int('42') return?", ["'42'", "42", "42.0", "An error"], 1, "int() converts a numeric string to an integer."],
+        [1, 0, "What is type(7 / 2)?", ["int", "float", "str", "bool"], 1, "The / operator always returns a float."],
+        [2, 2, "What does '5' + 5 do?", ["Gives 10", "Gives '55'", "Raises TypeError", "Gives 5"], 2, "Strings and numbers cannot be added directly."],
+        [2, 1, "Which value counts as false in an if?", ["'0'", "[0]", "[]", "'False'"], 2, "Empty collections are falsy; non-empty strings and lists are truthy."]
+      ]],
+      // 3 · Operators
+      [["Arithmetic", "Comparison", "Logic"], [
+        [0, 0, "What is 2 ** 3?", ["6", "8", "5", "9"], 1, "** raises a number to a power."],
+        [1, 0, "What is 10 % 4?", ["2", "2.5", "1", "4"], 0, "The remainder of 10 divided by 4 is 2."],
+        [1, 1, "What does 3 == 3.0 return?", ["True", "False", "Error", "None"], 0, "Python compares numeric values, so they are equal."],
+        [2, 2, "What is True or False and False?", ["True", "False", "Error", "None"], 0, "and binds tighter: False and False is False, then True or False is True."],
+        [2, 0, "What is -7 // 2?", ["-3", "-4", "3", "-3.5"], 1, "Floor division rounds toward negative infinity."]
+      ]],
+      // 4 · If / else
+      [["Branches", "Conditions", "Indentation"], [
+        [0, 2, "What marks the code inside an if block?", ["Curly braces", "Indentation", "end if", "Parentheses"], 1, "Python uses indentation to group code."],
+        [1, 0, "With x = 5, what prints? if x > 5: print('a') elif x == 5: print('b') else: print('c')", ["a", "b", "c", "Nothing"], 1, "x > 5 is false and x == 5 is true, so b prints."],
+        [1, 1, "Which condition checks that n is between 1 and 10 inclusive?", ["1 <= n <= 10", "1 < n > 10", "n in 1, 10", "n = 1..10"], 0, "Python allows chained comparisons."],
+        [2, 0, "For n = 15, what prints? if n % 3 == 0: print('A') elif n % 5 == 0: print('B')", ["A", "B", "A and B", "Nothing"], 0, "Only the first true branch runs."],
+        [2, 2, "What happens if the body under an if is not indented?", ["It runs anyway", "IndentationError", "It is skipped", "Python guesses"], 1, "Python raises an IndentationError."]
+      ]],
+      // 5 · Loops
+      [["range()", "for loops", "while loops"], [
+        [0, 1, "How many times does for i in range(3) run?", ["2", "3", "4", "0"], 1, "range(3) yields 0, 1 and 2."],
+        [1, 0, "What is the last value produced by range(2, 10, 3)?", ["10", "9", "8", "7"], 2, "The values are 2, 5 and 8."],
+        [1, 2, "What ends a while loop?", ["Its condition becoming false", "The first print", "Indentation", "The word continue"], 0, "It repeats while its condition stays true."],
+        [2, 2, "After i = 0 and while i < 3: i += 1, what is i?", ["2", "3", "0", "It never ends"], 1, "The loop stops once i reaches 3."],
+        [2, 0, "What does list(range(5, 0, -2)) give?", ["[5, 3, 1]", "[5, 4, 3]", "[4, 2, 0]", "[]"], 0, "It counts down from 5 by 2 and stops before 0."]
+      ]],
+      // 6 · Break & continue
+      [["continue", "break", "Tracing loops"], [
+        [0, 1, "What does break do?", ["Skips one round", "Exits the loop", "Restarts the loop", "Ends the program"], 1, "break leaves the nearest loop immediately."],
+        [1, 2, "What shows? for n in range(4): if n == 2: continue; print(n)", ["0 1 2 3", "0 1 3", "0 1", "2 3"], 1, "The value 2 is skipped."],
+        [1, 1, "In nested loops, break exits...", ["Both loops", "The inner loop only", "The program", "Neither loop"], 1, "break only exits the nearest enclosing loop."],
+        [2, 2, "What shows? for n in range(5): if n == 3: break; print(n)", ["0 1 2", "0 1 2 3", "3 4", "0 1 2 4"], 0, "The loop stops at 3 before printing it."],
+        [2, 1, "When does a for loop's else clause run?", ["Always", "Only if no break happened", "Only after a break", "Never"], 1, "Loop else runs when the loop finishes without break."]
+      ]],
+      // 7 · Defining functions
+      [["return", "def & call", "Design"], [
+        [0, 1, "How do you call a function named greet?", ["greet", "greet()", "call greet", "def greet"], 1, "Parentheses call the function."],
+        [1, 0, "With def f(): return 5, what does print(f()) show?", ["f", "5", "None", "An error"], 1, "The returned value is printed."],
+        [1, 2, "Why return a value instead of printing inside a function?", ["It is required", "The caller can reuse it", "It runs faster", "print is banned"], 1, "A returned value can be stored, printed or combined by the caller."],
+        [2, 1, "What does print(greet) show when greet is a function?", ["Hi", "A function object", "None", "An error"], 1, "Without parentheses you refer to the function itself."],
+        [2, 0, "With def f(x): x * 2, what does print(f(3)) show?", ["6", "3", "None", "An error"], 2, "There is no return statement, so the result is None."]
+      ]],
+      // 8 · Arguments & returns
+      [["Defaults", "Keyword args", "Return values"], [
+        [0, 1, "Which call passes step by name?", ["climb(5000, 250)", "climb(5000, step=250)", "climb(step, 5000)", "climb[5000]"], 1, "Keyword arguments use name=value."],
+        [1, 0, "Which definition is valid?", ["def f(a=1, b):", "def f(a, b=1):", "def f(a b=1):", "def f(=a):"], 1, "Parameters with defaults must come after those without."],
+        [1, 2, "What does return 1, 2 give back?", ["Two separate values", "A tuple (1, 2)", "A list [1, 2]", "Only 1"], 1, "Multiple returned values come back as a tuple."],
+        [2, 0, "Why avoid def f(items=[])?", ["It is a syntax error", "The default list is shared between calls", "It is slower", "Lists cannot be defaults"], 1, "The default is created once, when the function is defined."],
+        [2, 1, "What does *args collect?", ["Keyword arguments", "Extra positional arguments", "Default values", "Return values"], 1, "*args gathers extra positional arguments into a tuple."]
+      ]],
+      // 9 · Scope & lambdas
+      [["Scope", "Lambdas", "LEGB lookup"], [
+        [0, 1, "What is lambda x: x + 1?", ["A loop", "A small anonymous function", "A class", "A module"], 1, "lambda creates a one-expression function."],
+        [1, 1, "What does (lambda x: x * 2)(4) return?", ["4", "8", "An error", "None"], 1, "The lambda doubles 4."],
+        [1, 0, "After def f(): y = 1 and calling f(), what does print(y) do?", ["Prints 1", "Raises NameError", "Prints None", "Prints 0"], 1, "y is local to f and does not exist outside it."],
+        [2, 2, "In the LEGB rule, what does G stand for?", ["Generic", "Global", "Group", "Getter"], 1, "The order is Local, Enclosing, Global, Built-in."],
+        [2, 0, "What prints? x = 1, then def f(): x = 2, then f(), then print(x)", ["1", "2", "None", "An error"], 0, "Assigning inside f creates a new local x."]
+      ]],
+      // 10 · Lists
+      [["Indexing", "Methods", "Copying"], [
+        [0, 1, "Which method adds an item to the end of a list?", ["add", "append", "push", "insert_end"], 1, "append adds to the end."],
+        [1, 0, "What is [10, 20, 30][1:3]?", ["[10, 20]", "[20, 30]", "[20]", "[10, 20, 30]"], 1, "Slices include the start index and exclude the stop index."],
+        [1, 1, "What does x = [3, 1, 2].sort() store in x?", ["[1, 2, 3]", "[3, 1, 2]", "None", "An error"], 2, "sort() works in place and returns None."],
+        [2, 2, "After b = a (a is a list), b.append(1) changes...", ["Only b", "Both a and b", "Neither", "Raises an error"], 1, "Both names point at the same list."],
+        [2, 0, "What does len([[1, 2], [3]]) return?", ["3", "2", "1", "An error"], 1, "The list has two items, each of them a list."]
+      ]],
+      // 11 · Dicts & sets
+      [["Dicts", "Sets", "Lookups"], [
+        [0, 1, "What is set([1, 1, 2])?", ["{1, 1, 2}", "{1, 2}", "[1, 2]", "An error"], 1, "Sets drop duplicates."],
+        [1, 2, "What does peak.get('x', 0) return when x is missing?", ["KeyError", "None", "0", "'x'"], 2, "get returns the fallback value instead of raising an error."],
+        [1, 0, "Which can be dictionary keys?", ["Lists", "Strings and numbers", "Only strings", "Nothing"], 1, "Keys must be unchangeable types."],
+        [2, 1, "What does {} create?", ["An empty set", "An empty dict", "An empty list", "An error"], 1, "Use set() to make an empty set."],
+        [2, 2, "What does peak['missing'] raise?", ["IndexError", "KeyError", "NameError", "ValueError"], 1, "A missing dictionary key raises KeyError."]
+      ]],
+      // 12 · Comprehensions
+      [["Building lists", "Filtering", "Readability"], [
+        [0, 1, "What does [n for n in range(6) if n % 2 == 0] give?", ["[0, 2, 4]", "[1, 3, 5]", "[0, 1, 2]", "[2, 4, 6]"], 0, "The if keeps only even numbers."],
+        [1, 0, "[x + 1 for x in items] is equivalent to...", ["A loop that appends x + 1", "A loop that sums items", "A dictionary", "A filter"], 0, "A comprehension is a compact loop that builds a list."],
+        [1, 2, "A comprehension with nested loops and many conditions is best...", ["Kept as it is", "Rewritten as a regular loop", "Turned into a lambda", "Deleted"], 1, "Readability beats cleverness."],
+        [2, 0, "What does {n: n * n for n in range(3)} produce?", ["{0: 0, 1: 1, 2: 4}", "[0, 1, 4]", "{0, 1, 4}", "An error"], 0, "This is a dictionary comprehension."],
+        [2, 2, "What does (n for n in range(3)) create?", ["A list", "A tuple", "A generator", "A set"], 2, "Round brackets create a generator expression."]
+      ]],
+      // 13 · Classes & objects
+      [["self", "Classes & objects", "Methods"], [
+        [0, 1, "What does Climber('Ada') create?", ["A class", "An object", "A module", "A function"], 1, "Calling a class builds an instance of it."],
+        [1, 2, "Which method runs automatically when an object is created?", ["__start__", "__init__", "__make__", "create"], 1, "__init__ is the initializer."],
+        [1, 2, "How do you call the method climb on an object ada?", ["climb(ada)", "ada.climb()", "ada->climb()", "Climber.climb"], 1, "Use dot syntax on the object."],
+        [2, 1, "If a and b come from one class, does changing a.name change b.name?", ["Yes", "No", "Only for strings", "Only inside __init__"], 1, "Each object keeps its own attributes."],
+        [2, 2, "What does __str__ control?", ["How the object prints", "How it is deleted", "Its class", "Its memory address"], 0, "print() uses __str__ to display an object."]
+      ]],
+      // 14 · Inheritance
+      [["Parent & child", "super()", "Overriding"], [
+        [0, 2, "A child method with the same name as the parent's method...", ["Causes an error", "Overrides it", "Is ignored", "Merges both"], 1, "The child's version replaces the parent's for child objects."],
+        [1, 1, "Why call super().__init__(name) in a child class?", ["To run the parent's setup", "To delete the parent", "To copy the class", "It is required syntax"], 0, "It initialises the attributes the parent defines."],
+        [1, 0, "Which relationship does inheritance model?", ["has a", "is a", "uses a", "owns a"], 1, "A guide is a climber."],
+        [2, 0, "If Guide inherits Climber, isinstance(guide, Climber) is...", ["True", "False", "An error", "Depends on the name"], 0, "Instances of a child class also count as the parent type."],
+        [2, 1, "If a child __init__ forgets super().__init__...", ["Parent attributes may be missing", "It always works", "Python calls it twice", "A SyntaxError occurs"], 0, "The parent's setup never runs."]
+      ]],
+      // 15 · Reading files
+      [["with statement", "Reading", "Modes & errors"], [
+        [0, 1, "Which reads a file one line at a time?", ["f.read()", "for line in f", "f.all()", "f.load()"], 1, "Looping over the file avoids loading everything."],
+        [1, 2, "Which mode appends to a file?", ["'r'", "'w'", "'a'", "'x'"], 2, "'a' means append."],
+        [1, 2, "Opening a missing file for reading raises...", ["ValueError", "FileNotFoundError", "KeyError", "NameError"], 1, "The file cannot be found."],
+        [2, 1, "What does line.strip() remove?", ["All spaces", "Whitespace and the newline at the ends", "Digits", "Quotes"], 1, "It trims leading and trailing whitespace."],
+        [2, 2, "What does mode 'w' do to an existing file?", ["Appends to it", "Overwrites it", "Reads it", "Refuses to open"], 1, "Writing mode truncates the file first."]
+      ]],
+      // 16 · Exceptions
+      [["except", "Raising", "finally & else"], [
+        [0, 2, "Which block always runs?", ["else", "finally", "except", "try only"], 1, "finally runs whether or not an error happened."],
+        [1, 0, "Why catch a specific error type?", ["It is faster", "A bare except hides bugs", "It is required", "It looks nicer"], 1, "Specific handlers avoid hiding unrelated problems."],
+        [1, 2, "When does the else block after except run?", ["On any error", "Only when no error occurred", "Always", "Never"], 1, "else runs when the try block finished cleanly."],
+        [2, 1, "Which line raises your own error?", ["throw ValueError('x')", "raise ValueError('x')", "error ValueError('x')", "except ValueError('x')"], 1, "Python uses the raise keyword."],
+        [2, 0, "What does int('abc') raise?", ["TypeError", "ValueError", "KeyError", "NameError"], 1, "The string cannot be converted to an integer."]
+      ]],
+      // 17 · Modules & pip
+      [["pip", "import", "Environments"], [
+        [0, 1, "What does import math do?", ["Installs math", "Loads the math module", "Deletes math", "Runs pip"], 1, "It makes the module's contents available."],
+        [1, 1, "Which line imports only sqrt from math?", ["import sqrt", "from math import sqrt", "math.sqrt import", "use math.sqrt"], 1, "from module import name."],
+        [1, 2, "Why use a virtual environment?", ["Faster code", "To keep project dependencies separate", "Python requires it", "To hide code"], 1, "Each project gets its own packages."],
+        [2, 1, "A file named random.py in your project may...", ["Speed up imports", "Break import random", "Be ignored", "Be required"], 1, "Your file shadows the standard-library module."],
+        [2, 0, "Where does pip download packages from by default?", ["GitHub issues", "PyPI", "Your desktop", "A random server"], 1, "PyPI is the public package index."]
+      ]],
+      // 18 · Final project
+      [["Building", "Planning", "Debugging"], [
+        [0, 1, "What should you do before coding a larger program?", ["Plan the data and actions", "Write everything at once", "Skip testing", "Delete comments"], 0, "A short plan saves hours."],
+        [1, 2, "Where does a traceback show the cause of an error?", ["In the last lines", "Nowhere", "Only at the first import", "Only in logs"], 0, "Read it from the bottom up."],
+        [1, 0, "After a method works, a good next step is to...", ["Test it, then add the next piece", "Rewrite it", "Delete it", "Ignore it"], 0, "Small tested steps keep bugs easy to find."],
+        [2, 2, "If you are stuck, a good strategy is to...", ["Shrink the problem", "Copy randomly", "Add more code", "Give up"], 0, "Make the smallest piece work, then grow it."],
+        [2, 1, "What makes a program easier to maintain?", ["Clear names and small functions", "Very long functions", "One-letter names", "No docstrings"], 0, "Readable structure helps future you."]
+      ]]
+    ];
+
+    /* ==========================================================
+       6. QUIZ GENERATION
+       ========================================================== */
+
+    // all questions for lesson i (core question + 5 extras), normalised to objects
+    function bankFor(i) {
+      const topics = QB[i][0];
+      const e = QUIZ[i];
+      return [[0, 0, e[0], e[1], e[2], e[3]], ...QB[i][1]].map(a => ({
+        d: a[0],            // difficulty 0-2
+        t: topics[a[1]],    // topic label
+        q: a[2],            // question text
+        o: a[3],            // options
+        c: a[4],            // correct option index
+        x: a[5]             // explanation
+      }));
+    }
+
+    // Fisher-Yates shuffle (returns a copy)
+    const shuf = a => {
+      a = a.slice();
+      for (let i = a.length; i > 1;) {
+        const j = Math.random() * i-- | 0;
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    };
+
+    /*
+     * Build a quiz for lesson i.
+     *   diff : 0 easy / 1 medium / 2 hard
+     *   n    : number of questions
+     *   weak : optional list of weak topic labels (practice mode)
+     *   seen : set of question texts already shown (avoid repeats)
+     */
+    function pickQuiz(i, diff, n, weak, seen) {
+      const own = shuf(bankFor(i));
+
+      // review questions from other lessons, closest lessons / difficulty first
+      let extra = [];
+      for (let j = 0; j < 19; j++) {
+        if (j !== i) bankFor(j).forEach(q => extra.push({ ...q, t: 'Review · ' + L[j].t, j }));
+      }
+      extra = shuf(extra).sort((a, b) =>
+        Math.abs(a.j - i) - Math.abs(b.j - i) ||
+        Math.abs(a.d - diff) - Math.abs(b.d - diff)
+      );
+
+      let pool;
+      if (weak) {
+        // practice mode: only weak topics, unseen questions first
+        const weakSet = new Set(weak);
+        pool = own.concat(extra)
+          .filter(q => weakSet.has(q.t))
+          .sort((a, b) => seen.has(a.q) - seen.has(b.q));
+      } else {
+        pool = own
+          .sort((a, b) => Math.abs(a.d - diff) - Math.abs(b.d - diff))
+          .concat(extra);
+      }
+
+      // take n, shuffle, and shuffle each question's options too
+      return shuf(pool.slice(0, Math.min(n, pool.length))).map(q => {
+        const order = shuf(q.o.map((_, k) => k));
+        return { ...q, o: order.map(k => q.o[k]), c: order.indexOf(q.c) };
+      });
+    }
+
+    /* ==========================================================
+       7. CONFETTI
+       ========================================================== */
+    function confetti(n) {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'confetti';
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+      document.body.appendChild(canvas);
+
+      const ctx = canvas.getContext('2d');
+      const colors = ['#34d399', '#6ee7a8', '#a3e635', '#4ade80', '#2dd4bf', '#f5ff3d', '#ffffff'];
+
+      const pieces = Array.from({ length: n }, () => ({
+        x: Math.random() * canvas.width,
+        y: -10 - Math.random() * canvas.height * .2,
+        vx: (Math.random() - .5) * 4,
+        vy: 4 + Math.random() * 5,
+        s: 5 + Math.random() * 6,
+        r: Math.random() * 6,
+        vr: (Math.random() - .5) * .35,
+        c: colors[Math.random() * colors.length | 0]
+      }));
+
+      const TOTAL_FRAMES = 95;
+      let frame = 0;
+
+      (function tick() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = Math.max(0, Math.min(1, (TOTAL_FRAMES - frame) / 25)); // fade out
+
+        pieces.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += .1;          // gravity
+          p.r += p.vr;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.r);
+          ctx.fillStyle = p.c;
+          ctx.fillRect(-p.s / 2, -p.s / 2, p.s, p.s * .6);
+          ctx.restore();
+        });
+
+        if (++frame < TOTAL_FRAMES) requestAnimationFrame(tick);
+        else canvas.remove();
+      })();
+    }
+
+    /* ==========================================================
+       8. QUIZ SESSION STATE
+       ========================================================== */
+    const qset = load('ce-qset', {});           // saved difficulty / question count
+    const qxp  = new Set(load('ce-qxp', []));   // questions that already paid out XP
+
+    const MAXQ = 10;  // max questions per quiz
+    const OWN  = 6;   // questions available from the current lesson
+
+    const qs = {
+      i: 0,                    // lesson index
+      diff: qset.diff ?? 1,    // difficulty
+      n: qset.n ?? 5,          // number of questions
+      list: [],                // current quiz
+      k: 0,                    // current question index
+      ans: [],                 // chosen option per question
+      timer: 0,
+      practice: false,         // weak-points practice round?
+      seen: new Set(),
+      weak: []
+    };
+
+    const DIFF = [
+      ['Easy',   'sentiment_satisfied',   'Core ideas and definitions'],
+      ['Medium', 'speed',                 'Apply what you learned'],
+      ['Hard',   'local_fire_department', 'Tricky edge cases']
+    ];
+
+    // update the question-count stepper / slider / note
+    function setN(v) {
+      qs.n = Math.max(1, Math.min(MAXQ, v | 0));
+      qset.n = qs.n;
+      store.set('ce-qset', JSON.stringify(qset));
+
+      const num = $('#qnum');
+      if (num) num.textContent = qs.n;
+
+      const range = $('#qrange');
+      if (range) {
+        range.value = qs.n;
+        range.style.setProperty('--v', (qs.n - 1) / (MAXQ - 1) * 100 + '%');
+      }
+
+      const note = $('#qnote');
+      if (note) note.textContent = noteText();
+    }
+
+    const noteText = () => qs.n > OWN
+      ? `${OWN} from this lesson + ${qs.n - OWN} review question${qs.n - OWN === 1 ? '' : 's'} from other lessons.`
+      : 'All questions come from this lesson.';
+
+    const dash = i => 'codeeverest-dashboard.html?lesson=' + i;
+
+    const backBtn = () =>
+      `<a class="btn btn-secondary" href="${dash(qs.i)}" style="align-self:flex-start"><span class="icon">arrow_back</span>Back to lesson</a>`;
+
+    const qhero = (eyebrow, title, text) =>
+      `<div class="hero">${peaks}<span class="eyebrow">${eyebrow}</span><h1 class="h aurora">${title}</h1><p class="muted">${text}</p></div>`;
+
+    function qRender(html) {
+      $('#app').innerHTML = `<div class="qwrap anim">${html}</div>`;
+      $('#qbody').scrollTop = 0;
+    }
+
+    /* ==========================================================
+       9. SCREEN 1 · SETUP
+       ========================================================== */
+    function qSetup() {
+      const i = qs.i;
+      const best = done.has(i) ? ' Your best grade so far: ' + gradeOf(i) + '%.' : '';
+
+      qRender(
+        backBtn() +
+        qhero(
+          `Quiz · Lesson ${i + 1} of ${L.length}`,
+          L[i].t,
+          'Choose how hard you want it and how many questions. We will build a quiz just for you.' + best
+        ) +
+
+        // difficulty picker
+        `<div class="sec">
+          <h3>Difficulty</h3>
+          <div class="chooser" id="chD">
+            ${DIFF.map((d, k) => `
+              <button class="qch" data-d="${k}" aria-pressed="${k === qs.diff}" type="button">
+                <span class="icon">${d[1]}</span><b>${d[0]}</b><small>${d[2]}</small>
+              </button>`).join('')}
+          </div>
+        </div>
+
+        <div class="sec">
+          <h3>Number of questions <span class="badge">max ${MAXQ}</span></h3>
+          <div class="stepper">
+            <button class="btn btn-secondary btn-icon" id="qminus" type="button" aria-label="Fewer questions"><span class="icon">remove</span></button>
+            <div class="nbig"><b id="qnum">${qs.n}</b><small>questions</small></div>
+            <button class="btn btn-secondary btn-icon" id="qplus" type="button" aria-label="More questions"><span class="icon">add</span></button>
+          </div>
+          <input type="range" id="qrange" min="1" max="${MAXQ}" value="${qs.n}" style="--v:${(qs.n - 1) / (MAXQ - 1) * 100}%" aria-label="Number of questions">
+          <p class="muted small" id="qnote" style="margin-top:.4rem">${noteText()}</p>
+        </div>
+
+        <div class="qact">
+          <button class="btn btn-primary shine btn-lg" id="qstart" type="button"><span class="icon">auto_awesome</span>Generate my quiz</button>
+        </div>`
+      );
+    }
+
+    /* ==========================================================
+       10. SCREEN 2 · LOADING (radar animation)
+       ========================================================== */
+    function qLoad(subtitle, after) {
+      qRender(`
+        <div class="qload">
+          <div class="radar">
+            <div class="rwave"></div>
+
+            <svg class="rr rr1" viewBox="0 0 360 360" fill="none">
+              <circle cx="180" cy="180" r="172" style="stroke:rgb(var(--c-line)/.7)" stroke-dasharray="2 8" stroke-width="1.5"/>
+              <circle cx="180" cy="180" r="156" style="stroke:rgb(var(--c-accent)/.4)" stroke-dasharray="14 10" stroke-width="1"/>
+              <circle cx="180" cy="180" r="140" style="stroke:rgb(var(--c-line)/.5)" stroke-width="1"/>
+              <line x1="180" y1="4" x2="180" y2="16" style="stroke:rgb(var(--c-brand))" stroke-width="2.5"/>
+              <line x1="356" y1="180" x2="344" y2="180" style="stroke:rgb(var(--c-brand)/.7)" stroke-width="2"/>
+              <line x1="180" y1="356" x2="180" y2="344" style="stroke:rgb(var(--c-brand)/.7)" stroke-width="2"/>
+              <line x1="4" y1="180" x2="16" y2="180" style="stroke:rgb(var(--c-brand)/.7)" stroke-width="2"/>
+            </svg>
+
+            <svg class="rr rr2" viewBox="0 0 300 300" fill="none">
+              <circle cx="150" cy="150" r="138" style="stroke:rgb(var(--c-brand)/.3)" stroke-dasharray="32 18 8 18" stroke-width="1.5"/>
+              <circle cx="150" cy="150" r="122" style="stroke:rgb(var(--c-lime)/.3)" stroke-width="1"/>
+              <circle cx="150" cy="12" r="4.5" style="fill:rgb(var(--c-brand));filter:drop-shadow(0 0 6px rgb(var(--c-brand)))"/>
+              <circle cx="270" cy="210" r="3" style="fill:rgb(var(--c-accent))"/>
+            </svg>
+
+            <div class="rdisc">
+              <div class="rsweep"></div>
+              <div class="rcont" style="width:77%;height:77%;background:rgb(var(--c-surface)/.55)"></div>
+              <div class="rcont" style="width:56%;height:56%;background:rgb(var(--c-surface-3)/.5)"></div>
+              <div class="rcont" style="width:35%;height:35%;background:rgb(var(--c-surface-4)/.6)"></div>
+
+              <svg class="rpeak" viewBox="0 0 160 160" fill="none">
+                <defs>
+                  <linearGradient id="pkGlow" x1="80" y1="20" x2="80" y2="135" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" style="stop-color:rgb(var(--c-brand));stop-opacity:.95"/>
+                    <stop offset=".6" style="stop-color:rgb(var(--c-accent));stop-opacity:.45"/>
+                    <stop offset="1" style="stop-color:rgb(var(--c-surface));stop-opacity:.1"/>
+                  </linearGradient>
+                  <linearGradient id="pkRidge" x1="30" y1="135" x2="80" y2="28" gradientUnits="userSpaceOnUse">
+                    <stop offset="0" style="stop-color:rgb(var(--c-line))"/>
+                    <stop offset=".7" style="stop-color:rgb(var(--c-brand))"/>
+                    <stop offset="1" style="stop-color:#fff"/>
+                  </linearGradient>
+                </defs>
+                <polygon points="80,28 135,135 25,135" fill="url(#pkGlow)"/>
+                <polygon points="80,28 80,135 25,135" style="fill:rgb(var(--c-surface-2));fill-opacity:.75"/>
+                <polygon points="80,28 135,135 80,135" style="fill:rgb(var(--c-surface-4));fill-opacity:.5"/>
+                <polyline points="80,28 80,135" style="stroke:rgb(var(--c-brand))" stroke-width="1.75" stroke-linecap="round"/>
+                <polyline points="25,135 55,90 80,28 108,82 135,135" stroke="url(#pkRidge)" stroke-width="1.25" stroke-linejoin="round"/>
+                <path d="M45 110Q80 102 118 112" style="stroke:rgb(var(--c-brand)/.6)" stroke-dasharray="3 3" stroke-width=".75"/>
+                <path d="M60 78Q80 72 100 80" style="stroke:rgb(var(--c-accent)/.7)" stroke-dasharray="2 2" stroke-width=".75"/>
+                <circle class="pk-ping" cx="80" cy="28" r="4.5" fill="#fff"/>
+                <circle cx="80" cy="28" r="3" style="fill:rgb(var(--c-brand))"/>
+                <text x="80" y="152" text-anchor="middle" style="font:600 8px var(--font-mono);letter-spacing:.12em;fill:rgb(var(--c-brand))">8,848M ALT</text>
+              </svg>
+            </div>
+          </div>
+
+          <h2 class="h aurora" style="font-size:1.5rem">Your personalised quiz is being made…</h2>
+          <p class="muted">${esc(subtitle)}</p>
+          <div class="bar" style="width:min(100%,22rem)"><i id="qp" style="width:0"></i></div>
+          <p class="qstat" id="qstat">Reading the lesson…</p>
+        </div>`);
+
+      // fake progress: 28 ticks x 100ms ≈ 2.8s, then run `after`
+      const steps = ['Reading the lesson…', 'Choosing questions that fit you…', 'Mixing up the answers…', 'Almost ready…'];
+      let t = 0;
+      clearInterval(qs.timer);
+      qs.timer = setInterval(() => {
+        const bar = $('#qp');
+        if (!bar) { clearInterval(qs.timer); return; }
+
+        t++;
+        const pct = Math.min(100, t * 100 / 28);
+        bar.style.width = pct + '%';
+        $('#qstat').textContent = steps[Math.min(3, Math.floor(pct / 26))];
+
+        if (t >= 28) { clearInterval(qs.timer); after(); }
+      }, 100);
+    }
+
+    // start a normal quiz (weak = null) or a weak-points practice round
+    function qStart(weak) {
+      qs.practice = !!weak;
+      if (!weak) qs.seen = new Set();
+
+      const subtitle = weak
+        ? 'Targeting your weak points: ' + weak.join(', ')
+        : DIFF[qs.diff][0] + ' · ' + qs.n + ' questions · ' + L[qs.i].t;
+
+      qLoad(subtitle, () => {
+        qs.list = pickQuiz(qs.i, qs.diff, qs.n, weak, qs.seen);
+        qs.list.forEach(q => qs.seen.add(q.q));
+        qs.k = 0;
+        qs.ans = [];
+        qs.t0 = Date.now();
+        qs.xp = 0;
+        qQuestion();
+      });
+    }
+
+    /* ==========================================================
+       11. SCREEN 3 · QUESTION
+       ========================================================== */
+    function qQuestion() {
+      const q = qs.list[qs.k];
+      const total = qs.list.length;
+
+      qRender(`
+        <div class="qtop">
+          <span class="badge badge-brand">${qs.practice ? 'Weak-points practice' : DIFF[qs.diff][0]}</span>
+          <span class="badge">${esc(q.t)}</span>
+          <span class="qcount">Question ${qs.k + 1} of ${total}</span>
+        </div>
+        <div class="bar"><i style="width:${qs.k / total * 100}%"></i></div>
+
+        <div class="sec quiz">
+          <h3>Question ${qs.k + 1}</h3>
+          <p style="margin-bottom:.8rem;color:rgb(var(--c-text))"><b>${esc(q.q)}</b></p>
+          <div class="qopts">
+            ${q.o.map((o, k) => `<button class="qopt" data-k="${k}" type="button">${esc(o)}</button>`).join('')}
+          </div>
+          <p class="qfb" id="qfb"></p>
+        </div>
+
+        <div class="qact" id="qnx" hidden>
+          <button class="btn btn-primary shine btn-lg" id="qnext2" type="button">
+            ${qs.k + 1 < total ? 'Next question' : 'See my results'}<span class="icon">arrow_forward</span>
+          </button>
+        </div>`);
+    }
+
+    /* ==========================================================
+       12. SCREEN 4 · RESULTS
+       ========================================================== */
+    function qResults() {
+      const list = qs.list;
+      const i = qs.i;
+      const ok = list.filter((q, j) => qs.ans[j] === q.c).length;
+      const pct = Math.round(ok / list.length * 100);
+      const pass = pct >= 60;
+
+      // elapsed time m:ss
+      const secs = Math.max(1, Math.round((Date.now() - (qs.t0 || Date.now())) / 1000));
+      const time = Math.floor(secs / 60) + ':' + String(secs % 60).padStart(2, '0');
+
+      // score per topic -> strong (>=67%) / weak
+      const topics = {};
+      list.forEach((q, j) => {
+        const a = topics[q.t] = topics[q.t] || [0, 0];
+        a[1]++;
+        if (qs.ans[j] === q.c) a[0]++;
+      });
+      const rows = Object.entries(topics)
+        .map(([t, a]) => ({ t, a: a[0], b: a[1], p: Math.round(a[0] / a[1] * 100) }))
+        .sort((x, y) => x.p - y.p);
+      const strong = rows.filter(r => r.p >= 67);
+      const weak   = rows.filter(r => r.p < 67);
+      qs.weak = weak.map(r => r.t);
+
+      // save grade / XP / completion (not for practice rounds)
+      const xpBefore = xpNow();
+      if (!qs.practice) {
+        const prior = grades[i] ?? 0;
+        grades[i] = Math.max(prior, pct);
+        if (pass && !done.has(i)) addXp(40);
+        if (pct === 100 && prior < 100) addXp(10);
+        store.set('ce-grades', JSON.stringify(grades));
+
+        if (pass) {
+          done.add(i);
+          store.set('ce-done', JSON.stringify([...done]));
+          if (done.size === L.length && !store.get('ce-cert')) store.set('ce-celebrate', '1');
+        }
+      }
+      const bonus = xpNow() - xpBefore;
+      const earned = (qs.xp || 0) + bonus;
+      if (bonus > 0) toast('Lesson bonus +' + bonus + ' XP', 'bolt');
+
+      touchDay();
+      renderSide();
+      if (pct === 100) confetti(90);
+
+      // copy
+      const msg = pct >= 90 ? 'Outstanding!' : pct >= 75 ? 'Great job!' : pct >= 60 ? 'Nice work!' : 'Keep climbing!';
+      const note = qs.practice
+        ? 'Practice round: your grade stays the same.'
+        : pass
+          ? 'Passed — this lesson is checked off ✓'
+          : 'You need 60% to check this lesson off. You can try again.';
+
+      const stat = r => r.p >= 67 ? ['Strong', 'ok'] : r.p >= 34 ? ['Developing', 'mid'] : ['Needs work', 'bad'];
+
+      const chips = (arr, cls, icon) => arr.map(r =>
+        `<span class="tchip ${cls}"><span class="icon">${icon}</span>${esc(r.t)}<em>${r.p}%</em></span>`
+      ).join('');
+
+      const strongNames = strong.slice(0, 3).map(r => `<b class="tg">${esc(r.t)}</b>`).join(', ');
+      const weakNames   = weak.slice(0, 3).map(r => `<b class="tw">${esc(r.t)}</b>`).join(', ');
+      const verb = weak.length > 1 ? 'need' : 'needs';
+
+      const sub = weak.length
+        ? (strong.length
+            ? `Nice, you're solid on ${strongNames}. But ${weakNames} still ${verb} work. Pick your next move:`
+            : `${weakNames} ${verb} the most work right now. Pick your next move:`)
+        : `You nailed every topic: ${strongNames}. Pick your next move:`;
+
+      const nextTitle = i < L.length - 1 ? 'Next up: ' + esc(L[i + 1].t) : 'You reached the last lesson';
+
+      // answer choices list for the review section
+      const choices = (q, j) => q.o.map((o, k) => {
+        const mine = qs.ans[j] === k;
+        const right = k === q.c;
+        return `<li class="ch ${right ? 'right' : ''} ${mine && !right ? 'wrong' : ''}">
+          <span class="mk">${right ? '✓' : mine ? '✗' : ''}</span>
+          <span>${esc(o)}</span>
+          ${mine ? '<em>Your answer</em>' : right ? '<em>Correct answer</em>' : ''}
+        </li>`;
+      }).join('');
+
+      qRender(
+        backBtn() +
+
+        // --- hero: score ring + chips ---
+        `<section class="rhero">
+          <div class="rring"><div class="rin"><b id="rnum">0</b><span>%</span></div></div>
+          <div class="rtxt">
+            <span class="eyebrow">${qs.practice ? 'Practice results' : 'Quiz results'} · ${esc(L[i].t)}</span>
+            <h1 class="h aurora">${msg}</h1>
+            <p class="muted">${note}</p>
+            <div class="rchips">
+              <span class="rchip"><span class="icon">check_circle</span>${ok}/${list.length} correct</span>
+              <span class="rchip"><span class="icon">timer</span>${time}</span>
+              <span class="rchip yel"><span class="icon">bolt</span>+${earned} XP</span>
+              <span class="rchip"><span class="icon">${DIFF[qs.diff][1]}</span>${qs.practice ? 'Practice' : DIFF[qs.diff][0]}</span>
+            </div>
+          </div>
+          ${peaks}
+        </section>
+
+        <!-- question map -->
+        <div class="qmap" title="Jump to a question">
+          ${list.map((q, j) => `<button class="qdot ${qs.ans[j] === q.c ? 'good' : 'bad'}" data-rv="${j}" type="button">${j + 1}</button>`).join('')}
+        </div>
+
+        <!-- strengths / needs practice -->
+        <div class="cols">
+          <section class="card good">
+            <h3><span class="icon" style="color:rgb(var(--c-ok))">emoji_events</span>Strengths</h3>
+            <div class="tchips">${strong.length ? chips(strong, '', 'check') : '<p class="muted small">No strong topics yet. Keep practising!</p>'}</div>
+          </section>
+          <section class="card weak">
+            <h3><span class="icon" style="color:#f59e0b">flag</span>Needs practice</h3>
+            <div class="tchips">${weak.length ? chips(weak, 'bad', 'priority_high') : '<p class="muted small">Nothing to fix. Nice work!</p>'}</div>
+          </section>
+        </div>
+
+        <!-- skill breakdown -->
+        <section class="card">
+          <h3><span class="icon" style="color:rgb(var(--c-brand))">insights</span>Skill breakdown</h3>
+          ${rows.map(r => {
+            const s = stat(r);
+            return `<div class="sk">
+              <div class="sname"><b>${esc(r.t)}</b><span class="stag ${s[1]}">${s[0]}</span></div>
+              <div class="rb"><i class="${s[1]}" data-w="${r.p}"></i></div>
+              <span class="spct">${r.a}/${r.b} · ${r.p}%</span>
+            </div>`;
+          }).join('')}
+        </section>
+
+        <!-- answer review -->
+        <section class="card">
+          <div class="rhead">
+            <h3><span class="icon" style="color:rgb(var(--c-brand))">fact_check</span>Review your answers</h3>
+            <button class="btn btn-secondary" id="chall" type="button"><span class="icon">visibility</span>Show all choices</button>
+          </div>
+          ${list.map((q, j) => {
+            const good = qs.ans[j] === q.c;
+            return `<details class="rq ${good ? 'good' : 'bad'}" id="rv${j}">
+              <summary>
+                <span class="rn">${j + 1}</span>
+                <span class="rt">${esc(q.q)}</span>
+                <span class="icon">${good ? 'check_circle' : 'cancel'}</span>
+              </summary>
+              <div class="rbody">
+                <button class="btn btn-secondary" data-ch="${j}" type="button"><span class="icon">visibility</span>Show choices</button>
+                <ul class="choices" id="ch${j}" hidden>${choices(q, j)}</ul>
+                <p class="muted">${esc(q.x)}</p>
+                <span class="tchip ${good ? '' : 'bad'}">${esc(q.t)}</span>
+              </div>
+            </details>`;
+          }).join('')}
+        </section>
+
+        <!-- what next -->
+        <section class="nxt">
+          <div class="nxt-h">
+            <span class="icon nxt-ic">explore</span>
+            <div><h3>What's your next move?</h3><p class="nxt-sub">${sub}</p></div>
+          </div>
+          <div class="ncards">
+            ${weak.length ? `
+              <button class="ncard hot" id="qweak" type="button">
+                <span class="icon nc-ic">target</span>
+                <div class="nc-t">
+                  <b>Retake on my weak points</b>
+                  <small>A quiz built only from ${weak.length === 1 ? 'this topic' : 'these topics'}</small>
+                  <span class="tchips">${chips(weak.slice(0, 3), 'bad', 'priority_high')}</span>
+                </div>
+                <span class="icon nc-go">arrow_forward</span>
+              </button>` : ''}
+
+            <a class="ncard" href="${dash(Math.min(i + 1, L.length - 1))}">
+              <span class="icon nc-ic">arrow_circle_right</span>
+              <div class="nc-t"><b>Continue to next lesson</b><small>${nextTitle}</small></div>
+              <span class="icon nc-go">arrow_forward</span>
+            </a>
+
+            <button class="ncard" id="qnew" type="button">
+              <span class="icon nc-ic">tune</span>
+              <div class="nc-t"><b>New quiz</b><small>Change the difficulty or the number of questions</small></div>
+              <span class="icon nc-go">arrow_forward</span>
+            </button>
+          </div>
+        </section>`
+      );
+
+      // animate score ring + counter (900ms, ease-out cubic)
+      const ring = $('#app .rring');
+      const num = $('#rnum');
+      const start = performance.now();
+      (function frame(t) {
+        if (!ring.isConnected) return;
+        const k = Math.min(1, (t - start) / 900);
+        const v = Math.round(pct * (1 - Math.pow(1 - k, 3)));
+        ring.style.setProperty('--p', v);
+        num.textContent = v;
+        if (k < 1) requestAnimationFrame(frame);
+      })(start);
+
+      // animate skill bars
+      setTimeout(() => $$('#app .rb i').forEach(e => e.style.width = e.dataset.w + '%'), 60);
+    }
+
+    /* ==========================================================
+       13. QUIZ EVENT HANDLING (one delegated listener)
+       ========================================================== */
+    $('#app').addEventListener('click', e => {
+      const t = e.target;
+
+      // "Show choices" for a single reviewed question
+      const choiceBtn = t.closest('[data-ch]');
+      if (choiceBtn) {
+        const list = $('#ch' + choiceBtn.dataset.ch);
+        const show = list.hidden;
+        list.hidden = !show;
+        choiceBtn.lastChild.textContent = show ? 'Hide choices' : 'Show choices';
+        choiceBtn.querySelector('.icon').textContent = show ? 'visibility_off' : 'visibility';
+        return;
+      }
+
+      // "Show all choices" toggle
+      if (t.closest('#chall')) {
+        const btn = t.closest('#chall');
+        const show = btn.dataset.on !== '1';
+        btn.dataset.on = show ? '1' : '0';
+
+        $$('#app .choices').forEach(l => l.hidden = !show);
+        $$('#app .rq').forEach(d => { if (show) d.open = true; });
+        $$('#app [data-ch]').forEach(x => {
+          x.lastChild.textContent = show ? 'Hide choices' : 'Show choices';
+          x.querySelector('.icon').textContent = show ? 'visibility_off' : 'visibility';
+        });
+
+        btn.lastChild.textContent = show ? 'Hide all choices' : 'Show all choices';
+        btn.querySelector('.icon').textContent = show ? 'visibility_off' : 'visibility';
+        return;
+      }
+
+      // jump to a question from the dot map
+      const dot = t.closest('[data-rv]');
+      if (dot) {
+        const details = $('#rv' + dot.dataset.rv);
+        if (details) {
+          details.open = true;
+          details.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      // navigation buttons
+      if (t.closest('#qnew'))   return qSetup();
+      if (t.closest('#qweak'))  return qStart(qs.weak);
+      if (t.closest('#qstart')) return qStart(null);
+
+      if (t.closest('#qnext2')) {
+        if (qs.k + 1 < qs.list.length) { qs.k++; qQuestion(); }
+        else qResults();
+        return;
+      }
+
+      if (t.closest('#qminus')) return setN(qs.n - 1);
+      if (t.closest('#qplus'))  return setN(qs.n + 1);
+
+      // difficulty chooser
+      const diffBtn = t.closest('[data-d]');
+      if (diffBtn) {
+        qs.diff = +diffBtn.dataset.d;
+        diffBtn.parentNode.querySelectorAll('.qch').forEach(x => x.setAttribute('aria-pressed', x === diffBtn));
+        qset.diff = qs.diff;
+        store.set('ce-qset', JSON.stringify(qset));
+        return;
+      }
+
+      // answering a question
+      const opt = t.closest('.qopt');
+      if (!opt || qs.ans[qs.k] !== undefined) return;
+
+      const q = qs.list[qs.k];
+      const k = +opt.dataset.k;
+      qs.ans[qs.k] = k;
+
+      $$('#app .qopt').forEach((o, j) => {
+        o.disabled = true;
+        if (j === q.c) o.classList.add('right');
+      });
+      if (k !== q.c) opt.classList.add('wrong');
+
+      // award XP once per question (3 / 5 / 8 by difficulty)
+      let gain = '';
+      if (k === q.c && !qxp.has(q.q)) {
+        const pts = [3, 5, 8][q.d];
+        qxp.add(q.q);
+        store.set('ce-qxp', JSON.stringify([...qxp]));
+        addXp(pts);
+        qs.xp += pts;
+        toast('+' + pts + ' XP', 'bolt');
+        popXp();
+        gain = ' +' + pts + ' XP.';
+      }
+
+      $('#qfb').textContent = (k === q.c ? '✓ Correct!' + gain + ' ' : '✗ Not quite. ') + q.x;
+      $('#qnx').hidden = false;
+    });
+
+    // question-count slider
+    $('#app').addEventListener('input', e => {
+      if (e.target.id === 'qrange') setN(+e.target.value);
+    });
+
+    /* ==========================================================
+       14. XP, STREAK & TOAST
+       ========================================================== */
+    const LV = ['Trailhead', 'Base Camp', 'Camp I', 'Camp II', 'Camp III', 'Summit Ridge', 'Summit'];
+
+    // date key like "2026-10-23", offset = days ago
+    const dkey = (offset = 0) => {
+      const d = new Date();
+      d.setDate(d.getDate() - offset);
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    };
+
+    const loadDays = () => {
+      try { return new Set(JSON.parse(store.get('ce-days')) || []); }
+      catch (e) { return new Set(); }
+    };
+
+    // mark today as an active day (keeps the last 60)
+    function touchDay() {
+      const days = loadDays();
+      if (days.has(dkey())) return;
+      days.add(dkey());
+      store.set('ce-days', JSON.stringify([...days].sort().slice(-60)));
+    }
+
+    // consecutive active days ending today (or yesterday)
+    function streakNow() {
+      const days = loadDays();
+      let offset = days.has(dkey()) ? 0 : 1;
+      let n = 0;
+      while (days.has(dkey(offset))) { n++; offset++; }
+      return n;
+    }
+
+    function xpNow() {
+      const v = store.get('ce-xp');
+      if (v === null || v === '' || isNaN(+v)) {
+        const x = state.done.size * 40 + ch.size * 20; // first run: derive from progress
+        store.set('ce-xp', String(x));
+        return x;
+      }
+      return +v;
+    }
+
+    const addXp = n => store.set('ce-xp', String(xpNow() + n));
+
+    function renderStats() {
+      const xp = xpNow();
+      const level = Math.floor(xp / 200) + 1;
+      const streak = streakNow();
+      const xpBadge = $('#xpB');
+      const streakBadge = $('#stB');
+
+      if (xpBadge) {
+        xpBadge.innerHTML = `<span class="icon" style="font-size:14px">bolt</span>${xp} XP`;
+        xpBadge.title = `Level ${level} · ${LV[Math.min(level - 1, LV.length - 1)]} · ${xp % 200}/200 XP to the next level`;
+      }
+      if (streakBadge) {
+        streakBadge.innerHTML = `<span class="icon" style="font-size:14px;color:${streak ? '#f59e0b' : 'inherit'}">local_fire_department</span>${streak} day${streak === 1 ? '' : 's'}`;
+        streakBadge.title = 'Days in a row';
+      }
+    }
+
+    // refresh sidebar + play a little pop on the XP badge
+    function popXp() {
+      renderSide();
+      const badge = $('#xpB');
+      if (badge) {
+        badge.classList.remove('xpop');
+        void badge.offsetWidth; // restart animation
+        badge.classList.add('xpop');
+      }
+    }
+
+    let toastTimer = 0;
+    function toast(message, icon) {
+      let el = $('#toast');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = 'toast';
+        el.className = 'toast';
+        document.body.appendChild(el);
+      }
+      el.innerHTML = `<span class="icon" style="color:rgb(var(--c-brand))">${icon || 'check_circle'}</span>${message}`;
+      el.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+    }
+
+    /* ==========================================================
+       15. SIDEBAR
+       ========================================================== */
+    const go = i => { location.href = dash(i); };
+    const UI = ['rocket_launch', 'alt_route', 'function', 'data_object', 'deployed_code', 'description', 'landscape'];
+    let query = '';
+
+    // does a lesson match the search text?
+    const hit = (l, q) => (l.t + ' ' + l.d + ' ' + l.q + ' ' + l.x).toLowerCase().includes(q);
+
+    function renderSide() {
+      store.set('ce-last', state.cur);
+      renderStats();
+
+      const q = query.trim().toLowerCase();
+
+      $('#units').innerHTML = UNITS.map((u, ui) => {
+        const idx  = L.map((l, i) => l.u === ui ? i : -1).filter(i => i >= 0);  // lessons in this unit
+        const dn   = idx.filter(i => state.done.has(i)).length;                 // completed count
+        const show = q ? idx.filter(i => hit(L[i], q)) : idx;                   // after search filter
+
+        if (!show.length) return '';
+
+        const open = (q || idx.includes(state.cur)) ? 'open' : '';
+        const icon = dn === idx.length ? 'task_alt' : 'folder_open';
+
+        const lessons = show.map(i => {
+          const isDone = state.done.has(i);
+          const isCur  = i === state.cur;
+          const ic = isDone ? 'check_circle' : isCur ? 'play_circle' : 'radio_button_unchecked';
+          return `<button class="les ${isCur ? 'cur' : ''} ${isDone ? 'done' : ''}" data-i="${i}"><span class="icon">${ic}</span>${L[i].t}</button>`;
+        }).join('');
+
+        return `<details class="unit" ${open}>
+          <summary>
+            <span class="icon">${icon}</span>${u[0]}
+            <span class="cnt">${dn}/${idx.length}</span>
+            <span class="icon chev">expand_more</span>
+          </summary>
+          ${lessons}
+        </details>`;
+      }).join('') || '<p class="muted nores">No lessons match your search.</p>';
+
+      // overall progress
+      const n = state.done.size;
+      $('#bar').style.width = n / L.length * 100 + '%';
+      $('#barL').textContent = n + ' / ' + L.length + ' lessons · ' + xpNow() + ' XP';
+      $('#barR').textContent = Math.round(n / L.length * 100) + '%';
+
+      // prev / resume / next buttons
+      $('#prev').disabled = state.cur === 0;
+      const open = nextOpen();
+      $('#resume').innerHTML = open < 0
+        ? '<span class="icon">emoji_events</span>View certificate'
+        : `<span class="icon">play_arrow</span>Continue · Lesson ${open + 1}`;
+      $('#next').innerHTML = state.cur === L.length - 1
+        ? 'Finish<span class="icon">flag</span>'
+        : 'Next<span class="icon">arrow_forward</span>';
+    }
+
+    $('#q').addEventListener('input', e => { query = e.target.value; renderSide(); });
+
+    $('#units').addEventListener('click', e => {
+      const btn = e.target.closest('.les');
+      if (btn) {
+        go(+btn.dataset.i);
+        if (innerWidth <= 900) setSide(false);
+      }
+    });
+
+    $('#prev').onclick = () => go(state.cur - 1);
+    $('#next').onclick = () => go(Math.min(state.cur + 1, L.length - 1));
+
+    // open / close the sidebar (remembered between visits)
+    const body = $('#body');
+    function setSide(open) {
+      body.classList.toggle('side-closed', !open);
+      $('#sideBtn .icon').textContent = open ? 'left_panel_close' : 'left_panel_open';
+      store.set('ce-side', open ? '1' : '0');
+    }
+    $('#sideBtn').onclick = () => setSide(body.classList.contains('side-closed'));
+    setSide(store.get('ce-side') !== '0' && innerWidth > 900);
+
+    $('#resume').onclick = () => {
+      const o = nextOpen();
+      go(o < 0 ? 0 : o);
+    };
+
+    // "Reset progress" needs two clicks within 3 seconds
+    let resetTimer = 0;
+    $('#rstAll').onclick = e => {
+      const btn = e.currentTarget;
+
+      if (!btn.dataset.arm) {
+        btn.dataset.arm = 1;
+        btn.lastChild.textContent = 'Click again to confirm';
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+          delete btn.dataset.arm;
+          btn.lastChild.textContent = 'Reset progress';
+        }, 3000);
+        return;
+      }
+
+      store.set('ce-done', '[]');
+      store.set('ce-ch', '[]');
+      store.set('ce-grades', '{}');
+      store.set('ce-cert', '');
+      store.set('ce-last', '0');
+      store.set('ce-xp', '0');
+      store.set('ce-qxp', '[]');
+      location.href = dash(0);
+    };
+
+    /* ==========================================================
+       16. INIT
+       ========================================================== */
+    {
+      // lesson comes from ?lesson=N, or the last visited lesson
+      const param = new URLSearchParams(location.search).get('lesson');
+      const last  = store.get('ce-last');
+
+      qs.i = Math.max(0, Math.min(18, param !== null && param !== '' && !isNaN(+param) ? +param : (+last || 0)));
+      state.cur = qs.i;
+
+      document.title = 'Quiz · ' + L[qs.i].t + ' · CodeEverest';
+      $('#qUnit').textContent = UNITS[L[qs.i].u][0].split(' · ')[0];
+
+      touchDay();
+      renderSide();
+      qSetup();
+    }
+  </script>
+</body>
+
+</html>

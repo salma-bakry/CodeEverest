@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>About · Code Everest</title>
+<meta name="description" content="Code Everest is a self-learning programming platform with a personal roadmap, an AI tutor and practice at every step.">
+<script>try{if(localStorage.getItem('sx-theme')==='light')document.documentElement.classList.remove('dark')}catch(e){}</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<style>
+/* ===== Design tokens (same as sign-in page) ===== */
+:root{
+  --font-body:Inter,system-ui,sans-serif;--font-head:'Plus Jakarta Sans',Inter,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --fs-xs:.75rem;--fs-sm:.8125rem;--fs-md:.875rem;--fs-lg:1rem;--fs-xl:1.125rem;
+  --r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-pill:9999px;
+  --ease:cubic-bezier(.2,.7,.2,1);--t-fast:.15s;--t-base:.25s;--t-slow:.7s;
+  --shadow-sm:0 1px 3px rgb(0 0 0/.12);--shadow-lg:0 20px 50px -12px rgb(0 0 0/.4);
+  --c-bg:244 250 246;--c-surface:255 255 255;--c-surface-2:235 245 239;--c-surface-3:255 255 255;--c-surface-4:227 239 232;--c-surface-5:211 227 217;
+  --c-text:18 28 23;--c-text-2:61 74 66;--c-text-3:100 114 105;--c-line:160 178 167;
+  --c-brand:4 120 87;--c-on-brand:255 255 255;--c-accent:15 118 110;--c-lime:77 124 15;--c-ok:77 124 15;
+  color-scheme:light;
+}
+:root.dark{
+  --c-bg:13 21 18;--c-surface:8 16 13;--c-surface-2:18 27 23;--c-surface-3:23 33 28;--c-surface-4:30 42 36;--c-surface-5:40 53 46;
+  --c-text:221 230 224;--c-text-2:188 202 193;--c-text-3:134 148 139;--c-line:61 74 66;
+  --c-brand:110 231 168;--c-on-brand:0 57 31;--c-accent:79 216 180;--c-lime:181 232 107;--c-ok:181 232 107;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:rgb(var(--c-bg));color:rgb(var(--c-text));font:400 var(--fs-md)/1.6 var(--font-body);-webkit-font-smoothing:antialiased;transition:background-color var(--t-base),color var(--t-base)}
+h1,h2,h3,p,ul,ol{margin:0}ul,ol{padding:0;list-style:none}
+svg{display:block;max-width:100%}a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+::selection{background:rgb(var(--c-brand)/.3)}
+:focus-visible{outline:2px solid rgb(var(--c-brand));outline-offset:2px}
+.h1,.h2,.h3{font-family:var(--font-head);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.h1{font-size:clamp(2.2rem,5.5vw,3.75rem);font-weight:800}
+.h2{font-size:clamp(1.6rem,3.2vw,2.35rem)}.h3{font-size:var(--fs-xl);letter-spacing:-.01em}
+.lead{font-size:var(--fs-xl);color:rgb(var(--c-text-2));line-height:1.65;max-width:38rem}
+.muted{color:rgb(var(--c-text-2))}.small{font-size:var(--fs-sm)}
+.eyebrow{font:600 var(--fs-xs)/1 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:rgb(var(--c-accent))}
+.icon{font-family:'Material Symbols Outlined';font-size:22px;line-height:1;font-weight:400;font-style:normal;vertical-align:middle}
+.icon.fill{font-variation-settings:'FILL' 1}
+
+/* ===== Buttons ===== */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;height:2.5rem;padding:0 1.25rem;border-radius:var(--r-md);font:600 var(--fs-md)/1 var(--font-head);white-space:nowrap;transition:transform var(--t-fast),filter var(--t-fast),background var(--t-base),box-shadow var(--t-base)}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:rgb(var(--c-brand));color:rgb(var(--c-on-brand));box-shadow:var(--shadow-sm)}.btn-primary:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.btn-secondary{background:rgb(var(--c-surface-4));border:1px solid rgb(var(--c-line)/.35)}.btn-secondary:hover{background:rgb(var(--c-surface-5))}
+.btn-lg{height:3rem;padding:0 2rem;font-size:var(--fs-lg)}
+.btn-icon{width:2.25rem;height:2.25rem;padding:0;color:rgb(var(--c-text-2))}.btn-icon:hover{background:rgb(var(--c-surface-4));color:rgb(var(--c-text))}
+.btn-shine{position:relative;overflow:hidden}
+.btn-shine::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgb(255 255 255/.35),transparent);animation:sheen 3.5s infinite;pointer-events:none}
+@keyframes sheen{to{left:140%}}
+
+/* ===== Aurora text (from sign-in) ===== */
+.aurora{background:linear-gradient(100deg,#34d399 0%,#6ee7a8 25%,#a3e635 50%,#4ade80 75%,#34d399 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:aurora 8s ease-in-out infinite}
+:root:not(.dark) .aurora{background-image:linear-gradient(100deg,#047857 0%,#059669 30%,#3f6b0d 60%,#065f46 100%)}
+@keyframes aurora{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+/* ===== Header ===== */
+.site-header{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgb(var(--c-bg)/.8);border-bottom:1px solid rgb(var(--c-line)/.3)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:1rem;max-width:72rem;margin:auto;padding:.75rem 1.5rem}
+.brand{display:inline-flex;align-items:center;gap:.5rem;font:700 1.15rem/1 var(--font-head);letter-spacing:-.01em}.brand b{color:rgb(var(--c-brand))}
+.nav{display:flex;align-items:center;gap:.5rem}
+.nav .link{padding:.5rem .75rem;color:rgb(var(--c-text-2));font-weight:500;border-radius:var(--r-md)}.nav .link:hover{color:rgb(var(--c-text))}
+
+/* ===== Layout ===== */
+.wrap{max-width:72rem;margin:auto;padding:0 1.5rem}
+.section{padding:clamp(3.5rem,8vw,6rem) 0}
+.head{display:flex;flex-direction:column;gap:.75rem;max-width:40rem;margin-bottom:3rem}
+.head.mid{margin-inline:auto;text-align:center;align-items:center}
+.grid{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.row{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+
+/* ===== Hero ===== */
+.hero{position:relative;overflow:hidden;padding:clamp(3rem,8vw,6rem) 0}
+:root:not(.dark) .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgb(var(--c-bg)/.2),rgb(var(--c-bg)) 98%)}
+.glow{position:absolute;width:26rem;height:26rem;border-radius:50%;filter:blur(64px);pointer-events:none;background:rgb(var(--c-brand)/.12);animation:drift 14s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translate(60px,40px) scale(1.15)}}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:1.5rem;align-items:flex-start}
+@keyframes float{50%{transform:translateY(-10px)}}
+.in{animation:rise .8s var(--ease) both}.in:nth-child(2){animation-delay:.08s}.in:nth-child(3){animation-delay:.16s}.in:nth-child(4){animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}}
+
+/* ===== Cards ===== */
+.card{position:relative;display:flex;flex-direction:column;gap:.6rem;padding:1.5rem;border-radius:var(--r-xl);background:rgb(var(--c-surface-2));border:1px solid rgb(var(--c-line)/.4);transition:transform var(--t-base),border-color var(--t-base),box-shadow var(--t-base)}
+.card:hover{transform:translateY(-3px);border-color:rgb(var(--c-brand)/.6);box-shadow:0 12px 30px -14px rgb(var(--c-brand)/.5)}
+.card p{color:rgb(var(--c-text-2))}
+.ico{display:grid;place-items:center;width:2.75rem;height:2.75rem;border-radius:var(--r-lg);background:rgb(var(--c-brand)/.15);color:rgb(var(--c-brand));margin-bottom:.4rem}
+.ico.b{background:rgb(var(--c-accent)/.15);color:rgb(var(--c-accent))}
+.ico.c{background:rgb(var(--c-lime)/.18);color:rgb(var(--c-lime))}
+.why{grid-template-columns:repeat(4,1fr)}
+.feat{grid-template-columns:repeat(3,1fr)}
+
+/* ===== Trail (the real sequence, so it keeps numbers) ===== */
+.trail{position:relative;max-width:46rem;margin-inline:auto;display:flex;flex-direction:column;gap:1.5rem;counter-reset:s}
+.trail::before,.trail::after{content:"";position:absolute;left:1.35rem;top:22px}
+.trail::before{height:var(--len,calc(100% - 3rem));border-left:2px dashed rgb(var(--c-brand)/.45)}
+.trail::after{height:var(--fill,0px);border-left:2px solid rgb(var(--c-brand));filter:drop-shadow(0 0 6px rgb(var(--c-brand)/.7))}
+.trail li{position:relative;display:flex;gap:1.25rem;align-items:flex-start;counter-increment:s}
+.trail li::before{content:counter(s);flex:none;display:grid;place-items:center;width:2.75rem;height:2.75rem;border-radius:50%;background:rgb(var(--c-bg));border:2px solid rgb(var(--c-brand));color:rgb(var(--c-brand));font:700 var(--fs-md)/1 var(--font-mono);z-index:1}
+.trail li::before{transition:background var(--t-base),color var(--t-base),box-shadow var(--t-base)}
+.trail li.on::before{background:rgb(var(--c-brand));color:rgb(var(--c-on-brand));box-shadow:0 0 0 4px rgb(var(--c-brand)/.2),0 0 18px rgb(var(--c-brand)/.6)}
+.trail .card{flex:1;padding:1.1rem 1.4rem}
+
+/* ===== Panel + tutor ===== */
+.panel{position:relative;overflow:hidden;padding:clamp(1.75rem,4vw,3rem);border-radius:1.5rem;background:rgb(var(--c-surface-2));border:1px solid rgb(var(--c-line)/.45)}
+.tutor{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center}
+.ticks{display:flex;flex-direction:column;gap:.9rem;margin:1.5rem 0}
+.ticks li{display:flex;gap:.75rem;align-items:flex-start}.ticks .icon{color:rgb(var(--c-brand));flex:none}
+.code-block{border-radius:var(--r-lg);background:rgb(var(--c-surface));border:1px solid rgb(var(--c-line)/.5);overflow:hidden}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:.5rem 1rem;background:rgb(var(--c-surface-3));font:var(--fs-xs)/1 var(--font-mono)}
+.window-dots{display:flex;gap:.375rem}.window-dots i{width:.7rem;height:.7rem;border-radius:50%;background:rgb(var(--c-ok)/.8)}.window-dots i:first-child{background:#ef6b5f}.window-dots i:nth-child(2){background:#f59e0b}
+.badge{display:inline-flex;padding:.2rem .65rem;border-radius:var(--r-pill);font:600 var(--fs-xs)/1.4 var(--font-mono);background:rgb(var(--c-brand)/.15);color:rgb(var(--c-brand))}
+.chat{display:flex;flex-direction:column;gap:.75rem;padding:1rem;font-size:var(--fs-sm)}
+.msg{max-width:88%;padding:.6rem .9rem;border-radius:var(--r-lg)}
+.msg.me{align-self:flex-end;background:rgb(var(--c-brand));color:rgb(var(--c-on-brand))}
+.msg.ai{background:rgb(var(--c-surface-4))}
+code{font-family:var(--font-mono);font-size:.85em;padding:.1em .4em;border-radius:var(--r-sm);background:rgb(var(--c-surface-5));color:rgb(var(--c-accent))}
+
+/* ===== Audience ===== */
+.who .card{border-top:3px solid rgb(var(--c-brand))}
+.who .card:nth-child(2){border-top-color:rgb(var(--c-accent))}.who .card:nth-child(3){border-top-color:rgb(var(--c-lime))}
+
+/* ===== Team ===== */
+.team{display:flex;flex-wrap:wrap;justify-content:center}
+.team .person{flex:0 0 calc((100% - 2.5rem)/3)}
+.person{flex-direction:row;align-items:center;gap:.9rem;padding:1rem 1.25rem}
+.avatar{display:grid;place-items:center;flex:none;width:2.75rem;height:2.75rem;border-radius:50%;background:rgb(var(--c-brand)/.15);color:rgb(var(--c-brand));font:700 var(--fs-md)/1 var(--font-head)}
+.person strong{font:600 var(--fs-md)/1.3 var(--font-head)}
+
+/* ===== CTA + footer ===== */
+.cta{text-align:center;display:flex;flex-direction:column;gap:1.25rem;align-items:center}
+.cta .lead{margin-inline:auto}
+.site-footer{border-top:1px solid rgb(var(--c-line)/.3);padding:1.75rem 0;color:rgb(var(--c-text-3));font-size:var(--fs-sm)}
+
+/* ===== Aurora seam divider (horizontal version of the sign-in seam) ===== */
+.seam{position:relative;height:5rem;margin:-1.5rem 0;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
+.seam::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent,rgb(52 211 153/.04) 22%,rgb(52 211 153/.1) 38%,rgb(110 231 168/.2) 50%,rgb(52 211 153/.1) 62%,rgb(52 211 153/.04) 78%,transparent);animation:breathe 5s ease-in-out infinite alternate}
+.seam::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;transform:translateY(-50%);background:linear-gradient(90deg,#34d399,#6ee7a8,#a3e635,#4ade80,#2dd4bf,#34d399);background-size:400% 100%;filter:drop-shadow(0 0 5px rgb(52 211 153/.75)) drop-shadow(0 0 14px rgb(52 211 153/.4));animation:flow 8s linear infinite}
+.seam i{position:absolute;top:50%;left:0;width:22%;height:3px;transform:translateY(-50%);background:linear-gradient(90deg,transparent,rgb(200 255 225/.95),transparent);filter:blur(1.5px) drop-shadow(0 0 8px rgb(110 231 168/.9));animation:travel 5.5s cubic-bezier(.45,0,.55,1) infinite;z-index:1}
+@keyframes flow{to{background-position:400% 0}}
+@keyframes breathe{from{opacity:.55}to{opacity:1}}
+@keyframes travel{0%{left:-22%;opacity:0}15%,85%{opacity:1}100%{left:100%;opacity:0}}
+:root:not(.dark) .seam::before{background:linear-gradient(180deg,transparent,rgb(4 120 87/.03) 22%,rgb(4 120 87/.07) 38%,rgb(5 150 105/.13) 50%,rgb(4 120 87/.07) 62%,rgb(4 120 87/.03) 78%,transparent)}
+:root:not(.dark) .seam::after{background-image:linear-gradient(90deg,#047857,#059669,#4d7c0f,#0f766e,#047857);filter:drop-shadow(0 0 4px rgb(4 120 87/.45))}
+:root:not(.dark) .seam i{background:linear-gradient(90deg,transparent,rgb(4 120 87/.9),transparent);filter:blur(1.5px) drop-shadow(0 0 6px rgb(4 120 87/.6))}
+
+/* ===== Richer hero ===== */
+.aurora-band{position:absolute;inset:-20% -10% 0;pointer-events:none;background:radial-gradient(40% 50% at 20% 30%,rgb(52 211 153/.3),transparent 70%),radial-gradient(35% 45% at 78% 20%,rgb(163 230 53/.2),transparent 70%),radial-gradient(45% 40% at 55% 65%,rgb(45 212 191/.2),transparent 70%);filter:blur(30px);animation:sway 16s ease-in-out infinite alternate}
+:root:not(.dark) .aurora-band{opacity:.55}
+@keyframes sway{to{transform:translate(4%,6%) rotate(3deg) scale(1.08)}}
+.hero-grid{position:absolute;inset:0;pointer-events:none;opacity:.5;background-image:radial-gradient(rgb(var(--c-brand)/.4) 1px,transparent 1.3px);background-size:28px 28px;-webkit-mask-image:radial-gradient(60% 60% at 72% 42%,#000,transparent);mask-image:radial-gradient(60% 60% at 72% 42%,#000,transparent)}
+.stage{position:relative;justify-self:center;width:min(100%,28rem);padding:1rem 0 3.5rem}
+.halo{position:absolute;inset:6% 8% 14%;border-radius:50%;background:radial-gradient(closest-side,rgb(110 231 168/.4),transparent);filter:blur(18px);animation:pulse 5s ease-in-out infinite alternate}
+@keyframes pulse{from{opacity:.45}to{opacity:1}}
+.mount{position:relative;width:100%;animation:float 6s ease-in-out infinite;filter:drop-shadow(0 0 26px rgb(var(--c-brand)/.35))}
+.mount .cap{transition:fill var(--t-base)}
+:root:not(.dark) .mount .cap{fill:rgb(var(--c-brand))}
+.mount .dots{animation:march 4s linear infinite}
+@keyframes march{to{stroke-dashoffset:-100}}
+.code-block.hero-code{position:absolute;left:-4%;bottom:0;width:64%;background:rgb(var(--c-surface)/.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:var(--shadow-lg)}
+.hero-code .code-body{padding:.75rem 1rem;font:.72rem/1.6 var(--font-mono);white-space:pre;min-height:6.6rem;overflow:hidden}
+.k{color:rgb(var(--c-brand));font-weight:600}.f{color:rgb(var(--c-accent))}.c{color:rgb(var(--c-text-3));font-style:italic}
+.chip{position:absolute;right:0;top:12%;display:flex;align-items:center;gap:.4rem;padding:.45rem .8rem;border-radius:var(--r-pill);background:rgb(var(--c-surface)/.8);border:1px solid rgb(var(--c-brand)/.5);font:600 var(--fs-xs)/1 var(--font-mono);color:rgb(var(--c-brand));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);animation:float 5s ease-in-out infinite reverse}
+.chip .icon{font-size:16px}
+
+/* ===== Mouse light ===== */
+.spot{position:fixed;left:0;top:0;width:26rem;height:26rem;margin:-13rem 0 0 -13rem;transform:translate3d(var(--mx,-999px),var(--my,-999px),0);background:radial-gradient(closest-side,rgb(110 231 168/.11),rgb(52 211 153/.04) 60%,rgb(52 211 153/0));pointer-events:none;z-index:4;opacity:0;transition:opacity .5s;will-change:transform}
+.spot.on{opacity:1}
+:root:not(.dark) .spot{background:radial-gradient(closest-side,rgb(5 150 105/.08),rgb(5 150 105/.03) 60%,rgb(5 150 105/0))}
+
+@media(max-width:860px){.hero .wrap,.tutor{grid-template-columns:1fr}.stage{width:min(88%,22rem)}.nav .link{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:1000px){.why,.feat{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:860px){.team .person{flex-basis:calc((100% - 1.25rem)/2)}}
+@media(max-width:600px){.why,.feat{grid-template-columns:1fr}.team .person{flex-basis:100%}}
+</style></head>
+<body>
+<div class="spot" id="spot" aria-hidden="true"></div>
+
+<!-- Swap this header and footer for your shared public ones if you prefer -->
+<header class="site-header"><div class="bar">
+  <a class="brand" href="codeeverest.html"><svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(110 231 168)"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>Code<b>Everest</b></a>
+  <nav class="nav"><a class="link" href="#how">How it works</a><a class="link" href="#tutor">AI tutor</a><a class="link" href="login.html">Log in</a>
+    <a class="btn btn-primary" href="signup.html">Get started</a>
+    <button class="btn btn-icon" id="theme" type="button" aria-label="Toggle theme"><span class="icon">light_mode</span></button></nav>
+</div></header>
+
+<main>
+<section class="hero">
+  <div class="aurora-band"></div><div class="hero-grid"></div><div class="glow" style="top:-8rem;right:-6rem"></div>
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow in">About Code Everest</span>
+      <h1 class="h1 aurora in">Learn to code, one step at a time</h1>
+      <p class="lead in">Code Everest helps you learn programming on your own. You get a plan made for you, lessons and practice at every step, and an AI tutor who is there when you get stuck.</p>
+      <div class="row in"><a class="btn btn-primary btn-lg btn-shine" href="signup.html">Get started</a><a class="btn btn-secondary btn-lg" href="#how">See how it works</a></div>
+    </div>
+    <div class="stage"><div class="halo"></div>
+    <svg class="mount" viewBox="0 0 400 320" aria-hidden="true">
+      <polygon fill="rgb(var(--c-text))" opacity=".1" points="0,320 90,170 170,260 250,150 400,320"/>
+      <polygon fill="rgb(var(--c-brand))" opacity=".28" points="40,320 200,50 360,320"/>
+      <polygon class="cap" fill="rgb(var(--c-text))" points="200,50 160,120 185,110 200,130 218,110 240,120"/>
+      <path fill="none" stroke="rgb(var(--c-accent))" stroke-width="4" stroke-linecap="round" class="dots" stroke-dasharray="0.1 10" d="M70 300 C 140 290, 120 250, 190 240 S 270 200, 220 170 S 215 130, 200 95"/>
+      <circle fill="rgb(var(--c-brand))" cx="70" cy="300" r="7"/><circle fill="rgb(var(--c-brand))" cx="190" cy="240" r="7"/><circle fill="rgb(var(--c-lime))" cx="220" cy="170" r="10"/>
+      <line stroke="rgb(var(--c-text-3))" stroke-width="3" stroke-linecap="round" x1="200" y1="50" x2="200" y2="10"/>
+      <polygon fill="rgb(var(--c-lime))" points="200,10 234,22 200,34"/>
+    </svg>
+    <div class="chip"><span class="icon fill">flag</span>Stage 3 unlocked</div>
+    <div class="code-block hero-code" aria-hidden="true"><div class="code-head"><div class="window-dots"><i></i><i></i><i></i></div><span>summit.py</span></div><div class="code-body" id="typed"></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="seam" aria-hidden="true"><i></i></div>
+<section class="section"><div class="wrap">
+  <div class="head"><span class="eyebrow">Why we built it</span><h2 class="h2">Starting to code can feel like a lot</h2>
+  <p class="lead">Many beginners want to learn programming but do not know where to begin or how to keep going. Code Everest is made to help with exactly that.</p></div>
+  <div class="grid why">
+    <article class="card"><div class="ico"><span class="icon">explore</span></div><div><h3 class="h3">Too many places to start</h3><p>There are endless tutorials, and it is hard to know which one fits you. Code Everest gives you one clear path to follow.</p></div></article>
+    <article class="card"><div class="ico b"><span class="icon">help</span></div><div><h3 class="h3">Not sure where you stand</h3><p>It is easy to skip ahead or repeat things you already know. A short placement test suggests the right starting level for you.</p></div></article>
+    <article class="card"><div class="ico c"><span class="icon">support_agent</span></div><div><h3 class="h3">Stuck with no one to ask</h3><p>When your code does not work, giving up is easy. The AI tutor explains ideas and errors and gives hints while you learn.</p></div></article>
+    <article class="card"><div class="ico"><span class="icon">trending_up</span></div><div><h3 class="h3">Hard to keep going</h3><p>Progress is easier to keep up when you can see it. Your roadmap shows where you are, what you finished and what comes next.</p></div></article>
+  </div>
+</div></section>
+
+<div class="seam" aria-hidden="true"><i></i></div>
+<section class="section" id="how"><div class="wrap">
+  <div class="head mid"><span class="eyebrow">How you learn</span><h2 class="h2">Your climb, step by step</h2>
+  <p class="lead">Every learner follows the same simple route, with a plan that fits their own level and schedule.</p></div>
+  <ol class="trail">
+    <li><div class="card"><h3 class="h3">Choose your path</h3><p>Pick the programming path you want to learn.</p></div></li>
+    <li><div class="card"><h3 class="h3">Take a short placement test</h3><p>The test estimates what you already know, so you start at the right level.</p></div></li>
+    <li><div class="card"><h3 class="h3">Get your roadmap</h3><p>See your plan as a mountain trail built around your study days. Each flag is a stage, and the next one opens when you finish the current one.</p></div></li>
+    <li><div class="card"><h3 class="h3">Learn and practice</h3><p>Read lessons, take quizzes and solve coding challenges, with the AI tutor close by.</p></div></li>
+    <li><div class="card"><h3 class="h3">Beat the Boss Fight</h3><p>Each unit ends with a Boss Fight, a bigger challenge or small project that shows what you have learned.</p></div></li>
+    <li><div class="card"><h3 class="h3">Earn your certificate</h3><p>Finish a learning path and you can get a certificate to show your work.</p></div></li>
+  </ol>
+</div></section>
+
+<div class="seam" aria-hidden="true"><i></i></div>
+<section class="section"><div class="wrap">
+  <div class="head"><span class="eyebrow">Main features</span><h2 class="h2">Everything you need in one place</h2></div>
+  <div class="grid feat">
+    <article class="card"><div class="ico"><span class="icon">route</span></div><h3 class="h3">Personal roadmap</h3><p>A visual trail made from your path, level and schedule. It always shows your current stage and what to do next.</p></article>
+    <article class="card"><div class="ico b"><span class="icon">menu_book</span></div><h3 class="h3">Lessons and quizzes</h3><p>Clear lessons with examples, followed by quizzes that give you a score and feedback.</p></article>
+    <article class="card"><div class="ico c"><span class="icon">code</span></div><h3 class="h3">Coding challenges</h3><p>Write and run code in the built-in editor and see right away if it passes the tests.</p></article>
+    <article class="card"><div class="ico"><span class="icon">smart_toy</span></div><h3 class="h3">AI tutor</h3><p>Ask questions in plain words, get explanations and hints, and learn from feedback on your own code.</p></article>
+    <article class="card"><div class="ico b"><span class="icon">insights</span></div><h3 class="h3">Learning that adapts</h3><p>Code Everest notices your strengths and weak spots and suggests what to practice or review next.</p></article>
+    <article class="card"><div class="ico c"><span class="icon">workspace_premium</span></div><h3 class="h3">Achievements and certificates</h3><p>Collect achievements along the way and get a certificate when you complete a path.</p></article>
+  </div>
+</div></section>
+
+<div class="seam" aria-hidden="true"><i></i></div>
+<section class="section" id="tutor"><div class="wrap"><div class="panel tutor">
+  <div>
+    <span class="eyebrow">Your AI tutor</span>
+    <h2 class="h2" style="margin-top:.75rem">Help that teaches, not just answers</h2>
+    <p class="lead" style="margin-top:.75rem">The tutor is built to help you learn, so it guides you instead of doing the work for you.</p>
+    <ul class="ticks">
+      <li><span class="icon fill">check_circle</span>Answers programming questions and explains ideas in simple words</li>
+      <li><span class="icon fill">check_circle</span>Gives hints without showing the full solution</li>
+      <li><span class="icon fill">check_circle</span>Explains error messages and gives feedback on your code</li>
+      <li><span class="icon fill">check_circle</span>Tells you when it cannot answer reliably</li>
+    </ul>
+    <p class="small muted">The AI tutor is here to help you learn. It is not a guarantee, so double-check important answers with your lessons.</p>
+  </div>
+  <div class="code-block" aria-hidden="true">
+    <div class="code-head"><div class="window-dots"><i></i><i></i><i></i></div><span>tutor.chat</span><span class="badge">hint</span></div>
+    <div class="chat">
+      <div class="msg me">My loop never stops. Why?</div>
+      <div class="msg ai">Look at your <code>while</code> condition. What changes <code>i</code> on each pass?</div>
+      <div class="msg me">Oh, I never add 1 to it.</div>
+      <div class="msg ai">Right. Try it and run the tests again.</div>
+    </div>
+  </div>
+</div></div></section>
+
+<div class="seam" aria-hidden="true"><i></i></div>
+<section class="section"><div class="wrap">
+  <div class="head mid"><span class="eyebrow">Who it is for</span><h2 class="h2">Made for learners, and the people behind the lessons</h2></div>
+  <div class="grid who">
+    <article class="card"><div class="ico"><span class="icon">school</span></div><h3 class="h3">Students</h3><p>Learn at your own pace with a plan, practice and support whenever you study.</p></article>
+    <article class="card"><div class="ico b"><span class="icon">edit_note</span></div><h3 class="h3">Content Authors</h3><p>Create, organize and publish learning paths, lessons, quizzes and challenges.</p></article>
+    <article class="card"><div class="ico c"><span class="icon">admin_panel_settings</span></div><h3 class="h3">Administrators</h3><p>Manage users and roles, follow learning statistics and export reports.</p></article>
+  </div>
+</div></section>
+
+<div class="seam" aria-hidden="true"><i></i></div>
+<section class="section"><div class="wrap">
+  <div class="head mid"><span class="eyebrow">The team</span><h2 class="h2">Built by five students</h2><p class="lead">Code Everest is our Software Engineering project.</p></div>
+  <div class="grid team">
+    <div class="card person"><span class="avatar">SB</span><strong>Salma Atef Bakry</strong></div>
+    <div class="card person"><span class="avatar">FM</span><strong>Fatma Maged Mohammed</strong></div>
+    <div class="card person"><span class="avatar">SE</span><strong>Salma Magdy Elsayed</strong></div>
+    <div class="card person"><span class="avatar">MM</span><strong>Malak Emad Abdel Mohsen</strong></div>
+    <div class="card person"><span class="avatar">RF</span><strong>Razan Ismail Fawzy</strong></div>
+  </div>
+</div></section>
+
+<div class="seam" aria-hidden="true"><i></i></div>
+<section class="section"><div class="wrap"><div class="panel cta">
+  <div class="glow" style="top:-10rem;left:50%;margin-left:-13rem"></div>
+  <h2 class="h2 aurora" style="position:relative">Ready to start climbing?</h2>
+  <p class="lead" style="position:relative">Create your account and take the placement test. Your roadmap will be waiting.</p>
+  <div class="row" style="position:relative;justify-content:center"><a class="btn btn-primary btn-lg btn-shine" href="signup.html">Create an account</a><a class="btn btn-secondary btn-lg" href="login.html">Log in</a></div>
+</div></div></section>
+</main>
+
+<div class="seam" aria-hidden="true"><i></i></div>
+<footer class="site-footer"><div class="wrap row" style="justify-content:space-between"><span>© Code Everest</span><span>Built by five students for their Software Engineering project</span></div></footer>
+
+<script>
+const $=s=>document.querySelector(s),root=document.documentElement,ti=$('#theme .icon');
+const sync=()=>ti.textContent=root.classList.contains('dark')?'light_mode':'dark_mode';sync();
+$('#theme').onclick=()=>{root.classList.toggle('dark');try{localStorage.setItem('sx-theme',root.classList.contains('dark')?'dark':'light')}catch(e){}sync()};
+(()=>{const sp=$('#spot');let tx=0,ty=0,cx=0,cy=0,raf=0;
+const tick=()=>{cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;sp.style.setProperty('--mx',cx.toFixed(1)+'px');sp.style.setProperty('--my',cy.toFixed(1)+'px');raf=(Math.abs(tx-cx)>.3||Math.abs(ty-cy)>.3)?requestAnimationFrame(tick):0};
+addEventListener('mousemove',e=>{if(!sp.classList.contains('on')){cx=tx=e.clientX;cy=ty=e.clientY;sp.classList.add('on')}tx=e.clientX;ty=e.clientY;if(!raf)raf=requestAnimationFrame(tick)});
+document.addEventListener('mouseleave',()=>sp.classList.remove('on'))})();
+const code=['<span class="c"># Your first step</span>','<span class="k">def</span> <span class="f">climb</span>(step):','    <span class="k">return</span> step + 1','','print(climb(<span class="f">0</span>))  <span class="c"># 1</span>'];
+let ln=0;const typed=$('#typed');(function add(){if(ln<code.length){typed.innerHTML+=(ln?'\n':'')+code[ln++];setTimeout(add,550)}})();
+(()=>{const tr=$('.trail'),items=[...tr.children];let raf=0;
+const upd=()=>{raf=0;const mark=innerHeight*.6,top=tr.getBoundingClientRect().top,len=items[items.length-1].offsetTop;
+tr.style.setProperty('--len',len+'px');
+tr.style.setProperty('--fill',Math.max(0,Math.min(mark-top-22,len))+'px');
+items.forEach(li=>li.classList.toggle('on',li.getBoundingClientRect().top+22<=mark))};
+const req=()=>{if(!raf)raf=requestAnimationFrame(upd)};
+addEventListener('scroll',req,{passive:true});addEventListener('resize',req);upd()})();
+</script>
+</body></html>
