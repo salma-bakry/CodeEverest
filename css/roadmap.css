@@ -1,0 +1,268 @@
+/* My Roadmap: mountain scene, trail, nodes, popover, legend.
+   Uses only tokens from variables.css (no hard-coded colors).
+   Load after components.css (or merge into your components file). */
+
+/* ---------- Scene ---------- */
+.rm-scroll {
+  overflow-x: auto;                       /* small screens scroll sideways instead of shrinking */
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: rgb(var(--c-surface-container-lowest));
+}
+.rm-scene {
+  position: relative;
+  min-width: 960px;
+  aspect-ratio: 1288 / 854;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgb(var(--c-surface-container-lowest)) 0%, rgb(var(--c-background)) 100%);
+}
+.rm-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Mountain drawing (SVG) ---------- */
+.rm-stop-top    { stop-color: rgb(var(--c-surface-container-highest)); }
+.rm-stop-bottom { stop-color: rgb(var(--c-surface-container)); }
+.rm-glow-in     { stop-color: rgb(var(--c-amber)); stop-opacity: 0.4; }
+.rm-glow-out    { stop-color: rgb(var(--c-amber)); stop-opacity: 0; }
+
+.rm-back  { fill: rgb(var(--c-surface-container)); opacity: 0.9; }
+.rm-cloud { fill: rgb(var(--c-on-surface)); opacity: 0.06; }
+.rm-main  { fill: url(#rmMountain); stroke: rgb(var(--c-primary) / 0.18); stroke-width: 2; stroke-linejoin: round; }
+.rm-shade { fill: rgb(var(--c-background)); opacity: 0.28; }
+.rm-snow  { fill: rgb(var(--c-on-surface)); opacity: 0.95; }
+
+/* ---------- Trail (SVG) ---------- */
+.rm-trail-todo {
+  fill: none;
+  stroke: rgb(var(--c-on-surface-variant) / 0.6);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 15;               /* round caps turn short dashes into dots */
+}
+.rm-trail-done {
+  fill: none;
+  stroke: rgb(var(--c-secondary));
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.rm-trail-glow {
+  fill: none;
+  stroke: rgb(var(--c-secondary) / 0.25);
+  stroke-width: 16;
+  stroke-linecap: round;
+}
+
+/* ---------- Zone labels ---------- */
+.rm-zone {
+  position: absolute;
+  left: var(--space-3);
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  transform: translateY(-50%);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgb(var(--c-on-surface-variant) / 0.8);
+  pointer-events: none;
+}
+.rm-zone::after {
+  content: "";
+  flex: 1;
+  border-top: 1px dashed rgb(var(--c-outline-variant) / 0.35);
+}
+
+/* ---------- Nodes ---------- */
+.rm-nodes { position: absolute; inset: 0; z-index: 2; }
+
+.rm-node {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: 2px solid rgb(var(--c-on-surface-variant));
+  border-radius: var(--radius-full);
+  background: rgb(var(--c-background));
+  color: rgb(var(--c-on-surface));
+  font: inherit;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease-out), box-shadow var(--t-fast) var(--ease-out);
+}
+.rm-node:hover { transform: translate(-50%, -50%) scale(1.1); }
+.rm-node.selected { outline: 2px solid rgb(var(--c-primary)); outline-offset: 5px; }
+.rm-node .material-symbols-outlined { font-size: 20px; }
+
+.rm-label {
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  color: rgb(var(--c-on-surface));
+  text-shadow: 0 1px 8px rgb(var(--c-background));
+  pointer-events: none;
+}
+
+/* States */
+.rm-node.completed {
+  background: rgb(var(--c-primary));
+  border-color: rgb(var(--c-primary));
+  color: rgb(var(--c-on-primary));
+}
+.rm-node.available {
+  border-color: rgb(var(--c-on-surface));
+  background: rgb(var(--c-background));
+}
+.rm-node.locked {
+  border-color: rgb(var(--c-outline));
+  background: rgb(var(--c-surface-container-high));
+  color: rgb(var(--c-outline));
+}
+.rm-node.locked .rm-label { color: rgb(var(--c-on-surface-variant)); }
+
+.rm-node.current {
+  width: 56px;
+  height: 56px;
+  border: 3px solid rgb(var(--c-on-surface));
+  background: rgb(var(--c-secondary-container));
+  color: rgb(var(--c-on-secondary));
+  box-shadow: 0 0 0 5px rgb(var(--c-secondary) / 0.35), 0 0 28px rgb(var(--c-secondary) / 0.5);
+}
+.rm-node.current .material-symbols-outlined { font-size: 28px; }
+
+.rm-here {
+  position: absolute;
+  bottom: calc(100% + var(--space-4));
+  left: 50%;
+  transform: translateX(-50%);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  background: rgb(var(--c-secondary));
+  color: rgb(var(--c-on-secondary));
+  font-size: var(--fs-body);
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* Boss Fight: a shield instead of a circle */
+.rm-node.boss {
+  width: 56px;
+  height: 56px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+.rm-node.boss .shield { font-size: 56px; color: rgb(var(--c-amber)); }
+.rm-node.boss.locked .shield { color: rgb(var(--c-outline)); }
+.rm-node.boss .boss-check {
+  position: absolute;
+  font-size: 28px;
+  color: rgb(var(--c-background));
+}
+
+/* Summit: flag with a glow behind it, label above */
+.rm-node.summit {
+  width: 72px;
+  height: 72px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+.rm-node.summit .summit-flag { font-size: 72px; color: rgb(var(--c-amber)); }
+.rm-node.summit .rm-label {
+  top: auto;
+  bottom: calc(100% + var(--space-2));
+  font-family: var(--font-heading);
+  font-size: var(--fs-lead);
+  font-weight: 600;
+  color: rgb(var(--c-amber));
+}
+
+/* ---------- Popover (selected stage) ---------- */
+.rm-popover {
+  position: absolute;
+  z-index: 3;
+  top: 3%;
+  right: 2%;
+  width: 24%;
+  min-width: 270px;
+  max-width: 340px;
+  padding: var(--space-5);
+  border: 1px solid rgb(var(--c-secondary) / 0.7);
+  border-radius: var(--radius-xl);
+  background: rgb(var(--c-surface-container-lowest) / 0.94);
+  box-shadow: var(--shadow-lg);
+}
+.rm-kicker {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: rgb(var(--c-secondary));
+}
+.rm-title {
+  margin: var(--space-2) 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-tight);
+  color: rgb(var(--c-on-surface));
+}
+.rm-text {
+  margin-bottom: var(--space-4);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-relaxed);
+  color: rgb(var(--c-on-surface-variant));
+}
+.rm-cta { width: 100%; justify-content: center; }
+.rm-cta[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+
+/* ---------- Locked tooltip ---------- */
+.rm-tip {
+  position: absolute;
+  z-index: 3;
+  left: 2%;
+  bottom: 4%;
+  max-width: 300px;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgb(var(--c-outline-variant));
+  border-radius: var(--radius-lg);
+  background: rgb(var(--c-surface-container-lowest) / 0.95);
+  font-size: var(--fs-body-sm);
+  line-height: var(--lh-relaxed);
+  color: rgb(var(--c-on-surface-variant));
+}
+.rm-tip strong { display: block; color: rgb(var(--c-on-surface)); }
+
+/* ---------- Legend ---------- */
+.rm-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-4);
+  font-size: var(--fs-body-sm);
+  color: rgb(var(--c-on-surface-variant));
+}
+.rm-legend-item { display: inline-flex; align-items: center; gap: var(--space-2); }
+.rm-legend .material-symbols-outlined { font-size: 20px; }
+.rm-legend .done   { color: rgb(var(--c-primary)); }
+.rm-legend .here   { color: rgb(var(--c-secondary)); }
+.rm-legend .ready  { color: rgb(var(--c-on-surface)); }
+.rm-legend .locked { color: rgb(var(--c-outline)); }
+.rm-legend .amber  { color: rgb(var(--c-amber)); }
+
+/* ---------- Motion preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .rm-node { transition: none; }
+}

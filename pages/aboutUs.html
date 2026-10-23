@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About · Code Everest</title>
+  <meta name="description" content="Code Everest is a self-learning programming platform with a personal roadmap, an AI tutor and practice at every step.">
+
+  <!-- Change these paths to match your project folders -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+
+  <div id="prog"></div>
+
+  <!-- PASTE THE PUBLIC HEADER HERE (<header id="siteHeader"> ... </header>).
+       This page is public, so use the same header as the Landing page. -->
+
+  <main class="page-offset">
+
+    <!-- ========== HERO ========== -->
+    <section class="section">
+      <div class="container center gap-6">
+        <span class="pill rv">About Code Everest</span>
+        <h1 class="h1 rv">Learn to code,<br><span class="grad">one step at a time</span></h1>
+        <p class="lead narrow rv">Code Everest helps you learn programming on your own. You get a plan made for you, lessons and practice at every step, and an AI tutor who is there when you get stuck.</p>
+        <div class="row wrap gap-3 rv">
+          <a class="btn btn-primary btn-lg" href="signup.html">Get started</a>
+          <a class="btn btn-secondary btn-lg" href="#how">See how it works</a>
+        </div>
+
+        <!-- Mountain drawing: colors come from the .text-* classes through currentColor -->
+        <svg class="float" viewBox="0 0 400 320" width="360" aria-hidden="true">
+          <polygon class="text-outline" fill="currentColor" opacity="0.15" points="0,320 90,170 170,260 250,150 400,320"/>
+          <polygon class="text-outline" fill="currentColor" opacity="0.35" points="40,320 200,50 360,320"/>
+          <polygon class="text-main" fill="currentColor" points="200,50 160,120 185,110 200,130 218,110 240,120"/>
+          <path class="text-secondary" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="0.1 10" d="M70 300 C 140 290, 120 250, 190 240 S 270 200, 220 170 S 215 130, 200 95"/>
+          <circle class="text-primary" fill="currentColor" cx="70" cy="300" r="7"/>
+          <circle class="text-primary" fill="currentColor" cx="190" cy="240" r="7"/>
+          <circle class="text-secondary" fill="currentColor" cx="220" cy="170" r="10"/>
+          <line class="text-muted" stroke="currentColor" stroke-width="3" stroke-linecap="round" x1="200" y1="50" x2="200" y2="10"/>
+          <polygon class="text-tertiary" fill="currentColor" points="200,10 234,22 200,34"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ========== WHY ========== -->
+    <section class="section">
+      <div class="container stack gap-10">
+        <div class="center gap-3 narrow rv">
+          <span class="pill pill-secondary">Why we built it</span>
+          <h2 class="h2">Starting to code can feel like a lot</h2>
+          <p class="lead">Many beginners want to learn programming but do not know where to begin or how to keep going. Code Everest is made to help with exactly that.</p>
+        </div>
+
+        <div class="grid grid-auto gap-5">
+          <article class="card rv">
+            <div class="card-icon"><span class="material-symbols-outlined">explore</span></div>
+            <h3 class="card-title">Too many places to start</h3>
+            <p class="card-text">There are endless tutorials, and it is hard to know which one fits you. Code Everest gives you one clear path to follow.</p>
+          </article>
+          <article class="card rv">
+            <div class="card-icon secondary"><span class="material-symbols-outlined">help</span></div>
+            <h3 class="card-title">Not sure where you stand</h3>
+            <p class="card-text">It is easy to skip ahead or repeat things you already know. A short placement test suggests the right starting level for you.</p>
+          </article>
+          <article class="card rv">
+            <div class="card-icon tertiary"><span class="material-symbols-outlined">support_agent</span></div>
+            <h3 class="card-title">Stuck with no one to ask</h3>
+            <p class="card-text">When your code does not work, giving up is easy. The AI tutor explains ideas and errors and gives hints while you learn.</p>
+          </article>
+          <article class="card rv">
+            <div class="card-icon"><span class="material-symbols-outlined">trending_up</span></div>
+            <h3 class="card-title">Hard to keep going</h3>
+            <p class="card-text">Progress is easier to keep up when you can see it. Your roadmap shows where you are, what you finished and what comes next.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== HOW IT WORKS ========== -->
+    <section class="section" id="how">
+      <div class="container stack gap-10">
+        <div class="center gap-3 narrow rv">
+          <span class="pill pill-tertiary">How you learn</span>
+          <h2 class="h2">Your climb, step by step</h2>
+          <p class="lead">Every learner follows the same simple route, with a plan that fits their own level and schedule.</p>
+        </div>
+
+        <ol class="grid grid-auto gap-5">
+          <li class="card rv">
+            <span class="fc text-primary">01</span>
+            <h3 class="card-title">Choose your path</h3>
+            <p class="card-text">Pick the programming path you want to learn.</p>
+          </li>
+          <li class="card rv">
+            <span class="fc text-primary">02</span>
+            <h3 class="card-title">Take a short placement test</h3>
+            <p class="card-text">The test estimates what you already know, so you start at the right level.</p>
+          </li>
+          <li class="card rv">
+            <span class="fc text-primary">03</span>
+            <h3 class="card-title">Get your roadmap</h3>
+            <p class="card-text">See your plan as a mountain trail built around your study days. Each flag is a stage, and the next one opens when you finish the current one.</p>
+          </li>
+          <li class="card rv">
+            <span class="fc text-primary">04</span>
+            <h3 class="card-title">Learn and practice</h3>
+            <p class="card-text">Read lessons, take quizzes and solve coding challenges, with the AI tutor close by.</p>
+          </li>
+          <li class="card rv">
+            <span class="fc text-primary">05</span>
+            <h3 class="card-title">Beat the Boss Fight</h3>
+            <p class="card-text">Each unit ends with a Boss Fight, a bigger challenge or small project that shows what you have learned.</p>
+          </li>
+          <li class="card rv">
+            <span class="fc text-primary">06</span>
+            <h3 class="card-title">Earn your certificate</h3>
+            <p class="card-text">Finish a learning path and you can get a certificate to show your work.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ========== FEATURES ========== -->
+    <section class="section">
+      <div class="container stack gap-10">
+        <div class="center gap-3 narrow rv">
+          <span class="pill">Main features</span>
+          <h2 class="h2">Everything you need in one place</h2>
+        </div>
+
+        <div class="grid grid-auto gap-5">
+          <article class="card spot rv">
+            <div class="card-icon"><span class="material-symbols-outlined">route</span></div>
+            <h3 class="card-title">Personal roadmap</h3>
+            <p class="card-text">A visual trail made from your path, level and schedule. It always shows your current stage and what to do next.</p>
+          </article>
+          <article class="card spot rv">
+            <div class="card-icon secondary"><span class="material-symbols-outlined">menu_book</span></div>
+            <h3 class="card-title">Lessons and quizzes</h3>
+            <p class="card-text">Clear lessons with examples, followed by quizzes that give you a score and feedback.</p>
+          </article>
+          <article class="card spot rv">
+            <div class="card-icon tertiary"><span class="material-symbols-outlined">code</span></div>
+            <h3 class="card-title">Coding challenges</h3>
+            <p class="card-text">Write and run code in the built-in editor and see right away if it passes the tests.</p>
+          </article>
+          <article class="card spot rv">
+            <div class="card-icon"><span class="material-symbols-outlined">smart_toy</span></div>
+            <h3 class="card-title">AI tutor</h3>
+            <p class="card-text">Ask questions in plain words, get explanations and hints, and learn from feedback on your own code.</p>
+          </article>
+          <article class="card spot rv">
+            <div class="card-icon secondary"><span class="material-symbols-outlined">insights</span></div>
+            <h3 class="card-title">Learning that adapts</h3>
+            <p class="card-text">Code Everest notices your strengths and weak spots and suggests what to practice or review next.</p>
+          </article>
+          <article class="card spot rv">
+            <div class="card-icon tertiary"><span class="material-symbols-outlined">workspace_premium</span></div>
+            <h3 class="card-title">Achievements and certificates</h3>
+            <p class="card-text">Collect achievements along the way and get a certificate when you complete a path.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== AI TUTOR ========== -->
+    <section class="section">
+      <div class="container">
+        <div class="panel stack gap-6 rv">
+          <div class="stack gap-3">
+            <span class="pill pill-secondary">Your AI tutor</span>
+            <h2 class="h2">Help that teaches, not just answers</h2>
+            <p class="lead">The tutor is built to help you learn, so it guides you instead of doing the work for you.</p>
+          </div>
+          <ul class="stack gap-4">
+            <li class="row gap-3"><span class="material-symbols-outlined filled text-primary">check_circle</span>Answers programming questions and explains ideas in simple words</li>
+            <li class="row gap-3"><span class="material-symbols-outlined filled text-primary">check_circle</span>Gives hints without showing the full solution</li>
+            <li class="row gap-3"><span class="material-symbols-outlined filled text-primary">check_circle</span>Explains error messages and gives feedback on your code</li>
+            <li class="row gap-3"><span class="material-symbols-outlined filled text-primary">check_circle</span>Tells you when it cannot answer reliably</li>
+          </ul>
+          <p class="fs text-muted">The AI tutor is here to help you learn. It is not a guarantee, so double-check important answers with your lessons.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== WHO USES IT ========== -->
+    <section class="section">
+      <div class="container stack gap-10">
+        <div class="center gap-3 narrow rv">
+          <span class="pill pill-tertiary">Who it is for</span>
+          <h2 class="h2">Made for learners, and the people behind the lessons</h2>
+        </div>
+
+        <div class="grid grid-auto gap-5">
+          <article class="card rv">
+            <div class="card-icon"><span class="material-symbols-outlined">school</span></div>
+            <h3 class="card-title">Students</h3>
+            <p class="card-text">Learn at your own pace with a plan, practice and support whenever you study.</p>
+          </article>
+          <article class="card rv">
+            <div class="card-icon secondary"><span class="material-symbols-outlined">edit_note</span></div>
+            <h3 class="card-title">Content Authors</h3>
+            <p class="card-text">Create, organize and publish learning paths, lessons, quizzes and challenges.</p>
+          </article>
+          <article class="card rv">
+            <div class="card-icon tertiary"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+            <h3 class="card-title">Administrators</h3>
+            <p class="card-text">Manage users and roles, follow learning statistics and export reports.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TEAM ========== -->
+    <section class="section">
+      <div class="container stack gap-10">
+        <div class="center gap-3 narrow rv">
+          <span class="pill">The team</span>
+          <h2 class="h2">Built by five students</h2>
+          <p class="lead">Code Everest is our Software Engineering project.</p>
+        </div>
+
+        <div class="grid grid-auto gap-4">
+          <div class="card row gap-3 rv"><span class="avatar">SB</span><span class="fh">Salma Atef Bakry</span></div>
+          <div class="card row gap-3 rv"><span class="avatar">FM</span><span class="fh">Fatma Maged Mohammed</span></div>
+          <div class="card row gap-3 rv"><span class="avatar">SE</span><span class="fh">Salma Magdy Elsayed</span></div>
+          <div class="card row gap-3 rv"><span class="avatar">MM</span><span class="fh">Malak Emad Abdel Mohsen</span></div>
+          <div class="card row gap-3 rv"><span class="avatar">RF</span><span class="fh">Razan Ismail Fawzy</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CALL TO ACTION ========== -->
+    <section class="section">
+      <div class="container">
+        <div class="panel center gap-4 rv">
+          <h2 class="h2">Ready to start <span class="grad">climbing</span>?</h2>
+          <p class="lead narrow">Create your account and take the placement test. Your roadmap will be waiting.</p>
+          <div class="row wrap gap-3">
+            <a class="btn btn-primary btn-lg" href="signup.html">Create an account</a>
+            <a class="btn btn-ghost btn-lg" href="login.html">Log in</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- PASTE THE FOOTER HERE (<footer class="site-footer"> ... </footer>) -->
+
+  <script src="../js/common.js"></script>  <!-- change path to match your project -->
+</body>
+</html>
