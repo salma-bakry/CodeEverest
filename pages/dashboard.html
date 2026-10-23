@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Code Everest</title>
+
+  <!-- Load order: variables, global, components, extras (page sits in a folder next to css/ and js/) -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/extras.css">
+</head>
+<body>
+  <div id="prog"></div>
+
+  <!-- ===== Student header ===== -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a href="dashboard.html" class="logo" aria-label="Code Everest home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(var(--c-primary))"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/><path d="M21 13l-2.2 3.8 1.6 1 .6-.8 1 1.2 1.6-1.2z" fill="#fff" opacity=".8"/></svg>
+        <span class="logo-text">Code <span>Everest</span></span>
+      </a>
+
+      <nav class="nav" aria-label="Main">
+        <a class="nl on" href="dashboard.html" aria-current="page">Dashboard</a>
+        <a class="nl" href="my-roadmap.html">My Roadmap</a>
+        <a class="nl" href="learning-workspace.html">Learning Workspace</a>
+        <a class="nl" href="coding-playground.html">Coding Playground</a>
+        <a class="nl" href="my-progress.html">My Progress</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="stat-pill" title="Current streak">
+          <span><span class="material-symbols-outlined text-tertiary">local_fire_department</span><b data-bind="streakDays"></b> days</span>
+        </div>
+        <span class="header-divider"></span>
+
+        <span data-level-badge="small"></span>
+
+        <div class="menu-wrap">
+          <button class="avatar" id="avatarBtn" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" data-bind="initial"></button>
+          <div class="menu" id="userMenu">
+            <div class="menu-label" data-bind="name"></div>
+            <a class="menu-item" href="my-profile.html"><span class="material-symbols-outlined">person</span>My Profile</a>
+            <button class="menu-item danger" type="button" data-logout><span class="material-symbols-outlined">logout</span>Log out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Page ===== -->
+  <main class="page-offset">
+    <div class="container dash-page">
+
+      <!-- Welcome -->
+      <section class="page-head rv">
+        <div class="stack gap-2">
+          <h1 class="h2">Welcome back, <span data-bind="name"></span></h1>
+          <p class="text-muted">You are on <b class="text-main" data-bind="currentStageText"></b> of your <span data-bind="pathName"></span> path.</p>
+        </div>
+        <div class="row gap-3 wrap">
+          <a class="btn btn-secondary" href="my-roadmap.html"><span class="material-symbols-outlined">landscape</span>View roadmap</a>
+          <a class="btn btn-primary" href="learning-workspace.html"><span class="material-symbols-outlined">play_arrow</span>Continue learning</a>
+        </div>
+      </section>
+
+      <!-- Quick numbers -->
+      <section class="cols-3 rv" aria-label="Learning summary">
+        <article class="card stat-card">
+          <span class="card-icon"><span class="material-symbols-outlined">menu_book</span></span>
+          <div>
+            <div class="stat-value"><span data-bind="lessonsDone"></span><small> of <span data-bind="lessonsTotal"></span></small></div>
+            <div class="stat-label">Lessons completed</div>
+          </div>
+        </article>
+        <article class="card stat-card">
+          <span class="card-icon secondary"><span class="material-symbols-outlined">flag</span></span>
+          <div>
+            <div class="stat-value"><span data-bind="stagesDone"></span><small> of <span data-bind="stagesTotal"></span></small></div>
+            <div class="stat-label">Stages completed</div>
+          </div>
+        </article>
+        <article class="card stat-card">
+          <span class="card-icon tertiary"><span class="material-symbols-outlined">quiz</span></span>
+          <div>
+            <div class="stat-value"><span data-bind="quizAvg"></span><small>%</small></div>
+            <div class="stat-label">Average quiz score</div>
+          </div>
+        </article>
+      </section>
+
+      <div class="dash-grid">
+
+        <!-- ===== Left column ===== -->
+        <div class="dash-col">
+
+          <!-- Recommended next lesson -->
+          <section class="card next-lesson spot rv" aria-labelledby="nextTitle">
+            <span class="pill self-start">Recommended for you</span>
+            <div class="stack gap-2">
+              <h2 class="h3" id="nextTitle" data-bind="recTitle"></h2>
+              <div class="meta-row">
+                <span><span class="material-symbols-outlined">flag</span><span data-bind="recStage"></span></span>
+                <span><span class="material-symbols-outlined">schedule</span><span data-bind="recTime"></span></span>
+              </div>
+            </div>
+            <div class="panel why-panel">
+              <span class="fs text-muted" data-bind="recReason"></span>
+            </div>
+            <div class="row gap-3 wrap">
+              <a class="btn btn-primary" id="startLesson" href="learning-workspace.html"><span class="material-symbols-outlined">play_arrow</span>Start lesson</a>
+            </div>
+            <div class="rec-list" id="recList" aria-label="More recommendations"></div>
+          </section>
+
+          <!-- Overall progress -->
+          <section class="card rv" aria-labelledby="progressTitle">
+            <div class="card-head">
+              <h2 class="card-title" id="progressTitle">Your progress</h2>
+              <a class="link-text" href="my-roadmap.html">Open roadmap</a>
+            </div>
+            <div class="stack gap-2">
+              <div class="row between">
+                <span class="fs text-muted">Overall progress</span>
+                <b class="text-primary"><span data-bind="overallPct"></span>%</b>
+              </div>
+              <div class="progress-track" id="overallTrack" role="progressbar" aria-label="Overall progress" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-fill" id="overallFill"></div>
+              </div>
+            </div>
+            <div class="stack gap-2">
+              <div class="row gap-2" id="stageSegs" aria-label="Stages"></div>
+              <span class="fs text-muted">Each bar is one stage on your roadmap. The glowing bar is where you are now.</span>
+            </div>
+          </section>
+
+          <!-- Achievements (brief) -->
+          <section class="card rv" aria-labelledby="achTitle">
+            <div class="card-head">
+              <h2 class="card-title" id="achTitle">Achievements</h2>
+              <a class="link-text" href="my-progress.html">See all</a>
+            </div>
+            <div class="cols-4" id="achievements"></div>
+          </section>
+        </div>
+
+        <!-- ===== Right column ===== -->
+        <div class="dash-col">
+
+          <!-- Daily goals -->
+          <section class="card rv" aria-labelledby="goalsTitle">
+            <h2 class="card-title" id="goalsTitle">Today's goals</h2>
+            <div class="row gap-4">
+              <div class="ring" id="goalRing" role="img" aria-label="Daily goals progress">
+                <div class="ring-text">
+                  <div class="ring-value" id="goalRingValue"></div>
+                  <div class="ring-sub">done</div>
+                </div>
+              </div>
+              <p class="card-text">Your goals follow the study time you chose when you got started. Tap a goal to mark it done.</p>
+            </div>
+            <div class="goal-list" id="goalList"></div>
+          </section>
+
+          <!-- Streak -->
+          <section class="card rv" aria-labelledby="streakTitle">
+            <div class="streak-head">
+              <span class="material-symbols-outlined filled streak-fire" aria-hidden="true">local_fire_department</span>
+              <div>
+                <h2 class="streak-count" id="streakTitle"><span data-bind="streakDays"></span> day streak</h2>
+                <div class="fs text-muted">Study a little every day to keep it going.</div>
+              </div>
+            </div>
+            <div class="week" id="week"></div>
+          </section>
+
+          <!-- Strengths and weaknesses (brief) -->
+          <section class="card rv" aria-labelledby="focusTitle">
+            <div class="card-head">
+              <h2 class="card-title" id="focusTitle">Topics to focus on</h2>
+              <a class="link-text" href="my-progress.html">Details</a>
+            </div>
+            <div class="stack gap-4" id="focusList"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-bottom footer-bottom-flat">
+        <span>&copy; 2026 Code Everest</span>
+        <div class="links"><a href="about.html">About</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/levelBadge.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

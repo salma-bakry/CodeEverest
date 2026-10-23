@@ -321,3 +321,7 @@ code.inline {
   .rv { opacity: 1; transform: none; }
   .line { opacity: 1; transform: none; }
 }
+
+/* ---------- Auto-fit card grid + narrow centered text (paste at the end of global.css) ---------- */
+.grid-auto { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }   /* use together with .grid */
+.narrow    { max-width: 660px; margin-inline: auto; }

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Roadmap · Code Everest</title>
+
+  <!-- Change these paths to match your project folders -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/roadmap.css">
+</head>
+<body>
+
+  <div id="prog"></div>
+
+   <header class="site-header" id="siteHeader">
+    <div class="header-inner">
+      <a href="dashboard.html" class="logo" aria-label="Code Everest home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(var(--c-primary))"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/><path d="M21 13l-2.2 3.8 1.6 1 .6-.8 1 1.2 1.6-1.2z" fill="#fff" opacity=".8"/></svg>
+        <span class="logo-text">Code <span>Everest</span></span>
+      </a>
+
+      <nav class="nav" aria-label="Main">
+        <a class="nl on" href="dashboard.html" aria-current="page">Dashboard</a>
+        <a class="nl" href="my-roadmap.html">My Roadmap</a>
+        <a class="nl" href="learning-workspace.html">Learning Workspace</a>
+        <a class="nl" href="coding-playground.html">Coding Playground</a>
+        <a class="nl" href="my-progress.html">My Progress</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="stat-pill" title="Current streak">
+          <span><span class="material-symbols-outlined text-tertiary">local_fire_department</span><b data-bind="streakDays"></b> days</span>
+        </div>
+        <span class="header-divider"></span>
+
+        <span data-level-badge="small"></span>
+
+        <div class="menu-wrap">
+          <button class="avatar" id="avatarBtn" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" data-bind="initial"></button>
+          <div class="menu" id="userMenu">
+            <div class="menu-label" data-bind="name"></div>
+            <a class="menu-item" href="my-profile.html"><span class="material-symbols-outlined">person</span>My Profile</a>
+            <button class="menu-item danger" type="button" data-logout><span class="material-symbols-outlined">logout</span>Log out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="page-offset">
+    <section class="section">
+      <div class="container">
+
+        <!-- Page title, level, progress bar etc. go here -->
+
+        <div class="rm-scroll">
+          <div class="rm-scene" id="rmScene">
+
+            <!-- Mountain + trail -->
+            <svg class="rm-svg" viewBox="0 0 1288 854" aria-hidden="true">
+              <defs>
+                <linearGradient id="rmMountain" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" class="rm-stop-top"/>
+                  <stop offset="1" class="rm-stop-bottom"/>
+                </linearGradient>
+                <radialGradient id="rmGlow">
+                  <stop offset="0" class="rm-glow-in"/>
+                  <stop offset="1" class="rm-glow-out"/>
+                </radialGradient>
+              </defs>
+
+              <circle cx="644" cy="105" r="175" fill="url(#rmGlow)"/>
+              <polygon class="rm-back" points="0,854 0,600 165,350 400,640 420,854"/>
+              <polygon class="rm-back" points="760,854 809,267 1000,500 1204,322 1288,420 1288,854"/>
+              <ellipse class="rm-cloud" cx="204" cy="334" rx="120" ry="19"/>
+              <ellipse class="rm-cloud" cx="376" cy="667" rx="150" ry="16"/>
+              <polygon class="rm-main" points="120,854 360,560 520,420 644,165 790,420 930,560 1130,854"/>
+              <polygon class="rm-shade" points="644,165 790,420 930,560 1130,854 660,854 690,500"/>
+              <polygon class="rm-snow" points="644,165 580,300 614,286 644,322 676,286 708,300"/>
+
+              <path id="rmTrailTodo" class="rm-trail-todo"/>
+              <path id="rmTrailGlow" class="rm-trail-glow"/>
+              <path id="rmTrailDone" class="rm-trail-done"/>
+            </svg>
+
+            <!-- Zone names -->
+            <div class="rm-zone" style="top: 10.3%">Summit ridge</div>
+            <div class="rm-zone" style="top: 33.7%">Snowline</div>
+            <div class="rm-zone" style="top: 55.6%">Rocky ascent</div>
+            <div class="rm-zone" style="top: 77.5%">Forest trail</div>
+            <div class="rm-zone" style="top: 97.1%">Base camp</div>
+
+            <!-- Nodes are added here by roadmap.js -->
+            <div class="rm-nodes" id="rmNodes"></div>
+
+            <!-- Selected stage -->
+            <div class="rm-popover" id="rmPopover">
+              <div class="rm-kicker" id="rmKicker"></div>
+              <h2 class="rm-title" id="rmTitle"></h2>
+              <p class="rm-text" id="rmText"></p>
+              <a class="btn btn-primary rm-cta" id="rmCta" href="#"></a>
+            </div>
+
+            <!-- Why a step is locked -->
+            <div class="rm-tip" id="rmTip" role="status">
+              <strong id="rmTipTitle"></strong>
+              <span id="rmTipText"></span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="rm-legend">
+          <span class="rm-legend-item"><span class="material-symbols-outlined filled done">check_circle</span>Completed</span>
+          <span class="rm-legend-item"><span class="material-symbols-outlined filled here">flag</span>You're here</span>
+          <span class="rm-legend-item"><span class="material-symbols-outlined ready">play_circle</span>Ready to start</span>
+          <span class="rm-legend-item"><span class="material-symbols-outlined locked">lock</span>Locked</span>
+          <span class="rm-legend-item"><span class="material-symbols-outlined filled amber">shield</span>Boss Fight</span>
+          <span class="rm-legend-item"><span class="material-symbols-outlined filled amber">flag</span>Summit</span>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/common.js"></script>  <!-- change path to match your project -->
+  <script src="../js/roadmap-data.js"></script>
+  <script src="../js/roadmap.js"></script>
+</body>
+</html>
