@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sign in · CodeEverest</title>
+<script>
+/* Apply saved theme before first paint (prevents a dark flash in light mode) */
+try{if(localStorage.getItem('sx-theme')==='light')document.documentElement.classList.remove('dark')}catch(e){}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<link href="../css/login.css" rel="stylesheet">
+
+</head><body>
+<div class="auth" id="auth">
+  <div class="divider" aria-hidden="true"><i></i></div>
+  <div class="spot" id="spot" aria-hidden="true"></div>
+
+  <!-- ================= LEFT: ART ================= -->
+  <aside class="auth-art">
+    <div class="hero-bg"></div>
+
+    <a class="brand" href="codeeverest.html">
+      <svg viewBox="0 0 32 32" width="32" height="32"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="#6ee7a8"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>
+      Code<b>Everest</b>
+    </a>
+
+    <div class="art-inner">
+      <div class="code-block">
+        <div class="code-head">
+          <div class="window-dots"><i></i><i></i><i></i></div>
+          <span>summit.py</span>
+          <span class="badge badge-brand">live</span>
+        </div>
+        <div class="code-body" id="typed"></div>
+      </div>
+
+      <h2 class="h1 aurora">Every summit starts with one line of code.</h2>
+      <p>Join 120,000+ learners climbing with an AI tutor beside them.</p>
+    </div>
+
+    <div class="art-status">
+      <span class="dot live"></span>
+      All systems operational · v2.4.1
+    </div>
+  </aside>
+
+  <!-- ================= RIGHT: FORM ================= -->
+  <main class="auth-form">
+    <div class="glow" style="top:-8rem;right:-6rem"></div>
+    <button class="btn btn-icon theme-btn" id="theme" type="button" aria-label="Toggle theme">
+      <span class="icon">light_mode</span>
+    </button>
+
+    <form class="auth-card reveal" id="f" novalidate>
+
+      <a class="brand m-brand" href="codeeverest.html">
+        <svg viewBox="0 0 32 32" width="28" height="28"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="#047857"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>
+        Code<b>Everest</b>
+      </a>
+
+      <div class="auth-head">
+        <span class="eyebrow">Welcome back</span>
+        <h1 class="h1 aurora">Login in to your account</h1>
+        <p class="muted sub">Pick up right where you left off.</p>
+      </div>
+
+      <div class="social">
+        <button type="button" class="btn btn-secondary" data-p="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>
+          GitHub
+        </button>
+        <button type="button" class="btn btn-secondary" data-p="Google">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.5-.2-2.2H12v4.2h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.4z"/><path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3A11.5 11.5 0 0 0 12 23.5z"/><path fill="#FBBC05" d="M5.6 14.2a6.9 6.9 0 0 1 0-4.4v-3H1.8a11.5 11.5 0 0 0 0 10.4l3.8-3z"/><path fill="#EA4335" d="M12 5.4c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.8 6.8l3.8 3C6.5 7.4 9 5.4 12 5.4z"/></svg>
+          Google
+        </button>
+      </div>
+
+      <div class="or">or continue with email</div>
+
+      <div class="field">
+        <label class="label" for="email">Email</label>
+        <input class="input" id="email" type="email" placeholder="you@example.com"
+               autocomplete="off" autocapitalize="off" spellcheck="false">
+        <span class="err" id="e1"></span>
+      </div>
+
+      <div class="field">
+        <div class="row row-between" style="gap:.5rem">
+          <label class="label" for="pw">Password</label>
+          <a href="#" class="small link" id="forgot">Forgot password?</a>
+        </div>
+        <div class="pw">
+          <input class="input" id="pw" type="password" placeholder="••••••••" autocomplete="current-password">
+          <button type="button" class="btn btn-icon" id="eye" aria-label="Show password">
+            <span class="icon">visibility</span>
+          </button>
+        </div>
+        <span class="err" id="e2"></span>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" checked>
+        <span class="muted small">Keep me signed in for 30 days</span>
+      </label>
+
+      <button class="btn btn-primary btn-lg btn-block btn-shine" id="go">
+        <span id="lbl">Sign in</span>
+        <span class="icon" id="ico">arrow_forward</span>
+      </button>
+
+      <p class="center muted small">
+        New to CodeEverest?
+        <a href="signup.html" class="link">Create an account</a>
+      </p>
+    </form>
+  </main>
+</div>
+
+<div class="toast" id="toast">
+  <span class="icon" id="ti" style="color:rgb(var(--c-brand))">check_circle</span>
+  <span id="tm"></span>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+
+/* ---- theme ---- */
+const root=document.documentElement,themeIcon=$('#theme .icon');
+const syncIcon=()=>themeIcon.textContent=root.classList.contains('dark')?'light_mode':'dark_mode';
+syncIcon();
+$('#theme').onclick=()=>{
+  root.classList.toggle('dark');
+  try{localStorage.setItem('sx-theme',root.classList.contains('dark')?'dark':'light')}catch(e){}
+  syncIcon();
+};
+
+/* ---- toast ---- */
+let tt;
+const toast=(m,i='check_circle')=>{
+  $('#tm').textContent=m;
+  $('#ti').textContent=i;
+  $('#toast').classList.add('show');
+  clearTimeout(tt);
+  tt=setTimeout(()=>$('#toast').classList.remove('show'),2400);
+};
+
+/* ---- typed code ---- */
+const code=[
+  '<span class="c"># Your first step</span>',
+  '<span class="k">def</span> <span class="f">climb</span>(step):',
+  '    <span class="k">return</span> step + 1',
+  '',
+  'print(climb(<span class="f">0</span>))  <span class="c"># 1</span>'
+];
+let ln=0;
+const typed=$('#typed');
+(function add(){
+  if(ln<code.length){
+    typed.innerHTML+=(ln?'\n':'')+code[ln++];
+    setTimeout(add,550);
+  }
+})();
+
+
+/* ---- spotlight follows the mouse (smoothed) ---- */
+(()=>{
+  const sp=$('#spot');
+  let tx=0,ty=0,cx=0,cy=0,raf=0;
+  const tick=()=>{
+    cx+=(tx-cx)*.18; cy+=(ty-cy)*.18;
+    sp.style.setProperty('--mx',cx.toFixed(1)+'px');
+    sp.style.setProperty('--my',cy.toFixed(1)+'px');
+    raf=(Math.abs(tx-cx)>.3||Math.abs(ty-cy)>.3)?requestAnimationFrame(tick):0;
+  };
+  addEventListener('mousemove',e=>{
+    if(!sp.classList.contains('on')){cx=tx=e.clientX;cy=ty=e.clientY;sp.classList.add('on')}
+    tx=e.clientX;ty=e.clientY;
+    if(!raf)raf=requestAnimationFrame(tick);
+  });
+  document.addEventListener('mouseleave',()=>sp.classList.remove('on'));
+})();
+
+/* ---- reveal ---- */
+requestAnimationFrame(()=>$('#f').classList.add('in'));
+
+/* ---- Enter in email jumps straight to password ---- */
+$('#email').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();$('#pw').focus()}
+});
+
+/* ---- password toggle ---- */
+$('#eye').onclick=()=>{
+  const show=$('#pw').type==='password';
+  $('#pw').type=show?'text':'password';
+  $('#eye .icon').textContent=show?'visibility_off':'visibility';
+};
+
+/* ---- validation + fake sign-in ---- */
+const bad=(id,eid,msg)=>{
+  $('#'+id).setAttribute('aria-invalid','true');
+  $('#'+eid).textContent=msg;
+};
+['email','pw'].forEach((id,i)=>{
+  $('#'+id).addEventListener('input',()=>{
+    $('#'+id).removeAttribute('aria-invalid');
+    $('#e'+(i+1)).textContent='';
+  });
+});
+$('#f').addEventListener('submit',e=>{
+  e.preventDefault();
+  let ok=true;
+  if(!/^\S+@\S+\.\S+$/.test($('#email').value)){bad('email','e1','Enter a valid email address.');ok=false}
+  if($('#pw').value.length<6){bad('pw','e2','Password must be at least 6 characters.');ok=false}
+  if(!ok){
+    const c=$('#f');
+    c.classList.remove('shake');
+    void c.offsetWidth;
+    c.classList.add('shake');
+    return;
+  }
+  const b=$('#go');
+  b.disabled=true;
+  $('#lbl').textContent='Signing in…';
+  $('#ico').textContent='progress_activity';
+  $('#ico').classList.add('spin');
+  setTimeout(()=>{
+    $('#ico').classList.remove('spin');
+    $('#ico').textContent='check';
+    $('#lbl').textContent='Welcome back!';
+    toast('Signed in. Redirecting to your dashboard…');
+    setTimeout(()=>{location.href='codeeverest-dashboard.html'},1200);
+  },1100);
+});
+document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>toast('Continuing with '+b.dataset.p+'…','link'));
+$('#forgot').onclick=e=>{e.preventDefault();toast('Password reset link sent (demo)','mail')};
+</script>
+</body></html>

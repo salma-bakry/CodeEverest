@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Create account · CodeEverest</title>
+<script>
+/* Apply saved theme before first paint (prevents a dark flash in light mode) */
+try{if(localStorage.getItem('sx-theme')==='light')document.documentElement.classList.remove('dark')}catch(e){}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+<link href="../css/signup.css" rel="stylesheet">
+<style>
+/* ===== CodeEverest Design System — plain CSS ===== */
+:root{
+  --font-body:Inter,system-ui,sans-serif; --font-head:'Plus Jakarta Sans',Inter,sans-serif; --font-mono:'JetBrains Mono',ui-monospace,monospace;
+  --fs-xs:.75rem; --fs-sm:.8125rem; --fs-md:.875rem; --fs-lg:1rem;
+  --fs-4xl:clamp(1.75rem,4vw,2.5rem);
+  --s-1:.25rem; --s-2:.5rem; --s-3:.75rem; --s-4:1rem; --s-5:1.25rem; --s-6:1.5rem; --s-8:2rem; --s-10:2.5rem;
+  --r-sm:.375rem; --r-md:.5rem; --r-lg:.75rem; --r-xl:1rem; --r-pill:9999px;
+  --ease:cubic-bezier(.2,.7,.2,1); --t-fast:.15s; --t-base:.25s; --t-slow:.7s;
+  --shadow-sm:0 1px 3px rgb(0 0 0/.12); --shadow-lg:0 20px 50px -12px rgb(0 0 0/.4);
+  --z-toast:70;
+}
+:root{
+  --c-bg:244 250 246;
+  --c-surface:255 255 255; --c-surface-2:235 245 239; --c-surface-3:255 255 255; --c-surface-4:227 239 232; --c-surface-5:211 227 217;
+  --c-text:18 28 23; --c-text-2:61 74 66; --c-text-3:100 114 105; --c-line:160 178 167;
+  --c-brand:4 120 87; --c-on-brand:255 255 255; --c-brand-strong:6 95 70;
+  --c-accent:15 118 110; --c-on-accent:255 255 255; --c-lime:77 124 15;
+  --c-warn:180 83 9; --c-danger:186 26 26; --c-ok:77 124 15;
+  color-scheme:light;
+}
+:root.dark{
+  --c-bg:13 21 18;
+  --c-surface:8 16 13; --c-surface-2:18 27 23; --c-surface-3:23 33 28; --c-surface-4:30 42 36; --c-surface-5:40 53 46;
+  --c-text:221 230 224; --c-text-2:188 202 193; --c-text-3:134 148 139; --c-line:61 74 66;
+  --c-brand:110 231 168; --c-on-brand:0 57 31; --c-brand-strong:76 214 143;
+  --c-accent:79 216 180; --c-on-accent:0 56 43; --c-lime:181 232 107;
+  --c-warn:251 191 36; --c-danger:255 180 171; --c-ok:181 232 107;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;min-height:100vh;background:rgb(var(--c-bg));color:rgb(var(--c-text));font:400 var(--fs-md)/1.6 var(--font-body);
+     -webkit-font-smoothing:antialiased;overscroll-behavior:none;transition:background-color var(--t-base),color var(--t-base)}
+h1,h2,p,ul{margin:0}ul{padding:0;list-style:none}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}button{background:none;border:0;padding:0;cursor:pointer}
+::-webkit-scrollbar{display:none}
+::selection{background:rgb(var(--c-brand)/.3)}
+.h1{font-family:var(--font-head);font-weight:700;letter-spacing:-.02em;line-height:1.15;font-size:var(--fs-4xl)}
+.eyebrow{font:600 var(--fs-xs)/1 var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:rgb(var(--c-accent))}
+.muted{color:rgb(var(--c-text-2))} .small{font-size:var(--fs-sm)} .center{text-align:center;margin-inline:auto}
+.icon{font-family:'Material Symbols Outlined';font-size:20px;line-height:1;vertical-align:middle;font-weight:400;font-style:normal}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s-2);height:2.5rem;padding:0 var(--s-5);border-radius:var(--r-md);
+  font:600 var(--fs-md)/1 var(--font-head);white-space:nowrap;transition:transform var(--t-fast),filter var(--t-fast),background var(--t-base),color var(--t-base),box-shadow var(--t-base)}
+.btn:active{transform:scale(.97)} .btn:disabled{opacity:.5;pointer-events:none}
+.btn-primary{background:rgb(var(--c-brand));color:rgb(var(--c-on-brand));box-shadow:var(--shadow-sm)}.btn-primary:hover{filter:brightness(1.1);transform:translateY(-2px)}
+.btn-secondary{background:rgb(var(--c-surface-4));border:1px solid rgb(var(--c-line)/.35)}.btn-secondary:hover{background:rgb(var(--c-surface-5))}
+.btn-lg{height:3rem;padding:0 var(--s-8);font-size:var(--fs-lg)} .btn-block{width:100%}
+.btn-icon{width:2.25rem;height:2.25rem;padding:0;color:rgb(var(--c-text-2))}.btn-icon:hover{background:rgb(var(--c-surface-4));color:rgb(var(--c-text))}
+.btn-shine{position:relative;overflow:hidden}
+.btn-shine::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgb(255 255 255/.35),transparent);animation:ce-sheen 3.5s infinite;pointer-events:none}
+
+.field{display:flex;flex-direction:column;gap:var(--s-1)} .label{font:600 var(--fs-sm)/1.2 var(--font-head)}
+.input{width:100%;padding:.6rem var(--s-4);border-radius:var(--r-md);background:rgb(var(--c-surface-3));border:1px solid rgb(var(--c-line)/.6);outline:0;font-size:var(--fs-md);transition:border-color var(--t-fast),box-shadow var(--t-fast)}
+.input::placeholder{color:rgb(var(--c-text-3))}
+.input:focus{border-color:rgb(var(--c-brand));box-shadow:0 0 0 3px rgb(var(--c-brand)/.2)}
+.input[aria-invalid=true]{border-color:rgb(var(--c-danger))}
+.check{display:inline-flex;align-items:flex-start;gap:var(--s-2);cursor:pointer}.check input{accent-color:rgb(var(--c-brand));width:1rem;height:1rem;margin-top:.2rem;flex:none}
+
+.brand{display:inline-flex;align-items:center;gap:var(--s-2);font:700 1.15rem/1 var(--font-head);letter-spacing:-.01em}.brand b{color:rgb(var(--c-brand));font-weight:700}
+.badge{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .65rem;border-radius:var(--r-pill);font:600 var(--fs-xs)/1.4 var(--font-mono);background:rgb(var(--c-surface-4));color:rgb(var(--c-text-2))}
+.badge-brand{background:rgb(var(--c-brand)/.15);color:rgb(var(--c-brand))}
+.dot{width:.5rem;height:.5rem;border-radius:50%;background:rgb(var(--c-ok));display:inline-block}.dot.live{animation:ce-pulse 2s infinite}
+.toast{position:fixed;right:var(--s-6);bottom:var(--s-6);z-index:var(--z-toast);display:flex;align-items:center;gap:var(--s-3);padding:.65rem var(--s-4);border-radius:var(--r-lg);
+  background:rgb(var(--c-surface-5));border:1px solid rgb(var(--c-line)/.5);box-shadow:var(--shadow-lg);transform:translateY(6rem);opacity:0;pointer-events:none;transition:var(--t-base) ease-out}
+.toast.show{transform:none;opacity:1}
+.hero-bg{position:absolute;inset:0;pointer-events:none;opacity:.25;background:var(--hero-image,none) center 35%/cover no-repeat;animation:ce-zoom 28s ease-in-out infinite alternate}
+.glow{position:absolute;width:24rem;height:24rem;border-radius:50%;filter:blur(64px);pointer-events:none;background:rgb(var(--c-brand)/.1);animation:ce-drift 14s ease-in-out infinite alternate}
+.code-block{border-radius:var(--r-lg);background:rgb(var(--c-surface));border:1px solid rgb(var(--c-line)/.5);overflow:hidden}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:var(--s-2) var(--s-4);background:rgb(var(--c-surface-2));font:var(--fs-xs)/1 var(--font-mono)}
+.code-body{padding:var(--s-4);font:.8rem/1.6 var(--font-mono);white-space:pre;overflow-x:auto}.code-body .k{color:rgb(var(--c-brand));font-weight:600}.code-body .f{color:rgb(var(--c-accent))}.code-body .c{color:rgb(var(--c-text-3));font-style:italic}
+.window-dots{display:flex;gap:.375rem}.window-dots i{width:.7rem;height:.7rem;border-radius:50%;background:rgb(var(--c-danger)/.8)}.window-dots i:nth-child(2){background:#f59e0b}.window-dots i:nth-child(3){background:rgb(var(--c-lime))}
+
+@keyframes ce-sheen{to{left:140%}} @keyframes ce-pulse{50%{opacity:.4}}
+@keyframes ce-zoom{to{transform:scale(1.12) translateY(-12px)}} @keyframes ce-drift{to{transform:translate(60px,40px) scale(1.15)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease)}.reveal.in{opacity:1;transform:none}
+.spin{animation:spin 1s linear infinite}
+:focus-visible{outline:2px solid rgb(var(--c-brand));outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+</style>
+<style>
+/* ===== Sign-up page layout (same rhythm as sign-in) ===== */
+:root{
+  --hero-image:url("https://commons.wikimedia.org/wiki/Special:FilePath/Namche.jpg?width=1600");
+  --pad:clamp(1.25rem,3.5vw,3rem);
+  --gap-1:.5rem; --gap-2:1.25rem; --gap-3:2rem;
+  --art-w:22rem; --form-w:22rem; --control-h:2.75rem;
+}
+html,body{height:100%;margin:0}
+body{overflow:hidden}
+.auth{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);height:100vh;height:100dvh;position:relative}
+
+/* Left art panel (themed) */
+.auth-art{
+  --art-bg:#0c1511; --art-fg:255 255 255;
+  --art-veil-top:rgb(12 21 17/.55); --art-veil-bot:rgb(12 21 17/.9);
+  --art-card:rgb(8 16 13/.75); --art-card-line:rgb(255 255 255/.12); --art-card-head:rgb(255 255 255/.06);
+  --art-brand:#6ee7a8;
+  position:relative;display:flex;flex-direction:column;padding:var(--pad);
+  background:var(--art-bg);color:rgb(var(--art-fg));overflow:hidden;min-height:0;
+}
+:root:not(.dark) .auth-art{
+  --art-bg:#e6f3ec; --art-fg:18 28 23;
+  --art-veil-top:rgb(238 247 242/.55); --art-veil-bot:rgb(230 243 236/.93);
+  --art-card:rgb(255 255 255/.85); --art-card-line:rgb(4 120 87/.25); --art-card-head:rgb(4 120 87/.08);
+  --art-brand:#047857;
+}
+.auth-art .hero-bg{opacity:.5}
+:root:not(.dark) .auth-art .hero-bg{opacity:.35}
+.auth-art::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,var(--art-veil-top),var(--art-veil-bot))}
+.auth-art>*{position:relative;z-index:1}
+.auth-art .brand{color:rgb(var(--art-fg));align-self:flex-start}
+.auth-art .brand b{color:var(--art-brand)}
+.auth-art .brand svg path:first-child{fill:var(--art-brand)}
+.auth-art .brand svg path:last-child{fill:#fff}
+.art-inner{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;width:100%;max-width:var(--art-w);gap:var(--gap-2);padding-block:var(--gap-3)}
+.art-inner .code-block{background:var(--art-card);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-color:var(--art-card-line);width:100%}
+.art-inner .code-head{background:var(--art-card-head);color:rgb(var(--art-fg)/.85)}
+.art-inner .h1{font-size:clamp(1.5rem,2.3vw,2rem);line-height:1.2;margin-top:var(--gap-1)}
+.perks{display:flex;flex-direction:column;gap:.75rem;color:rgb(var(--art-fg)/.75)}
+.perks li{display:flex;gap:.75rem;align-items:flex-start}
+.perks .icon{color:var(--art-brand);font-size:18px;margin-top:.2rem}
+#typed{min-height:8.5rem}
+.art-status{display:flex;align-items:center;gap:var(--gap-1);color:rgb(var(--art-fg)/.65);font-size:var(--fs-xs)}
+
+/* Right form panel */
+.auth-form{position:relative;display:flex;padding:var(--pad);padding-top:calc(var(--pad) + 1.5rem);overflow-y:auto;overflow-x:hidden;min-height:0}
+.theme-btn{position:absolute;top:1rem;right:1rem;z-index:2}
+.auth-card{position:relative;z-index:1;margin:auto;width:100%;max-width:var(--form-w);display:flex;flex-direction:column;gap:var(--gap-2)}
+.m-brand{display:none;align-self:flex-start;margin-bottom:var(--gap-1)}
+.auth-head{display:flex;flex-direction:column;gap:var(--gap-1)}
+.auth-head .h1{font-size:clamp(1.4rem,2.2vw,1.75rem);line-height:1.2}
+.social{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.social .btn{height:var(--control-h)}
+.or{display:flex;align-items:center;gap:.75rem;font:var(--fs-xs) var(--font-mono);color:rgb(var(--c-text-3));text-transform:uppercase;letter-spacing:.06em}
+.or::before,.or::after{content:"";flex:1;height:1px;background:rgb(var(--c-line)/.5)}
+.auth-card .field{gap:.375rem}
+.auth-card .input{height:var(--control-h);padding-block:0}
+.pw{position:relative}.pw .input{padding-right:2.8rem}
+.pw .btn-icon{position:absolute;right:.25rem;top:50%;transform:translateY(-50%)}
+.err{color:rgb(var(--c-danger));font-size:var(--fs-xs);line-height:1rem}.err:empty{display:none}
+.auth-card a.link{color:rgb(var(--c-brand));font-weight:600}
+.auth-card .btn-lg{height:3rem}
+
+/* Password strength meter */
+.meter{display:grid;grid-template-columns:repeat(4,1fr);gap:.25rem;margin-top:.25rem}
+.meter i{height:.25rem;border-radius:var(--r-pill);background:rgb(var(--c-surface-5));transition:background var(--t-base)}
+.meter[data-s="1"] i:nth-child(-n+1){background:rgb(var(--c-danger))}
+.meter[data-s="2"] i:nth-child(-n+2){background:rgb(var(--c-warn))}
+.meter[data-s="3"] i:nth-child(-n+3){background:rgb(var(--c-accent))}
+.meter[data-s="4"] i:nth-child(-n+4){background:rgb(var(--c-brand))}
+.meter-txt{font-size:var(--fs-xs);color:rgb(var(--c-text-3));line-height:1rem}
+.meter-txt:empty{display:none}
+
+.shake{animation:shake .4s}@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* Aurora text */
+.aurora{background:linear-gradient(100deg,#34d399 0%,#6ee7a8 25%,#a3e635 50%,#4ade80 75%,#34d399 100%);background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:aurora 8s ease-in-out infinite,auroraGlow 4s ease-in-out infinite alternate}
+:root:not(.dark) .aurora{background-image:linear-gradient(100deg,#047857 0%,#059669 30%,#3f6b0d 60%,#065f46 100%);animation:aurora 8s ease-in-out infinite}
+@keyframes aurora{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes auroraGlow{from{filter:drop-shadow(0 0 6px rgb(52 211 153/.3))}to{filter:drop-shadow(0 0 18px rgb(110 231 168/.45))}}
+
+/* Aurora seam divider */
+.divider{position:absolute;top:0;bottom:0;left:50%;width:14rem;transform:translateX(-50%);z-index:5;pointer-events:none;--seam-fade:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%)}
+.divider::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0%,rgb(52 211 153/.03) 18%,rgb(52 211 153/.09) 36%,rgb(110 231 168/.17) 50%,rgb(52 211 153/.09) 64%,rgb(52 211 153/.03) 82%,transparent 100%);-webkit-mask-image:var(--seam-fade);mask-image:var(--seam-fade);animation:seamBreathe 5s ease-in-out infinite alternate}
+.divider::after{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-50%);background:linear-gradient(180deg,#34d399,#6ee7a8,#a3e635,#4ade80,#2dd4bf,#34d399);background-size:100% 400%;-webkit-mask-image:var(--seam-fade);mask-image:var(--seam-fade);filter:drop-shadow(0 0 5px rgb(52 211 153/.75)) drop-shadow(0 0 14px rgb(52 211 153/.4));animation:seamFlow 8s linear infinite}
+.divider i{position:absolute;left:50%;top:0;width:3px;height:22%;transform:translateX(-50%);background:linear-gradient(180deg,transparent,rgb(200 255 225/.95),transparent);filter:blur(1.5px) drop-shadow(0 0 8px rgb(110 231 168/.9));animation:seamTravel 5.5s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes seamFlow{to{background-position:0 400%}}
+@keyframes seamBreathe{from{opacity:.55}to{opacity:1}}
+@keyframes seamTravel{0%{top:-22%;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
+:root:not(.dark) .divider::before{background:linear-gradient(90deg,transparent 0%,rgb(4 120 87/.02) 18%,rgb(4 120 87/.06) 36%,rgb(5 150 105/.11) 50%,rgb(4 120 87/.06) 64%,rgb(4 120 87/.02) 82%,transparent 100%)}
+:root:not(.dark) .divider::after{background-image:linear-gradient(180deg,#047857,#059669,#4d7c0f,#0f766e,#047857);filter:drop-shadow(0 0 4px rgb(4 120 87/.45))}
+:root:not(.dark) .divider i{background:linear-gradient(180deg,transparent,rgb(4 120 87/.9),transparent);filter:blur(1.5px) drop-shadow(0 0 6px rgb(4 120 87/.6))}
+
+/* Mouse spotlight */
+.spot{position:fixed;left:0;top:0;width:26rem;height:26rem;margin:-16rem 0 0 -16rem;transform:translate3d(var(--mx,-999px),var(--my,-999px),0);
+  background:radial-gradient(closest-side,rgb(110 231 168/.13) 0%,rgb(110 231 168/.115) 12%,rgb(90 225 160/.09) 26%,rgb(70 218 150/.06) 42%,rgb(52 211 153/.032) 58%,rgb(52 211 153/.012) 76%,rgb(52 211 153/.003) 90%,rgb(52 211 153/0) 100%);
+  pointer-events:none;z-index:4;opacity:0;transition:opacity .5s;will-change:transform}
+.spot.on{opacity:1}
+:root:not(.dark) .spot{background:radial-gradient(closest-side,rgb(5 150 105/.10) 0%,rgb(5 150 105/.09) 12%,rgb(5 150 105/.07) 26%,rgb(5 150 105/.045) 42%,rgb(5 150 105/.024) 58%,rgb(5 150 105/.009) 76%,rgb(5 150 105/.002) 90%,rgb(5 150 105/0) 100%)}
+
+/* Social hover */
+.social .btn{transition:transform var(--t-fast),background var(--t-base),border-color var(--t-base),color var(--t-base),box-shadow var(--t-base)}
+.social .btn:hover{transform:translateY(-2px)}
+.social .btn[data-p="GitHub"]:hover{background:rgb(var(--c-brand)/.15);border-color:rgb(var(--c-brand));color:rgb(var(--c-brand));box-shadow:0 6px 18px -8px rgb(var(--c-brand)/.6)}
+.social .btn[data-p="Google"]:hover{border-color:transparent;background:linear-gradient(rgb(var(--c-surface-5)),rgb(var(--c-surface-5))) padding-box,linear-gradient(90deg,#4285F4,#EA4335,#FBBC05,#34A853) border-box;box-shadow:0 6px 18px -8px rgb(66 133 244/.6)}
+
+/* Responsive */
+@media(max-height:820px){:root{--gap-2:1rem;--gap-3:1rem}.perks{display:none}}
+@media(max-height:720px){.auth-head .sub{display:none}}
+@media(max-width:900px){.auth{grid-template-columns:1fr}.auth-art,.divider{display:none}.m-brand{display:inline-flex}}
+</style>
+</head><body>
+<div class="auth" id="auth">
+  <div class="divider" aria-hidden="true"><i></i></div>
+  <div class="spot" id="spot" aria-hidden="true"></div>
+
+  <!-- LEFT: ART -->
+  <aside class="auth-art">
+    <div class="hero-bg"></div>
+    <a class="brand" href="codeeverest.html">
+      <svg viewBox="0 0 32 32" width="32" height="32"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="#6ee7a8"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>
+      Code<b>Everest</b>
+    </a>
+
+    <div class="art-inner">
+      <div class="code-block">
+        <div class="code-head">
+          <div class="window-dots"><i></i><i></i><i></i></div>
+          <span>basecamp.py</span>
+          <span class="badge badge-brand">new</span>
+        </div>
+        <div class="code-body" id="typed"></div>
+      </div>
+      <h2 class="h1 aurora">Start your climb in under a minute.</h2>
+      <ul class="perks">
+        <li><span class="icon">check_circle</span>Free forever plan, no credit card</li>
+        <li><span class="icon">check_circle</span>AI tutor that explains every error</li>
+        <li><span class="icon">check_circle</span>Guided paths from first line to first job</li>
+      </ul>
+    </div>
+
+    <div class="art-status"><span class="dot live"></span>All systems operational · v2.4.1</div>
+  </aside>
+
+  <!-- RIGHT: FORM -->
+  <main class="auth-form">
+    <div class="glow" style="top:-8rem;right:-6rem"></div>
+    <button class="btn btn-icon theme-btn" id="theme" type="button" aria-label="Toggle theme"><span class="icon">light_mode</span></button>
+
+    <form class="auth-card reveal" id="f" novalidate>
+      <a class="brand m-brand" href="codeeverest.html">
+        <svg viewBox="0 0 32 32" width="28" height="28"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="#047857"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>
+        Code<b>Everest</b>
+      </a>
+
+      <div class="auth-head">
+        <span class="eyebrow">Get started</span>
+        <h1 class="h1 aurora">Create your account</h1>
+        <p class="muted sub">Join 120,000+ learners. It takes less than a minute.</p>
+      </div>
+
+      <div class="social">
+        <button type="button" class="btn btn-secondary" data-p="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.4 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5z"/></svg>
+          GitHub
+        </button>
+        <button type="button" class="btn btn-secondary" data-p="Google">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.5-.2-2.2H12v4.2h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.4z"/><path fill="#34A853" d="M12 23.5c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3A11.5 11.5 0 0 0 12 23.5z"/><path fill="#FBBC05" d="M5.6 14.2a6.9 6.9 0 0 1 0-4.4v-3H1.8a11.5 11.5 0 0 0 0 10.4l3.8-3z"/><path fill="#EA4335" d="M12 5.4c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.5 11.5 0 0 0 1.8 6.8l3.8 3C6.5 7.4 9 5.4 12 5.4z"/></svg>
+          Google
+        </button>
+      </div>
+
+      <div class="or">or sign up with email</div>
+
+      <div class="field">
+        <label class="label" for="name">Full name</label>
+        <input class="input" id="name" type="text" placeholder="Ada Lovelace" autocomplete="name">
+        <span class="err" id="e0"></span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="email">Email</label>
+        <input class="input" id="email" type="email" placeholder="you@example.com" autocomplete="email" autocapitalize="off" spellcheck="false">
+        <span class="err" id="e1"></span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="pw">Password</label>
+        <div class="pw">
+          <input class="input" id="pw" type="password" placeholder="At least 8 characters" autocomplete="new-password">
+          <button type="button" class="btn btn-icon" id="eye" aria-label="Show password"><span class="icon">visibility</span></button>
+        </div>
+        <div class="meter" id="meter" data-s="0"><i></i><i></i><i></i><i></i></div>
+        <span class="meter-txt" id="mt"></span>
+        <span class="err" id="e2"></span>
+      </div>
+
+      <div class="field">
+        <label class="label" for="pw2">Confirm password</label>
+        <input class="input" id="pw2" type="password" placeholder="Repeat your password" autocomplete="new-password">
+        <span class="err" id="e3"></span>
+      </div>
+
+      <div class="field">
+        <label class="check">
+          <input type="checkbox" id="terms">
+          <span class="muted small">I agree to the <a href="#" class="link">Terms</a> and <a href="#" class="link">Privacy Policy</a></span>
+        </label>
+        <span class="err" id="e4"></span>
+      </div>
+
+      <button class="btn btn-primary btn-lg btn-block btn-shine" id="go">
+        <span id="lbl">Create account</span>
+        <span class="icon" id="ico">arrow_forward</span>
+      </button>
+
+      <p class="center muted small">
+        Already have an account?
+        <a href="signin.html" class="link">Sign in</a>
+      </p>
+    </form>
+  </main>
+</div>
+
+<div class="toast" id="toast">
+  <span class="icon" id="ti" style="color:rgb(var(--c-brand))">check_circle</span>
+  <span id="tm"></span>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+
+/* theme */
+const root=document.documentElement,themeIcon=$('#theme .icon');
+const syncIcon=()=>themeIcon.textContent=root.classList.contains('dark')?'light_mode':'dark_mode';
+syncIcon();
+$('#theme').onclick=()=>{
+  root.classList.toggle('dark');
+  try{localStorage.setItem('sx-theme',root.classList.contains('dark')?'dark':'light')}catch(e){}
+  syncIcon();
+};
+
+/* toast */
+let tt;
+const toast=(m,i='check_circle')=>{
+  $('#tm').textContent=m;$('#ti').textContent=i;
+  $('#toast').classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>$('#toast').classList.remove('show'),2400);
+};
+
+/* typed code */
+const code=[
+  '<span class="c"># Welcome to basecamp</span>',
+  '<span class="k">class</span> <span class="f">Learner</span>:',
+  '    <span class="k">def</span> <span class="f">__init__</span>(self, name):',
+  '        self.name = name',
+  '',
+  'you = Learner(<span class="f">"you"</span>)  <span class="c"># ready</span>'
+];
+let ln=0;const typed=$('#typed');
+(function add(){if(ln<code.length){typed.innerHTML+=(ln?'\n':'')+code[ln++];setTimeout(add,550)}})();
+
+/* spotlight follows the mouse */
+(()=>{
+  const sp=$('#spot');let tx=0,ty=0,cx=0,cy=0,raf=0;
+  const tick=()=>{
+    cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;
+    sp.style.setProperty('--mx',cx.toFixed(1)+'px');
+    sp.style.setProperty('--my',cy.toFixed(1)+'px');
+    raf=(Math.abs(tx-cx)>.3||Math.abs(ty-cy)>.3)?requestAnimationFrame(tick):0;
+  };
+  addEventListener('mousemove',e=>{
+    if(!sp.classList.contains('on')){cx=tx=e.clientX;cy=ty=e.clientY;sp.classList.add('on')}
+    tx=e.clientX;ty=e.clientY;if(!raf)raf=requestAnimationFrame(tick);
+  });
+  document.addEventListener('mouseleave',()=>sp.classList.remove('on'));
+})();
+
+requestAnimationFrame(()=>$('#f').classList.add('in'));
+
+/* Enter moves to the next field */
+[['name','email'],['email','pw'],['pw','pw2']].forEach(([a,b])=>$('#'+a).addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();$('#'+b).focus()}
+}));
+
+/* show/hide password */
+$('#eye').onclick=()=>{
+  const show=$('#pw').type==='password';
+  $('#pw').type=show?'text':'password';
+  $('#pw2').type=show?'text':'password';
+  $('#eye .icon').textContent=show?'visibility_off':'visibility';
+};
+
+/* strength meter */
+const labels=['','Weak','Fair','Good','Strong'];
+$('#pw').addEventListener('input',()=>{
+  const v=$('#pw').value;let s=0;
+  if(v.length>=8)s++;
+  if(/[a-z]/.test(v)&&/[A-Z]/.test(v))s++;
+  if(/\d/.test(v))s++;
+  if(/[^A-Za-z0-9]/.test(v)&&v.length>=8)s++;
+  if(!v)s=0;
+  $('#meter').dataset.s=s;
+  $('#mt').textContent=v?(labels[s]||'Weak'):'';
+});
+
+/* validation + fake sign-up */
+const bad=(id,eid,msg)=>{if(id)$('#'+id).setAttribute('aria-invalid','true');$('#'+eid).textContent=msg};
+[['name','e0'],['email','e1'],['pw','e2'],['pw2','e3']].forEach(([id,eid])=>{
+  $('#'+id).addEventListener('input',()=>{$('#'+id).removeAttribute('aria-invalid');$('#'+eid).textContent=''});
+});
+$('#terms').addEventListener('change',()=>$('#e4').textContent='');
+
+$('#f').addEventListener('submit',e=>{
+  e.preventDefault();
+  let ok=true;
+  if($('#name').value.trim().length<2){bad('name','e0','Enter your full name.');ok=false}
+  if(!/^\S+@\S+\.\S+$/.test($('#email').value)){bad('email','e1','Enter a valid email address.');ok=false}
+  if($('#pw').value.length<8){bad('pw','e2','Password must be at least 8 characters.');ok=false}
+  if(!$('#pw2').value||$('#pw2').value!==$('#pw').value){bad('pw2','e3','Passwords don’t match.');ok=false}
+  if(!$('#terms').checked){bad(null,'e4','Accept the Terms to continue.');ok=false}
+  if(!ok){const c=$('#f');c.classList.remove('shake');void c.offsetWidth;c.classList.add('shake');return}
+  const b=$('#go');
+  b.disabled=true;
+  $('#lbl').textContent='Creating account…';
+  $('#ico').textContent='progress_activity';
+  $('#ico').classList.add('spin');
+  setTimeout(()=>{
+    $('#ico').classList.remove('spin');
+    $('#ico').textContent='check';
+    $('#lbl').textContent='Account created!';
+    toast('Welcome aboard. Taking you to your dashboard…');
+    setTimeout(()=>{location.href='codeeverest-dashboard.html'},1200);
+  },1100);
+});
+document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>toast('Continuing with '+b.dataset.p+'…','link'));
+</script>
+</body></html>
