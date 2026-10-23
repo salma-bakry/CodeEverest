@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress | CodeEverest</title>
+
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/progress.css" />
+  </head>
+  <body>
+    <!-- The Nav bar in the top -->
+    <header class="site-header" id="siteHeader">
+      <div class="header-inner">
+        <a href="../index.html" class="logo" aria-label="CodeEverest home">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <path
+              d="M1 27 12 8l6 10 3-5 10 14z"
+              fill="rgb(var(--c-primary))"
+            ></path>
+            <path
+              d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z"
+              fill="#fff"
+              opacity=".92"
+            ></path>
+            <path
+              d="M21 13l-2.2 3.8 1.6 1 .6-.8 1 1.2 1.6-1.2z"
+              fill="#fff"
+              opacity=".8"
+            ></path>
+          </svg>
+          <span class="logo-text">Code<span>Everest</span></span>
+        </a>
+
+        <nav class="nav" aria-label="Main navigation">
+          <a class="nl" href="dashboard.html">Dashboard</a>
+          <a class="nl" href="roadmap.html">Roadmap</a>
+          <a class="nl" href="lesson.html">Lessons</a>
+          <a class="nl" href="playground.html">Playground</a>
+          <a class="nl on" href="progress.html" aria-current="page">Progress</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="stat-pill" title="Streak and XP">
+            <span
+              ><span class="material-symbols-outlined text-tertiary"
+                >local_fire_department</span
+              >14d</span
+            >
+            <span
+              ><span class="material-symbols-outlined text-secondary">bolt</span
+              >3,450 XP</span
+            >
+          </div>
+          <span class="header-divider"></span>
+          <button
+            class="ic"
+            type="button"
+            title="Notifications"
+            aria-label="Notifications"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="notif-dot"></span>
+          </button>
+          <a href="profile.html" class="avatar" aria-label="Profile">A</a>
+        </div>
+      </div>
+    </header>
+
+    <!--  MAIN CONTENT -->
+    <main class="page-offset">
+      <div class="container container-wide pr">
+        <!-- Page heading -->
+        <section class="pr-head">
+          <h1 class="h2">Your progress</h1>
+          <p class="text-muted pr-intro">
+            How much you have learned, and what to improve next. 
+          </p>
+        </section>
+
+        <!-- 1. Statistics cards -->
+        <section class="stats" aria-label="Statistics">
+          <article class="card stat-card">
+            <div class="stat-top">
+              <span class="stat-icon"
+                ><span class="material-symbols-outlined">menu_book</span></span
+              >
+              <span class="stat-label">Lessons completed</span>
+            </div>
+            <div class="stat-value">18<span class="stat-of"> / 40</span></div>
+            <p class="stat-sub">Python Fundamentals</p>
+          </article>
+
+          <article class="card stat-card is-secondary">
+            <div class="stat-top">
+              <span class="stat-icon"
+                ><span class="material-symbols-outlined">quiz</span></span
+              >
+              <span class="stat-label">Quiz average</span>
+            </div>
+            <div class="stat-value">82%</div>
+            <p class="stat-sub">Across 6 quizzes</p>
+          </article>
+
+          <article class="card stat-card is-tertiary">
+            <div class="stat-top">
+              <span class="stat-icon"
+                ><span class="material-symbols-outlined">code</span></span
+              >
+              <span class="stat-label">Coding challenges solved</span>
+            </div>
+            <div class="stat-value">12</div>
+            <p class="stat-sub">9 from Playground practice, 3 from lessons</p>
+          </article>
+
+          <article class="card stat-card is-primary">
+            <div class="stat-top">
+              <span class="stat-icon"
+                ><span class="material-symbols-outlined">terminal</span></span
+              >
+              <span class="stat-label">Playground practice</span>
+            </div>
+            <div class="stat-value">9<span class="stat-of"> / 15</span></div>
+            <p class="stat-sub">Practice questions solved</p>
+          </article>
+
+          <article class="card stat-card is-amber">
+            <div class="stat-top">
+              <span class="stat-icon"
+                ><span class="material-symbols-outlined">bolt</span></span
+              >
+              <span class="stat-label">Total XP</span>
+            </div>
+            <div class="stat-value">3,450</div>
+            <p class="stat-sub">250 XP to level 8</p>
+          </article>
+
+          <article class="card stat-card is-amber">
+            <div class="stat-top">
+              <span class="stat-icon"
+                ><span class="material-symbols-outlined"
+                  >local_fire_department</span
+                ></span
+              >
+              <span class="stat-label">Learning streak</span>
+            </div>
+            <div class="stat-value">14<span class="stat-of"> days</span></div>
+            <p class="stat-sub">Longest streak so far</p>
+          </article>
+        </section>
+
+        <div class="pr-grid">
+          <!-- ---------- LEFT COLUMN ---------- -->
+          <div class="pr-col">
+            <!-- Overall path completion -->
+            <article class="card" aria-labelledby="pathTitle">
+              <div class="card-head">
+                <div>
+                  <h2 class="card-title" id="pathTitle">Python Fundamentals</h2>
+                  <p class="card-text">Overall learning path completion</p>
+                </div>
+                <span class="pill">45% complete</span>
+              </div>
+
+              <div
+                class="progress-track path-track"
+                role="progressbar"
+                aria-valuenow="45"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                aria-label="Learning path completion"
+              >
+                <div class="progress-fill" style="--w: 45%"></div>
+              </div>
+
+              <ul class="stage-list">
+                <li class="stage done">
+                  <span class="material-symbols-outlined stage-icon filled"
+                    >check_circle</span
+                  >
+                  <span class="stage-name">Variables and basics</span>
+                  <span class="stage-count fc">8 / 8 lessons</span>
+                </li>
+                <li class="stage done">
+                  <span class="material-symbols-outlined stage-icon filled"
+                    >check_circle</span
+                  >
+                  <span class="stage-name">Conditionals</span>
+                  <span class="stage-count fc">6 / 6 lessons</span>
+                </li>
+                <li class="stage current">
+                  <span class="material-symbols-outlined stage-icon"
+                    >pending</span
+                  >
+                  <span class="stage-name">Loops</span>
+                  <span class="stage-count fc">4 / 10 lessons</span>
+                </li>
+                <li class="stage">
+                  <span class="material-symbols-outlined stage-icon"
+                    >radio_button_unchecked</span
+                  >
+                  <span class="stage-name">Functions</span>
+                  <span class="stage-count fc">0 / 8 lessons</span>
+                </li>
+                <li class="stage">
+                  <span class="material-symbols-outlined stage-icon"
+                    >radio_button_unchecked</span
+                  >
+                  <span class="stage-name">Final project</span>
+                  <span class="stage-count fc">0 / 8 lessons</span>
+                </li>
+              </ul>
+            </article>
+
+            <!-- Skill levels -->
+            <article class="card" aria-labelledby="skillsTitle">
+              <div class="card-head">
+                <h2 class="card-title" id="skillsTitle">Skills overview</h2>
+              </div>
+
+              <ul class="skill-list">
+                <li class="skill">
+                  <div class="skill-row">
+                    <span class="skill-name">Variables</span
+                    ><span class="skill-level fc">Strong · 90%</span>
+                  </div>
+                  <div class="progress-track skill-track">
+                    <div class="progress-fill" style="--w: 90%"></div>
+                  </div>
+                </li>
+                <li class="skill">
+                  <div class="skill-row">
+                    <span class="skill-name">Conditionals</span
+                    ><span class="skill-level fc">Strong · 80%</span>
+                  </div>
+                  <div class="progress-track skill-track">
+                    <div class="progress-fill" style="--w: 80%"></div>
+                  </div>
+                </li>
+                <li class="skill">
+                  <div class="skill-row">
+                    <span class="skill-name">Loops</span
+                    ><span class="skill-level fc">Growing · 45%</span>
+                  </div>
+                  <div class="progress-track skill-track">
+                    <div
+                      class="progress-fill fill-secondary"
+                      style="--w: 45%"
+                    ></div>
+                  </div>
+                </li>
+                <li class="skill">
+                  <div class="skill-row">
+                    <span class="skill-name">Functions</span
+                    ><span class="skill-level fc">Just starting · 15%</span>
+                  </div>
+                  <div class="progress-track skill-track">
+                    <div
+                      class="progress-fill fill-amber"
+                      style="--w: 15%"
+                    ></div>
+                  </div>
+                </li>
+              </ul>
+            </article>
+
+            <!-- 4. Recent activity -->
+            <article class="card" aria-labelledby="activityTitle">
+              <div class="card-head">
+                <h2 class="card-title" id="activityTitle">Recent activity</h2>
+              </div>
+
+              <ul class="activity-list">
+                <li class="activity">
+                  <span class="activity-icon"
+                    ><span class="material-symbols-outlined"
+                      >menu_book</span
+                    ></span
+                  >
+                  <div class="activity-text">
+                    <span class="activity-title"
+                      >Completed lesson: for loops</span
+                    >
+                    <span class="activity-meta">Today</span>
+                  </div>
+                  <span class="activity-xp fc">+30 XP</span>
+                </li>
+                <li class="activity is-tertiary">
+                  <span class="activity-icon"
+                    ><span class="material-symbols-outlined">code</span></span
+                  >
+                  <div class="activity-text">
+                    <span class="activity-title"
+                      >Solved practice question: Sum of a list</span
+                    >
+                    <span class="activity-meta">Today</span>
+                  </div>
+                  <span class="activity-xp fc">+20 XP</span>
+                </li>
+                <li class="activity is-secondary">
+                  <span class="activity-icon"
+                    ><span class="material-symbols-outlined">quiz</span></span
+                  >
+                  <div class="activity-text">
+                    <span class="activity-title"
+                      >Quiz: Conditionals, scored 90%</span
+                    >
+                    <span class="activity-meta">Yesterday</span>
+                  </div>
+                  <span class="activity-xp fc">+40 XP</span>
+                </li>
+                <li class="activity is-tertiary">
+                  <span class="activity-icon"
+                    ><span class="material-symbols-outlined">code</span></span
+                  >
+                  <div class="activity-text">
+                    <span class="activity-title"
+                      >Solved practice question: Even or odd</span
+                    >
+                    <span class="activity-meta">Yesterday</span>
+                  </div>
+                  <span class="activity-xp fc">+20 XP</span>
+                </li>
+                <li class="activity">
+                  <span class="activity-icon"
+                    ><span class="material-symbols-outlined"
+                      >menu_book</span
+                    ></span
+                  >
+                  <div class="activity-text">
+                    <span class="activity-title"
+                      >Completed lesson: while loops</span
+                    >
+                    <span class="activity-meta">2 days ago</span>
+                  </div>
+                  <span class="activity-xp fc">+30 XP</span>
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <!-- ---------- RIGHT COLUMN ---------- -->
+          <aside class="pr-col" aria-label="What to do next">
+            <!-- 5. Recommended next -->
+            <article class="card recommend" aria-labelledby="nextTitle">
+              <span class="pill pill-secondary recommend-pill"
+                >Recommended next</span
+              >
+              <h2 class="card-title" id="nextTitle">
+                Loops: looping over a list
+              </h2>
+              <p class="card-text">
+                You are 4 of 10 lessons into Loops and your loops skill is at
+                45%. Finishing this lesson is the quickest way to raise it.
+              </p>
+              <p class="recommend-meta fc">
+                <span
+                  ><span class="material-symbols-outlined">schedule</span>12
+                  min</span
+                >
+                <span
+                  ><span class="material-symbols-outlined">bolt</span>+30
+                  XP</span
+                >
+              </p>
+              <a href="lesson.html" class="btn btn-primary btn-block">
+                <span class="material-symbols-outlined">play_arrow</span>
+                Continue lesson
+              </a>
+              <a href="playground.html" class="btn btn-secondary btn-block">
+                <span class="material-symbols-outlined">terminal</span> Practice
+                in the Playground
+              </a>
+            </article>
+
+            <!-- Weekly coding time (simple bar chart made with CSS) -->
+            <article class="card" aria-labelledby="weekTitle">
+              <div class="card-head">
+                <div>
+                  <h2 class="card-title" id="weekTitle">This week</h2>
+                  <p class="card-text">2 h 45 min of learning time</p>
+                </div>
+              </div>
+
+              <div
+                class="week-chart"
+                role="img"
+                aria-label="Minutes learned per day: Monday 25, Tuesday 40, Wednesday 15, Thursday 50, Friday 35, Saturday and Sunday none yet"
+              >
+                <div class="week-col">
+                  <div class="week-bar" style="--h: 50%"></div>
+                  <span class="week-day">Mon</span>
+                </div>
+                <div class="week-col">
+                  <div class="week-bar" style="--h: 80%"></div>
+                  <span class="week-day">Tue</span>
+                </div>
+                <div class="week-col">
+                  <div class="week-bar" style="--h: 30%"></div>
+                  <span class="week-day">Wed</span>
+                </div>
+                <div class="week-col">
+                  <div class="week-bar" style="--h: 100%"></div>
+                  <span class="week-day">Thu</span>
+                </div>
+                <div class="week-col is-today">
+                  <div class="week-bar" style="--h: 70%"></div>
+                  <span class="week-day">Fri</span>
+                </div>
+                <div class="week-col is-future">
+                  <div class="week-bar" style="--h: 6%"></div>
+                  <span class="week-day">Sat</span>
+                </div>
+                <div class="week-col is-future">
+                  <div class="week-bar" style="--h: 6%"></div>
+                  <span class="week-day">Sun</span>
+                </div>
+              </div>
+            </article>
+
+            <!-- 6. Certificate (disabled until the path is finished) -->
+            <article class="card certificate" aria-labelledby="certTitle">
+              <div class="cert-top">
+                <span class="stat-icon"
+                  ><span class="material-symbols-outlined"
+                    >workspace_premium</span
+                  ></span
+                >
+                <h2 class="card-title" id="certTitle">Certificate</h2>
+              </div>
+              <p class="card-text">
+                Finish the whole Python Fundamentals path to unlock your
+                certificate. 22 lessons to go.
+              </p>
+              <button
+                class="btn btn-primary btn-block"
+                type="button"
+                disabled
+                aria-disabled="true"
+              >
+                <span class="material-symbols-outlined">lock</span> Download my
+                certificate
+              </button>
+            </article>
+          </aside>
+        </div>
+
+        <!-- 7. Achievements and badges -->
+        <section class="achievements" aria-labelledby="achTitle">
+          <div class="card-head">
+            <h2 class="h3" id="achTitle">Achievements</h2>
+            <span class="pill pill-tertiary">4 of 8 earned</span>
+          </div>
+
+          <div class="ach-grid">
+            <article class="card ach">
+              <span class="ach-icon"
+                ><span class="material-symbols-outlined">flag</span></span
+              >
+              <h3 class="ach-title">First steps</h3>
+              <p class="ach-text">Complete your first lesson.</p>
+            </article>
+
+            <article class="card ach">
+              <span class="ach-icon"
+                ><span class="material-symbols-outlined"
+                  >local_fire_department</span
+                ></span
+              >
+              <h3 class="ach-title">7-day streak</h3>
+              <p class="ach-text">Learn for 7 days in a row.</p>
+            </article>
+
+            <article class="card ach">
+              <span class="ach-icon"
+                ><span class="material-symbols-outlined">grade</span></span
+              >
+              <h3 class="ach-title">Quiz ace</h3>
+              <p class="ach-text">Score 90% or more on a quiz.</p>
+            </article>
+
+            <article class="card ach">
+              <span class="ach-icon"
+                ><span class="material-symbols-outlined">bug_report</span></span
+              >
+              <h3 class="ach-title">Bug squasher</h3>
+              <p class="ach-text">Solve 10 coding challenges.</p>
+            </article>
+
+            <article class="card ach is-locked">
+              <span class="ach-icon"
+                ><span class="material-symbols-outlined">lock</span></span
+              >
+              <h3 class="ach-title">30-day streak</h3>
+              <p class="ach-text">Learn for 30 days in a row.</p>
+              <span class="ach-progress fc">14 / 30 days</span>
+            </article>
+
+            <article class="card ach is-locked">
+              <span class="ach-icon"
+                ><span class="material-symbols-outlined">lock</span></span
+              >
+              <h3 class="ach-title">Boss slayer</h3>
+              <p class="ach-text">Beat your first Boss Fight.</p>
+              <span class="ach-progress fc">Not started</span>
+            </article>
+
+            <article class="card ach is-locked">
+              <span class="ach-icon"
+                ><span class="material-symbols-outlined">lock</span></span
+              >
+              <h3 class="ach-title">Practice master</h3>
+              <p class="ach-text">
+                Solve all 15 Playground practice questions.
+              </p>
+              <span class="ach-progress fc">9 / 15 solved</span>
+            </article>
+
+            <article class="card ach is-locked">
+              <span class="ach-icon"
+                ><span class="material-symbols-outlined">lock</span></span
+              >
+              <h3 class="ach-title">Summit reached</h3>
+              <p class="ach-text">Finish the Python Fundamentals path.</p>
+              <span class="ach-progress fc">18 / 40 lessons</span>
+            </article>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Adds the card hover glow and lift (the styles live in global.css) -->
+    <script src="../js/progress.js"></script>
+  </body>
+</html>
