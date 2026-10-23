@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Getting Started · CodeEverest</title>
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/onboarding.css">
+</head>
+<body>
+<div id="prog"></div>
+
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="../index.html" class="logo" aria-label="CodeEverest home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(var(--c-primary))"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>
+      <span class="logo-text">Code<span>Everest</span></span>
+    </a>
+  </div>
+</header>
+
+<main class="page-offset">
+  <div class="container narrow stack gap-6 ob">
+
+    <!-- Progress: 5 bars, one per step -->
+    <div class="stack gap-2">
+      <div class="row gap-2" id="segs" aria-hidden="true">
+        <i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i><i class="seg"></i>
+      </div>
+      <span class="fs text-muted" id="stepLabel">Step 1 of 5</span>
+    </div>
+
+    <!-- STEP 1: about you -->
+    <section class="card step" data-step="1">
+      <h1 class="h3">Tell us about you</h1>
+      <div class="stack gap-2">
+        <span class="fh">Your experience level</span>
+        <div class="chips-row">
+          <button class="chip" data-group="level" data-value="beginner">Complete beginner</button>
+          <button class="chip" data-group="level" data-value="some">I know a little</button>
+          <button class="chip" data-group="level" data-value="advanced">I have experience</button>
+        </div>
+      </div>
+      <div class="stack gap-2">
+        <span class="fh">Your goals (pick any)</span>
+        <div class="chips-row">
+          <button class="chip" data-group="goals" data-value="Get a job">Get a job</button>
+          <button class="chip" data-group="goals" data-value="Build projects">Build projects</button>
+          <button class="chip" data-group="goals" data-value="Pass a course">Pass a course</button>
+          <button class="chip" data-group="goals" data-value="Learn for fun">Learn for fun</button>
+        </div>
+      </div>
+      <div class="stack gap-2">
+<span class="fh">Which language do you want to start with?</span>        <div class="chips-row">
+          <button class="chip" data-group="langs" data-value="Python">Python</button>
+          <button class="chip" data-group="langs" data-value="JavaScript">JavaScript</button>
+          <button class="chip" data-group="langs" data-value="C++">C++</button>
+          <button class="chip" data-group="langs" data-value="HTML & CSS">HTML &amp; CSS</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 2: placement test (JS fills the question) -->
+    <section class="card step" data-step="2" hidden>
+      <span class="pill self-start" id="qCount"></span>
+      <h2 class="h3" id="qText"></h2>
+      <div class="stack gap-2" id="qOptions"></div>
+    </section>
+
+    <!-- STEP 3: recommended path -->
+    <section class="card step" data-step="3" hidden>
+      <span class="pill pill-secondary self-start">Recommended for you</span>
+      <h2 class="h2" id="pathName"></h2>
+      <p class="card-text" id="pathWhy"></p>
+    </section>
+
+    <!-- STEP 4: schedule -->
+    <section class="card step" data-step="4" hidden>
+      <h2 class="h3">Plan your study time</h2>
+      <div class="stack gap-2">
+        <span class="fh">Which days?</span>
+        <div class="chips-row">
+          <button class="chip" data-group="days" data-value="Mon">Mon</button>
+          <button class="chip" data-group="days" data-value="Tue">Tue</button>
+          <button class="chip" data-group="days" data-value="Wed">Wed</button>
+          <button class="chip" data-group="days" data-value="Thu">Thu</button>
+          <button class="chip" data-group="days" data-value="Fri">Fri</button>
+          <button class="chip" data-group="days" data-value="Sat">Sat</button>
+          <button class="chip" data-group="days" data-value="Sun">Sun</button>
+        </div>
+      </div>
+      <div class="stack gap-2">
+        <span class="fh">How long each day?</span>
+        <div class="chips-row">
+          <button class="chip" data-group="minutes" data-value="15">15 min</button>
+          <button class="chip" data-group="minutes" data-value="30">30 min</button>
+          <button class="chip" data-group="minutes" data-value="60">1 hour</button>
+          <button class="chip" data-group="minutes" data-value="90">1.5 hours</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 5: summary -->
+    <section class="card step" data-step="5" hidden>
+      <h2 class="h3">You are ready to climb</h2>
+      <ul class="stack gap-3" id="summary"></ul>
+      <a class="btn btn-primary btn-lg shine" href="roadmap.html">Start Learning</a>
+    </section>
+
+    <!-- Back / Next buttons -->
+    <div class="row ob-actions">
+      <button class="btn btn-secondary" id="backBtn" hidden>Back</button>
+      <button class="btn btn-primary" id="nextBtn" disabled>Next</button>
+    </div>
+  </div>
+</main>
+
+<script src="../js/common.js"></script>
+<script src="../js/onboarding.js"></script>
+</body>
+</html>

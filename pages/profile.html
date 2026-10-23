@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>My Profile · CodeEverest</title>
+
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/profile.css">
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- Student header (same links as the playground and progress pages) -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="../index.html" class="logo" aria-label="CodeEverest home">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(var(--c-primary))"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>
+      <span class="logo-text">Code<span>Everest</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Main navigation">
+      <a class="nl" href="dashboard.html">Dashboard</a>
+      <a class="nl" href="roadmap.html">Roadmap</a>
+      <a class="nl" href="lesson.html">Lessons</a>
+      <a class="nl" href="playground.html">Playground</a>
+      <a class="nl" href="progress.html">Progress</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="profile.html" class="avatar" id="headerAvatar" aria-label="Profile">A</a>
+    </div>
+  </div>
+</header>
+
+<main class="page-offset">
+  <div class="container narrow stack gap-6 pf">
+
+    <h1 class="h2">My Profile</h1>
+
+    <!-- Confirmation message (shown after Save Changes) -->
+    <div class="toast" id="toast" role="status" hidden>
+      <span class="material-symbols-outlined filled">check_circle</span>
+      Your changes were saved.
+    </div>
+
+    <!-- Card 1: who you are -->
+    <section class="card" aria-labelledby="whoTitle">
+      <div class="pf-top">
+        <div class="avatar pf-avatar" id="bigAvatar">A</div>
+
+        <div class="stack gap-1 pf-info">
+          <!-- View mode shows these two -->
+          <h2 class="h3" id="whoTitle"><span id="nameView"></span></h2>
+          <p class="text-muted" id="emailView"></p>
+
+          <!-- Edit mode shows these two instead -->
+          <div class="stack gap-2" id="editFields" hidden>
+            <label class="fs text-muted" for="nameInput">Name</label>
+            <input class="input input-field" id="nameInput" type="text" maxlength="40">
+            <label class="fs text-muted" for="emailInput">Email</label>
+            <input class="input input-field" id="emailInput" type="email" maxlength="60">
+            <p class="text-error fs" id="errorMsg" hidden></p>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary" id="editBtn" type="button">
+          <span class="material-symbols-outlined">edit</span>Edit Profile
+        </button>
+      </div>
+    </section>
+
+    <!-- Card 2: preferences. JS puts the chips and pills inside each group. -->
+    <section class="card" aria-labelledby="prefTitle">
+      <h2 class="card-title" id="prefTitle">Learning preferences</h2>
+
+      <div class="stack gap-2">
+        <span class="fh">Preferred languages</span>
+        <div class="chips-row" id="g-langs"></div>
+      </div>
+
+      <div class="stack gap-2">
+        <span class="fh">Goals</span>
+        <div class="chips-row" id="g-goals"></div>
+      </div>
+
+      <div class="stack gap-2">
+        <span class="fh">Study days</span>
+        <div class="chips-row" id="g-days"></div>
+      </div>
+
+      <div class="stack gap-2">
+        <span class="fh">Time per day</span>
+        <div class="chips-row" id="g-minutes"></div>
+      </div>
+    </section>
+
+    <!-- Save / Cancel (only visible while editing) -->
+    <div class="row gap-3 pf-actions" id="editActions" hidden>
+      <button class="btn btn-primary" id="saveBtn" type="button">Save Changes</button>
+      <button class="btn btn-secondary" id="cancelBtn" type="button">Cancel</button>
+    </div>
+
+  </div>
+</main>
+
+<script src="../js/common.js"></script>
+<script src="../js/profile.js"></script>
+</body>
+</html>

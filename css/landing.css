@@ -1,0 +1,69 @@
+/* landing.css - styles only for index.html.
+   Uses the shared variables. Loads AFTER variables, global, components. */
+
+/* ---------- Header extras ---------- */
+.menu-btn { display: grid; }
+.desktop-only { display: none; }
+@media (min-width: 640px)  { .desktop-only { display: inline-flex; } }
+@media (min-width: 1024px) { .menu-btn { display: none; } }
+
+/* ---------- Mobile menu ---------- */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  z-index: var(--z-dropdown);
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--container-pad);
+  background: rgb(var(--c-background) / 0.97);
+  border-bottom: 1px solid rgb(var(--c-outline-variant) / 0.4);
+  box-shadow: var(--shadow-lg);
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a:not(.btn) {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  color: rgb(var(--c-on-surface-variant));
+}
+.mobile-menu a:not(.btn):hover { background: rgb(var(--c-surface-container-high)); color: rgb(var(--c-on-surface)); }
+@media (min-width: 1024px) { .mobile-menu.open { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero { padding-top: calc(var(--header-height) + var(--space-16)); overflow: hidden; }
+.hero-blob { width: 360px; height: 360px; top: 40px; right: -80px; background: rgb(var(--c-primary) / 0.18); }
+.hero-grid { display: grid; gap: var(--space-12); align-items: center; position: relative; }
+@media (min-width: 900px) { .hero-grid { grid-template-columns: 1.1fr 0.9fr; } }
+.hero-text { align-items: flex-start; }
+.hero-art svg { width: 100%; height: auto; }
+.trail { fill: none; stroke: rgb(var(--c-primary)); stroke-width: 3; stroke-dasharray: 6 8; stroke-linecap: round; }
+
+/* ---------- How it works ---------- */
+.step-num { align-self: flex-start; font-size: var(--fs-body); }
+
+/* ---------- AI tutor chat preview ---------- */
+.chat-grid { display: grid; gap: var(--space-10); align-items: center; }
+@media (min-width: 900px) { .chat-grid { grid-template-columns: 1fr 1fr; } }
+.chat { gap: var(--space-3); }
+.msg {
+  max-width: 85%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  font-size: var(--fs-body-sm);
+  line-height: 1.5;
+}
+.msg.user { align-self: flex-end; background: rgb(var(--c-primary)); color: rgb(var(--c-on-primary)); border-bottom-right-radius: var(--radius-sm); }
+.msg.tutor { align-self: flex-start; background: rgb(var(--c-surface-container-high)); border-bottom-left-radius: var(--radius-sm); }
+
+/* ---------- Call to action band (always dark) ---------- */
+.cta-band { background: rgb(var(--c-cta-bg)); border-block: 1px solid rgb(var(--c-outline-variant) / 0.4); }
+.cta-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: var(--ls-h2);
+  font-size: var(--fs-cta);
+  line-height: 1.15;
+  color: rgb(var(--c-cta-accent));
+}

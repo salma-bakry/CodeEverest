@@ -1,0 +1,30 @@
+/* profile.css - only for pages/profile.html */
+
+.pf { padding-block: var(--space-10); }
+
+/* Shared classes like .btn and .card set "display", which would show hidden things.
+   This rule makes the hidden attribute always win on this page. */
+.pf [hidden] { display: none !important; }
+
+/* Top card: avatar, name/email, edit button */
+.pf-top { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-5); }
+.pf-info { flex: 1; min-width: 200px; }
+.pf-avatar { width: 72px; height: 72px; font-size: var(--fs-h3); }
+
+/* Chips and pills */
+.chips-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.chip { cursor: pointer; }
+.chip.selected { background: rgb(var(--c-primary)); color: rgb(var(--c-on-primary)); }
+
+/* "Saved" confirmation */
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: rgb(var(--c-primary) / 0.15);
+  border: 1px solid rgb(var(--c-primary) / 0.4);
+  color: rgb(var(--c-primary));
+  font-weight: 600;
+}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>CodeEverest · Learn to code, one summit at a time</title>
+
+  <!-- Shared CSS first, then my own page CSS (order matters) -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#top" class="logo">
+      <svg viewBox="0 0 32 32" aria-label="CodeEverest logo"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(var(--c-primary))"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/></svg>
+      <span class="logo-text">Code<span>Everest</span></span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <a class="nl" href="#features">Features</a>
+      <a class="nl" href="#how">How It Works</a>
+      <a class="nl" href="pages/aboutUs.html">About</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="pages/login.html" class="btn btn-secondary btn-sm desktop-only">Login</a>
+      <a href="pages/signup.html" class="btn btn-primary btn-sm shine">Get Started</a>
+      <button class="ic menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="material-symbols-outlined" id="menuIcon">menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile menu (opened by js/landing.js) -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#features">Features</a>
+  <a href="#how">How It Works</a>
+  <a href="pages/aboutUs.html">About</a>
+  <a href="pages/login.html">Login</a>
+  <a href="pages/signup.html" class="btn btn-primary">Get Started</a>
+</div>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="section page-offset hero">
+    <div class="blob hero-blob"></div>
+    <div class="container hero-grid">
+      <div class="stack gap-6 hero-text">
+        <span class="badge rv"><span class="status-dot"></span>AI tutor included</span>
+        <h1 class="h1 rv">Learn to code, <span class="grad">one summit at a time</span></h1>
+        <p class="lead rv">CodeEverest turns programming into a mountain climb. Take a short placement test, get a path that fits you, and practice with an AI tutor beside you.</p>
+        <div class="row gap-4 wrap rv">
+          <a href="pages/signup.html" class="btn btn-primary btn-lg shine">Get Started</a>
+          <a href="#how" class="btn btn-secondary btn-lg">See How It Works</a>
+        </div>
+      </div>
+
+      <!-- Mountain roadmap picture (simple SVG) -->
+      <div class="card card-lowest hero-art float rv" aria-hidden="true">
+        <svg viewBox="0 0 400 260">
+          <path d="M0 260 130 90l50 60 60-110 160 220z" fill="rgb(var(--c-primary) / 0.12)"/>
+          <path class="trail" d="M30 240 C 110 220, 90 170, 160 160 S 230 110, 250 60"/>
+          <circle cx="30" cy="240" r="7" fill="rgb(var(--c-primary))"/>
+          <circle cx="110" cy="205" r="7" fill="rgb(var(--c-primary))"/>
+          <circle cx="160" cy="160" r="7" fill="rgb(var(--c-secondary))"/>
+          <circle cx="215" cy="115" r="7" fill="rgb(var(--c-outline))"/>
+          <path d="M250 25v40" stroke="rgb(var(--c-tertiary))" stroke-width="3"/>
+          <path d="M250 25l22 8-22 8z" fill="rgb(var(--c-tertiary))"/>
+        </svg>
+        <div class="row gap-2 fs text-muted"><span class="material-symbols-outlined text-primary">flag</span>Your roadmap to the summit</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="section" id="how">
+    <div class="container stack gap-10">
+      <div class="stack gap-3 narrow text-center">
+        <h2 class="h2 rv">How it works</h2>
+        <p class="lead rv">Three short steps from signing up to your first lesson.</p>
+      </div>
+      <div class="grid grid-auto gap-6">
+        <article class="card rv">
+          <span class="pill step-num">1</span>
+          <h3 class="card-title">Tell us about you</h3>
+          <p class="card-text">Pick your experience level, your goals and the languages you like.</p>
+        </article>
+        <article class="card rv">
+          <span class="pill pill-secondary step-num">2</span>
+          <h3 class="card-title">Take the placement test</h3>
+          <p class="card-text">A few quick questions show us where to start, so you skip what you already know.</p>
+        </article>
+        <article class="card rv">
+          <span class="pill pill-tertiary step-num">3</span>
+          <h3 class="card-title">Start climbing</h3>
+          <p class="card-text">Follow your recommended path, one lesson at a time, on a schedule you choose.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section" id="features">
+    <div class="container stack gap-10">
+      <div class="stack gap-3 narrow text-center">
+        <h2 class="h2 rv">Everything you need to reach the top</h2>
+        <p class="lead rv">Lessons, practice and help in one place.</p>
+      </div>
+      <div class="grid grid-auto gap-6">
+        <article class="card spot rv">
+          <div class="card-icon"><span class="material-symbols-outlined">landscape</span></div>
+          <h3 class="card-title">Mountain roadmap</h3>
+          <p class="card-text">See your whole journey as a mountain. Finish lessons to unlock checkpoints and beat boss fights.</p>
+        </article>
+        <article class="card spot rv">
+          <div class="card-icon secondary"><span class="material-symbols-outlined">smart_toy</span></div>
+          <h3 class="card-title">AI tutor</h3>
+          <p class="card-text">Ask questions any time and get hints that help you think, not just the answer.</p>
+        </article>
+        <article class="card spot rv">
+          <div class="card-icon tertiary"><span class="material-symbols-outlined">quiz</span></div>
+          <h3 class="card-title">Quizzes</h3>
+          <p class="card-text">Check what you learned after every lesson and see what to review.</p>
+        </article>
+        <article class="card spot rv">
+          <div class="card-icon"><span class="material-symbols-outlined">terminal</span></div>
+          <h3 class="card-title">Coding playground</h3>
+          <p class="card-text">Write code, run it and see the output right in your browser.</p>
+        </article>
+        <article class="card spot rv">
+          <div class="card-icon secondary"><span class="material-symbols-outlined">emoji_events</span></div>
+          <h3 class="card-title">Achievements</h3>
+          <p class="card-text">Earn badges, keep your streak alive and collect certificates.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ AI TUTOR PREVIEW (static, fake chat) ============ -->
+  <section class="section">
+    <div class="container chat-grid">
+      <div class="stack gap-4">
+        <h2 class="h2 rv">A tutor that explains, not just answers</h2>
+        <p class="lead rv">Stuck on a loop? Your AI tutor gives a small hint first and explains the idea in simple words.</p>
+      </div>
+      <div class="card card-lowest chat rv" aria-label="Example conversation with the AI tutor">
+        <div class="msg user">Why does my for loop never stop?</div>
+        <div class="msg tutor">Good question! Look at your loop condition. Does the counter ever change inside the loop?</div>
+        <div class="msg user">Oh, I forgot to add 1 to i.</div>
+        <div class="msg tutor"><span class="dots"><i></i><i></i><i></i></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CALL TO ACTION ============ -->
+  <section class="section cta-band">
+    <div class="container stack gap-6 center">
+      <h2 class="cta-title rv">Ready to start your climb?</h2>
+      <p class="lead rv">Create a free account and take the placement test today.</p>
+      <div class="row gap-4 wrap rv" style="justify-content:center">
+        <a href="pages/signup.html" class="btn btn-primary btn-lg shine">Get Started</a>
+        <a href="pages/login.html" class="btn btn-ghost btn-lg">Login</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-text">Code<span>Everest</span></span>
+        <p>Learn programming step by step, with an AI tutor on your side.</p>
+      </div>
+      <div class="footer-col"><h4>Explore</h4><ul><li><a href="#features">Features</a></li><li><a href="#how">How it works</a></li></ul></div>
+      <div class="footer-col"><h4>Account</h4><ul><li><a href="pages/login.html">Login</a></li><li><a href="pages/signup.html">Sign up</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 CodeEverest</span></div>
+  </div>
+</footer>
+
+<!-- common.js first (shared), then my file -->
+<script src="js/common.js"></script>
+<script src="js/landing.js"></script>
+</body>
+</html>
