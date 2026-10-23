@@ -6,7 +6,7 @@ Notes: (mmkn nshelhom abl el discussion
    Colors are space-separated RGB triplets so you can add opacity:
        color: rgb(var(--c-primary));
        background: rgb(var(--c-primary) / 0.15);
-   ========================================================================== */
+ */
 
 :root {
   /* ---------- Colors (dark) ---------- */

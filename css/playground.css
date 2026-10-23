@@ -1,0 +1,662 @@
+/* ==========================================================================
+   playground.css  |  Member 3
+   Load order: variables.css, global.css, components.css, playground.css
+
+   Contents:
+     1. Page layout & heading
+     2. Mode switch (Practice / Free play)
+     3. Challenge card
+     4. Select (language & challenge dropdowns)
+     5. Editor card, toolbar & code area
+     6. Syntax colors
+     7. Output console
+     8. Test cases
+     9. AI mentor (feedback + chat)
+    10. Responsive rules
+   ========================================================================== */
+
+/* 1. Page layout & heading ------------------------------------------------ */
+.pg {
+  padding-block: var(--space-6) var(--space-12);
+}
+
+.pg-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.pg-intro {
+  margin-top: var(--space-1);
+  max-width: 56ch;
+}
+.pg-head-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.demo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+.demo-badge .material-symbols-outlined {
+  font-size: 14px;
+}
+
+/* Two columns on desktop: left = challenge/editor/output, right = AI mentor */
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--space-6);
+  align-items: start;
+}
+.ws-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+.ws-side {
+  min-width: 0;
+}
+
+/* 2. Mode switch ------------------------------------------------------------
+   JS sets data-mode="practice" or "free" on #workspace.
+   Anything with .practice-only disappears in Free play. */
+.workspace[data-mode="free"] .practice-only {
+  display: none;
+}
+.workspace[data-mode="free"] .editor-body {
+  height: 460px;
+} /* more room when there is no challenge */
+
+/* 3. Challenge card -------------------------------------------------------- */
+.challenge-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.challenge-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.difficulty.easy {
+  background: rgb(var(--c-tertiary) / 0.12);
+  color: rgb(var(--c-tertiary));
+}
+.difficulty.medium {
+  background: rgb(var(--c-amber) / 0.15);
+  color: rgb(var(--c-amber));
+}
+.difficulty.hard {
+  background: rgb(var(--c-error) / 0.15);
+  color: rgb(var(--c-error));
+}
+
+.examples {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: 1fr 1fr;
+}
+.example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: rgb(var(--c-surface-container-lowest));
+  border: 1px solid rgb(var(--c-outline-variant) / 0.4);
+  min-width: 0;
+}
+.example-label {
+  font-size: var(--fs-sm);
+  color: rgb(var(--c-outline));
+}
+.example-code {
+  font-family: var(--font-code);
+  font-size: var(--fs-body-sm);
+  color: rgb(var(--c-secondary));
+  overflow-wrap: anywhere;
+}
+
+/* 4. Select (dropdowns) ---------------------------------------------------- */
+.select {
+  height: 36px;
+  padding: 0 var(--space-8) 0 var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid rgb(var(--c-outline-variant) / 0.5);
+  background-color: rgb(var(--c-surface-container-high));
+  /* small chevron drawn as an inline SVG so we do not need an image file */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23899B90' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  color: rgb(var(--c-on-surface));
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: var(--fs-body-sm);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition:
+    border-color var(--t-fast),
+    background-color var(--t-fast);
+}
+.select:hover {
+  background-color: rgb(var(--c-surface-container-highest));
+}
+.select:focus {
+  border-color: rgb(var(--c-primary));
+}
+.select option {
+  background: rgb(var(--c-surface-container));
+  color: rgb(var(--c-on-surface));
+}
+
+/* 5. Editor card, toolbar & code area ------------------------------------- */
+.editor-card {
+  --tok-info: 124 203 255; /* #7CCBFF, used for function names */
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: rgb(var(--c-surface-container-lowest));
+  border: 1px solid rgb(var(--c-outline-variant) / 0.4);
+  box-shadow: var(--shadow-lg);
+  transition: border-color var(--t-base);
+}
+.editor-card:focus-within {
+  border-color: rgb(var(--c-primary) / 0.6);
+}
+
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  background: rgb(var(--c-surface-container-low));
+  border-bottom: 1px solid rgb(var(--c-outline-variant) / 0.4);
+}
+.editor-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.window-dots {
+  display: flex;
+  gap: 6px;
+}
+.window-dots i {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+}
+.window-dots i:nth-child(1) {
+  background: rgb(var(--c-error) / 0.8);
+}
+.window-dots i:nth-child(2) {
+  background: rgb(var(--c-amber) / 0.8);
+}
+.window-dots i:nth-child(3) {
+  background: rgb(var(--c-tertiary) / 0.8);
+}
+
+.file-tab {
+  padding: 4px var(--space-2);
+  border-radius: var(--radius-sm);
+  background: rgb(var(--c-surface-container));
+}
+
+.editor-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Run button while the demo "runs" (JS adds .is-running) */
+.btn.is-running {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* The code area: line numbers | highlighted layer + textarea stacked together */
+.editor-body {
+  display: flex;
+  height: 340px;
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 22px;
+}
+
+.line-numbers {
+  flex: none;
+  min-width: 48px;
+  padding: var(--space-4) var(--space-3);
+  overflow: hidden; /* JS keeps it scrolled together with the textarea */
+  text-align: right;
+  white-space: pre;
+  font-size: 13px;
+  line-height: 22px;
+  color: rgb(var(--c-outline-variant));
+  background: rgb(var(--c-surface-container-lowest));
+  border-right: 1px solid rgb(var(--c-outline-variant) / 0.3);
+  user-select: none;
+}
+
+.editor-surface {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/* The colored copy of the code sits behind the real textarea.
+   Both MUST share exactly the same font, size, padding and line-height. */
+.code-highlight,
+.code-input {
+  margin: 0;
+  padding: var(--space-4);
+  font-family: var(--font-code);
+  font-size: 13px;
+  line-height: 22px;
+  letter-spacing: 0;
+  tab-size: 4;
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  border: 0;
+}
+.code-highlight {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  color: rgb(var(--c-on-surface));
+}
+.code-highlight code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.code-input {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  resize: none;
+  background: transparent;
+  color: rgb(var(--c-on-surface));
+  caret-color: rgb(var(--c-primary));
+}
+/* Only after JS is running do we hide the plain textarea text and show the colored layer.
+   If JS fails, the editor still works (just without colors). */
+.editor-body.highlight-on .code-input {
+  color: transparent;
+}
+.code-input::selection {
+  background: rgb(var(--c-primary) / 0.3);
+}
+
+/* 6. Syntax colors (classes are added by playground.js) ------------------- */
+.tok-kw {
+  color: rgb(var(--c-primary));
+}
+.tok-fn {
+  color: rgb(var(--tok-info));
+}
+.tok-str {
+  color: rgb(var(--c-tertiary));
+}
+.tok-num {
+  color: rgb(var(--c-amber));
+}
+.tok-com {
+  color: rgb(var(--c-outline));
+  font-style: italic;
+}
+
+/* 7. Output console -------------------------------------------------------- */
+.console {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: rgb(var(--c-surface-container-lowest));
+  border: 1px solid rgb(var(--c-outline-variant) / 0.4);
+}
+.console-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  background: rgb(var(--c-surface-container-low));
+  border-bottom: 1px solid rgb(var(--c-outline-variant) / 0.4);
+}
+.console-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: 600;
+}
+.console-title .material-symbols-outlined {
+  font-size: 16px;
+  color: rgb(var(--c-secondary));
+}
+.console-meta {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgb(var(--c-on-surface-variant));
+}
+.console-exit {
+  color: rgb(var(--c-on-surface-variant));
+}
+.console-exit.ok {
+  color: rgb(var(--c-tertiary));
+}
+.console-exit.err {
+  color: rgb(var(--c-error));
+}
+
+.console-body {
+  min-height: 120px;
+  max-height: 240px;
+  padding: var(--space-4);
+  overflow-y: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+  color: rgb(var(--c-on-surface));
+}
+.out-ok {
+  color: rgb(var(--c-tertiary));
+}
+.out-err {
+  color: rgb(var(--c-error));
+}
+.out-muted {
+  color: rgb(var(--c-outline));
+}
+
+/* 8. Test cases ------------------------------------------------------------ */
+.tests-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.test-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.test {
+  --state: var(--c-outline); /* each state below swaps this one color */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: rgb(var(--c-surface-container-lowest));
+  border: 1px solid rgb(var(--c-outline-variant) / 0.4);
+  border-left: 3px solid rgb(var(--state));
+  transition:
+    border-color var(--t-fast),
+    background-color var(--t-fast);
+}
+.test-icon {
+  font-size: 20px;
+  color: rgb(var(--state));
+}
+.test-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.test-expected {
+  color: rgb(var(--c-on-surface-variant));
+  white-space: nowrap;
+}
+.test-status {
+  font-weight: 600;
+  color: rgb(var(--state));
+}
+
+.test.pass {
+  --state: var(--c-tertiary);
+  background: rgb(var(--c-tertiary) / 0.06);
+}
+.test.fail {
+  --state: var(--c-error);
+  background: rgb(var(--c-error) / 0.07);
+}
+.test.running {
+  --state: var(--c-primary);
+}
+.test.running .test-icon {
+  animation: spin 1s linear infinite;
+}
+
+/* Summary pill next to the "Test cases" title (JS adds .pass / .fail) */
+.tests-head .pill.pass {
+  background: rgb(var(--c-tertiary) / 0.12);
+  color: rgb(var(--c-tertiary));
+}
+.tests-head .pill.fail {
+  background: rgb(var(--c-error) / 0.15);
+  color: rgb(var(--c-error));
+}
+
+/* 9. AI mentor (feedback + chat) ------------------------------------------ */
+.ai-card {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-height) - var(--space-8));
+  min-height: 520px;
+  max-height: 760px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: rgb(var(--c-surface-container));
+  border: 1px solid rgb(var(--c-outline-variant) / 0.4);
+}
+
+.ai-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: rgb(var(--c-surface-container-high) / 0.6);
+  border-bottom: 1px solid rgb(var(--c-outline-variant) / 0.4);
+}
+.ai-avatar {
+  position: relative;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-full);
+  background: var(--gradient-avatar);
+  color: rgb(var(--c-on-primary));
+}
+.ai-avatar .status-dot {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 11px;
+  height: 11px;
+  box-shadow: 0 0 0 2px rgb(var(--c-surface-container));
+}
+
+/* Feedback panel: JS changes data-type to info | hint | error | success */
+.feedback {
+  --fb: var(--c-secondary);
+  margin: var(--space-4) var(--space-4) 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-lg);
+  background: rgb(var(--fb) / 0.08);
+  border: 1px solid rgb(var(--fb) / 0.35);
+  transition:
+    background-color var(--t-base),
+    border-color var(--t-base);
+}
+.feedback[data-type="hint"] {
+  --fb: var(--c-amber);
+}
+.feedback[data-type="error"] {
+  --fb: var(--c-error);
+}
+.feedback[data-type="success"] {
+  --fb: var(--c-tertiary);
+}
+
+.feedback-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  color: rgb(var(--fb));
+}
+.feedback-title .material-symbols-outlined {
+  font-size: 16px;
+}
+.feedback-text {
+  margin-top: var(--space-2);
+  font-size: var(--fs-body-sm);
+  line-height: 1.6;
+  color: rgb(var(--c-on-surface));
+}
+.feedback-text code,
+.chat-bubble code {
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: rgb(var(--c-surface-container-highest));
+  color: rgb(var(--c-secondary));
+  font-family: var(--font-code);
+  font-size: var(--fs-sm);
+}
+
+/* Chat */
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-height: 120px;
+  padding: var(--space-4);
+  overflow-y: auto;
+}
+.chat-row {
+  display: flex;
+}
+.chat-row.user {
+  justify-content: flex-end;
+}
+.chat-bubble {
+  max-width: 88%;
+  padding: 10px 14px;
+  font-size: var(--fs-body-sm);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.chat-row.ai .chat-bubble {
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl)
+    var(--radius-sm);
+  background: rgb(var(--c-surface-container-low));
+  border: 1px solid rgb(var(--c-outline-variant) / 0.4);
+}
+.chat-row.user .chat-bubble {
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-sm)
+    var(--radius-xl);
+  background: rgb(var(--c-primary) / 0.15);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: 0 var(--space-4) var(--space-3);
+}
+.chips .chip {
+  cursor: pointer;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: rgb(var(--c-surface-container-low));
+  border-top: 1px solid rgb(var(--c-outline-variant) / 0.4);
+}
+
+/* 10. Responsive rules ----------------------------------------------------- */
+
+/* Tablet and below: the AI mentor moves under the editor */
+@media (max-width: 1100px) {
+  .workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ai-card {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+  .chat {
+    max-height: 300px;
+  }
+}
+
+/* Small tablets / large phones */
+@media (max-width: 720px) {
+  .examples {
+    grid-template-columns: 1fr;
+  }
+  .editor-body {
+    height: 300px;
+  }
+
+  /* Test rows wrap: icon + name + status on line 1, expected value on line 2 */
+  .test {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .test-expected {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    white-space: normal;
+  }
+}
+
+/* Phones */
+@media (max-width: 520px) {
+  .pg {
+    padding-block: var(--space-4) var(--space-8);
+  }
+  .editor-toolbar {
+    padding: var(--space-3);
+  }
+  .editor-controls {
+    width: 100%;
+  }
+  .editor-controls .select {
+    flex: 1;
+  }
+  .console-meta {
+    display: none;
+  }
+}
