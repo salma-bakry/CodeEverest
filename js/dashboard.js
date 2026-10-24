@@ -18,7 +18,7 @@ const data = {
     reason: 'You scored 45% on the last loops quiz. This lesson will help before you move to the next stage.',
     href: 'lesson.html',
     more: [
-      { icon: 'fitness_center', title: 'Loops practice exercise', meta: 'Coding challenge, 10 min', href: 'coding-playground.html' },
+      { icon: 'fitness_center', title: 'Loops practice exercise', meta: 'Coding challenge, 10 min', href: 'playground.html' },
       { icon: 'replay', title: 'Revise variables', meta: 'Quick quiz, 5 min', href: 'lesson.html' }
     ]
   },

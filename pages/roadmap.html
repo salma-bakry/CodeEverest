@@ -6,17 +6,18 @@
   <title>My Roadmap · Code Everest</title>
   <script>try { if (localStorage.getItem('sx-theme') === 'light') document.documentElement.classList.remove('dark'); } catch (e) {}</script>
 
-  <!-- Change these paths to match your project folders -->
+  <!-- Load order: variables, global, components, extras, then this page's css -->
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/extras.css">
   <link rel="stylesheet" href="../css/roadmap.css">
 </head>
 <body>
 
   <div id="prog"></div>
 
-   <header class="site-header" id="siteHeader">
+  <header class="site-header" id="siteHeader">
     <div class="header-inner">
       <a href="dashboard.html" class="logo" aria-label="Code Everest home">
         <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M1 27 12 8l6 10 3-5 10 14z" fill="rgb(var(--c-primary))"/><path d="M12 8 8.6 14l2.4 1.6 1-1.4 1.4 1.8 2.6-1.8z" fill="#fff" opacity=".92"/><path d="M21 13l-2.2 3.8 1.6 1 .6-.8 1 1.2 1.6-1.2z" fill="#fff" opacity=".8"/></svg>
@@ -48,6 +49,7 @@
       </div>
     </div>
   </header>
+
   <main class="page-offset">
     <section class="section">
       <div class="container">
@@ -125,8 +127,43 @@
     </section>
   </main>
 
-  <script src="../js/common.js"></script>  <!-- change path to match your project -->
-  <script src="../js/roadmap-data.js"></script>
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-bottom footer-bottom-flat">
+        <span>&copy; 2026 Code Everest</span>
+        <div class="links"><a href="about.html">About</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/level-badge.js"></script>
+
+  <!-- Fills the header (name, avatar letter, streak) with the same mock user as the Dashboard.
+       Remove this block if roadmap.js already does it. -->
+  <script>
+    (function () {
+      const user = { name: 'Sam', streakDays: 5 };
+      const values = { name: user.name, initial: user.name[0].toUpperCase(), streakDays: user.streakDays };
+      document.querySelectorAll('[data-bind]').forEach((el) => {
+        if (!el.textContent.trim() && values[el.dataset.bind] !== undefined) el.textContent = values[el.dataset.bind];
+      });
+    })();
+  </script>
+
   <script src="../js/roadmap.js"></script>
+
+  <!-- TEMPORARY FIX: if the popover button still points to an old page name (lessons.html or learning-workspace.html),
+       send it to lesson.html instead. Delete this block once the link is fixed inside roadmap.js. -->
+  <script>
+    document.getElementById('rmCta').addEventListener('click', function (e) {
+      const href = this.getAttribute('href') || '';
+      const old = /(^|\/)(lessons|learning-workspace)\.html/;
+      if (old.test(href)) {
+        e.preventDefault();
+        window.location.href = href.replace(old, '$1lesson.html');
+      }
+    });
+  </script>
 </body>
 </html>
