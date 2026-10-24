@@ -13,14 +13,14 @@ window.ROADMAP = {
       id: "variables", type: "lesson", state: "completed",
       label: "Variables", title: "Variables", minutes: 15,
       desc: "Store information in named boxes called variables.",
-      href: "learning-workspace.html",
+      href: "lesson.html",
       x: 483, y: 767
     },
     {
       id: "quiz-strings", type: "quiz", state: "completed",
       label: "Quiz: Strings · 92%", title: "Quiz: Strings",
       desc: "You scored 92% on the Strings quiz. You can retake it any time.",
-      href: "learning-workspace.html",
+      href: "lesson.html",
       x: 777, y: 742
     },
     {
@@ -34,14 +34,14 @@ window.ROADMAP = {
       id: "conditionals", type: "lesson", state: "current",
       label: "Conditionals", title: "Conditionals", minutes: 18,
       desc: "Make your programs decide. Learn if, elif and else with a trail-difficulty example.",
-      cta: "Continue Climbing", href: "learning-workspace.html",
+      cta: "Continue Climbing", href: "lesson.html",
       x: 1031, y: 602
     },
     {
       id: "loops", type: "lesson", state: "available",
       label: "Loops · Lesson · 20 min", title: "Loops", minutes: 20,
       desc: "Repeat actions without copying your code. Learn for and while loops.",
-      cta: "Start lesson", href: "learning-workspace.html",
+      cta: "Start lesson", href: "lesson.html",
       x: 723, y: 573
     },
     {

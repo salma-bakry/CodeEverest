@@ -60,6 +60,7 @@ body {
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--t-theme), color var(--t-theme);
 }
 
 /* overflow-x: clip (not hidden) hides blob overflow without breaking position: sticky.

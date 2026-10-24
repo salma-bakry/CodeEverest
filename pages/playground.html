@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Playground | CodeEverest</title>
+  <script>try { if (localStorage.getItem('sx-theme') === 'light') document.documentElement.classList.remove('dark'); } catch (e) {}</script>
 
   <link rel="stylesheet" href="../css/variables.css">
   <link rel="stylesheet" href="../css/global.css">
@@ -42,6 +43,9 @@
         <button class="ic" type="button" title="Notifications" aria-label="Notifications">
           <span class="material-symbols-outlined">notifications</span>
           <span class="notif-dot"></span>
+        </button>
+        <button class="ic" id="theme" type="button" title="Toggle theme" aria-label="Toggle theme">
+          <span class="material-symbols-outlined">light_mode</span>
         </button>
         <a href="profile.html" class="avatar" aria-label="Profile">A</a>
       </div>
@@ -240,6 +244,7 @@
   </main>
 
   <!-- JavaScript goes last so the elements above exist when it runs -->
+  <script src="../js/common.js"></script>
   <script src="../js/playground.js"></script>
 </body>
 </html>
