@@ -17,7 +17,13 @@ const commonQuestions = [
   { q: 'What is a function?', options: ['A reusable block of code', 'A keyboard key', 'An error message', 'A file name'], answer: 0 }
 ];
 
-let questions = [];   // filled when the test starts (see buildQuestions)
+// Nice names for the level chips (shown in the summary)
+const LEVEL_LABELS = { beginner: 'Complete beginner', some: 'I know a little', advanced: 'I have experience' };
+
+const LAST_STEP = 5;
+
+let questions = [];   // filled when the test starts (see startTestIfNeeded)
+let answers = [];     // answers[i] = number of the option picked for question i (kept so Back/Next never double counts)
 
 // Everything the student chooses is kept here.
 // langs is a list, but it only ever holds ONE language.
@@ -25,17 +31,29 @@ const state = { level: '', goals: [], langs: [], score: 0, path: '', days: [], m
 
 let step = 1;        // which step is showing
 let q = 0;           // which test question is showing
-let picked = null;   // which answer was clicked
+let picked = null;   // which answer is selected for the question on screen
 
 const el = (id) => document.getElementById(id);
 const nextBtn = el('nextBtn');
 const backBtn = el('backBtn');
 
-// Build the 5 questions: the first one matches the language the student picked
-function buildQuestions() {
-  const lang = state.langs[0];
-  const first = firstQuestions[lang] || firstQuestions['Python'];
+// Show or hide something. Sets both the hidden attribute AND display,
+// because classes like .btn and .card would otherwise win over [hidden].
+function setShown(node, shown) {
+  node.hidden = !shown;
+  node.style.display = shown ? '' : 'none';
+}
+
+// Build the 5 questions (the first one matches the chosen language).
+// If the student already started a test for the same language, keep their answers.
+function startTestIfNeeded() {
+  const first = firstQuestions[state.langs[0]] || firstQuestions['Python'];
+  if (questions[0] === first) return;
   questions = [first, ...commonQuestions];
+  answers = [];
+  q = 0;
+  picked = null;
+  state.score = 0;
 }
 
 // Is the Next button allowed right now? (each step has its own rule)
@@ -50,23 +68,25 @@ function updateNext() { nextBtn.disabled = !canGo(); }
 
 // Show one step, hide the others, and update the progress bars
 function showStep(n) {
+  n = Math.max(1, Math.min(LAST_STEP, n));        // never go before step 1 or after the last step
   step = n;
-  document.querySelectorAll('.step').forEach((s) => { s.hidden = Number(s.dataset.step) !== n; });
+  document.querySelectorAll('.step').forEach((s) => setShown(s, Number(s.dataset.step) === n));
   document.querySelectorAll('#segs .seg').forEach((s, i) => s.classList.toggle('on', i < n));
-  el('stepLabel').textContent = 'Step ' + n + ' of 5';
-  backBtn.hidden = n === 1;
-  nextBtn.hidden = n === 5;
+  el('stepLabel').textContent = 'Step ' + n + ' of ' + LAST_STEP;
+  setShown(backBtn, n > 1);
+  setShown(nextBtn, n < LAST_STEP);
   nextBtn.textContent = n === 3 ? 'Confirm this path' : 'Next';
+  if (n === 2 && questions.length) { picked = answers[q] ?? null; renderQuestion(); }
   updateNext();
 }
 
-// Put the current test question on the page
+// Put the current test question on the page (and re-select the earlier answer, if any)
 function renderQuestion() {
   const item = questions[q];
   el('qCount').textContent = 'Question ' + (q + 1) + ' of ' + questions.length;
   el('qText').textContent = item.q;
   el('qOptions').innerHTML = item.options
-    .map((text, i) => '<button class="opt" data-i="' + i + '">' + text + '</button>')
+    .map((text, i) => '<button type="button" class="opt' + (picked === i ? ' selected' : '') + '" data-i="' + i + '">' + text + '</button>')
     .join('');
 }
 
@@ -82,7 +102,7 @@ function choosePath() {
 // Fill the summary and save the answers in the browser
 function finish() {
   const rows = [
-    ['Level', state.level],
+    ['Level', LEVEL_LABELS[state.level] || state.level],
     ['Goals', state.goals.join(', ') || 'None picked'],
     ['Language', state.langs.join(', ')],
     ['Test score', state.score + ' / ' + questions.length],
@@ -114,6 +134,7 @@ document.addEventListener('click', (e) => {
       const cur = state[group];
       const on = Array.isArray(cur) ? cur.includes(c.dataset.value) : String(cur) === c.dataset.value;
       c.classList.toggle('selected', on);
+      c.setAttribute('aria-pressed', on);
     });
     updateNext();
     return;
@@ -127,20 +148,33 @@ document.addEventListener('click', (e) => {
 });
 
 nextBtn.addEventListener('click', () => {
+  if (step >= LAST_STEP || nextBtn.disabled) return;      // nothing comes after the last step
+
+  if (step === 1) startTestIfNeeded();
+
   if (step === 2) {
-    if (picked === questions[q].answer) state.score++;
-    if (q < questions.length - 1) {          // more questions left: show the next one
-      q++; picked = null; renderQuestion(); updateNext();
+    answers[q] = picked;                                  // remember the answer (no score counting here)
+    if (q < questions.length - 1) {                       // more questions left: show the next one
+      q++; picked = answers[q] ?? null; renderQuestion(); updateNext();
       return;
     }
+    // last question done: count the score from all saved answers, so going Back and Next never adds extra points
+    state.score = answers.filter((a, i) => a === questions[i].answer).length;
   }
+
   const n = step + 1;
-  if (n === 2) { buildQuestions(); q = 0; picked = null; state.score = 0; renderQuestion(); }
   if (n === 3) choosePath();
-  if (n === 5) finish();
+  if (n === LAST_STEP) finish();
   showStep(n);
 });
 
-backBtn.addEventListener('click', () => showStep(step - 1));
+backBtn.addEventListener('click', () => {
+  if (step === 2 && q > 0) {                              // inside the test: go to the previous question
+    answers[q] = picked;
+    q--; picked = answers[q] ?? null; renderQuestion(); updateNext();
+    return;
+  }
+  if (step > 1) showStep(step - 1);
+});
 
 showStep(1);
