@@ -424,7 +424,7 @@ $('#f').addEventListener('submit',e=>{
     $('#ico').textContent='check';
     $('#lbl').textContent='Account created!';
     toast('Welcome aboard. Taking you to your dashboard…');
-    setTimeout(()=>{location.href='codeeverest-dashboard.html'},1200);
+    setTimeout(()=>{location.href='onboarding.html'},1200);
   },1100);
 });
 document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>toast('Continuing with '+b.dataset.p+'…','link'));

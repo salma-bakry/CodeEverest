@@ -24,10 +24,10 @@
 
       <nav class="nav" aria-label="Main">
         <a class="nl on" href="dashboard.html" aria-current="page">Dashboard</a>
-        <a class="nl" href="my-roadmap.html">My Roadmap</a>
-        <a class="nl" href="learning-workspace.html">Learning Workspace</a>
-        <a class="nl" href="coding-playground.html">Coding Playground</a>
-        <a class="nl" href="my-progress.html">My Progress</a>
+        <a class="nl" href="roadmap.html">My Roadmap</a>
+        <a class="nl" href="lesson.html">Learning Workspace</a>
+        <a class="nl" href="playground.html">Coding Playground</a>
+        <a class="nl" href="progress.html">My Progress</a>
       </nav>
 
       <div class="header-actions">
@@ -42,7 +42,7 @@
           <button class="avatar" id="avatarBtn" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" data-bind="initial"></button>
           <div class="menu" id="userMenu">
             <div class="menu-label" data-bind="name"></div>
-            <a class="menu-item" href="my-profile.html"><span class="material-symbols-outlined">person</span>My Profile</a>
+            <a class="menu-item" href="profile.html"><span class="material-symbols-outlined">person</span>My Profile</a>
             <button class="menu-item danger" type="button" data-logout><span class="material-symbols-outlined">logout</span>Log out</button>
           </div>
         </div>
@@ -61,8 +61,8 @@
           <p class="text-muted">You are on <b class="text-main" data-bind="currentStageText"></b> of your <span data-bind="pathName"></span> path.</p>
         </div>
         <div class="row gap-3 wrap">
-          <a class="btn btn-secondary" href="my-roadmap.html"><span class="material-symbols-outlined">landscape</span>View roadmap</a>
-          <a class="btn btn-primary" href="learning-workspace.html"><span class="material-symbols-outlined">play_arrow</span>Continue learning</a>
+          <a class="btn btn-secondary" href="roadmap.html"><span class="material-symbols-outlined">landscape</span>View roadmap</a>
+          <a class="btn btn-primary" href="lesson.html"><span class="material-symbols-outlined">play_arrow</span>Continue learning</a>
         </div>
       </section>
 
@@ -110,7 +110,7 @@
               <span class="fs text-muted" data-bind="recReason"></span>
             </div>
             <div class="row gap-3 wrap">
-              <a class="btn btn-primary" id="startLesson" href="learning-workspace.html"><span class="material-symbols-outlined">play_arrow</span>Start lesson</a>
+              <a class="btn btn-primary" id="startLesson" href="lesson.html"><span class="material-symbols-outlined">play_arrow</span>Start lesson</a>
             </div>
             <div class="rec-list" id="recList" aria-label="More recommendations"></div>
           </section>
@@ -119,7 +119,7 @@
           <section class="card rv" aria-labelledby="progressTitle">
             <div class="card-head">
               <h2 class="card-title" id="progressTitle">Your progress</h2>
-              <a class="link-text" href="my-roadmap.html">Open roadmap</a>
+              <a class="link-text" href="roadmap.html">Open roadmap</a>
             </div>
             <div class="stack gap-2">
               <div class="row between">
@@ -140,7 +140,7 @@
           <section class="card rv" aria-labelledby="achTitle">
             <div class="card-head">
               <h2 class="card-title" id="achTitle">Achievements</h2>
-              <a class="link-text" href="my-progress.html">See all</a>
+              <a class="link-text" href="progress.html">See all</a>
             </div>
             <div class="cols-4" id="achievements"></div>
           </section>
@@ -180,7 +180,7 @@
           <section class="card rv" aria-labelledby="focusTitle">
             <div class="card-head">
               <h2 class="card-title" id="focusTitle">Topics to focus on</h2>
-              <a class="link-text" href="my-progress.html">Details</a>
+              <a class="link-text" href="progress.html">Details</a>
             </div>
             <div class="stack gap-4" id="focusList"></div>
           </section>
@@ -199,7 +199,7 @@
   </footer>
 
   <script src="../js/common.js"></script>
-  <script src="../js/levelBadge.js"></script>
+  <script src="../js/level-badge.js"></script>
   <script src="../js/dashboard.js"></script>
 </body>
 </html>

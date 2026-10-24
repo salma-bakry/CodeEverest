@@ -16,10 +16,10 @@ const data = {
     stage: 'Stage 4: Loops',
     time: '15 min',
     reason: 'You scored 45% on the last loops quiz. This lesson will help before you move to the next stage.',
-    href: 'learning-workspace.html',
+    href: 'lesson.html',
     more: [
-      { icon: 'fitness_center', title: 'Loops practice exercise', meta: 'Coding challenge, 10 min', href: 'coding-playground.html' },
-      { icon: 'replay', title: 'Revise variables', meta: 'Quick quiz, 5 min', href: 'learning-workspace.html' }
+      { icon: 'fitness_center', title: 'Loops practice exercise', meta: 'Coding challenge, 10 min', href: 'playground.html' },
+      { icon: 'replay', title: 'Revise variables', meta: 'Quick quiz, 5 min', href: 'lesson.html' }
     ]
   },
   achievements: [                                        // FR-50 / FR-51 (brief)
