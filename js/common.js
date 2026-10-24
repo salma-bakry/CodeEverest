@@ -63,3 +63,24 @@ document.addEventListener('mousemove', (e) => {
 
 /* Logout (FR-06): prototype only, just goes back to the login page */
 $$('[data-logout]').forEach((b) => b.addEventListener('click', () => { window.location.href = 'login.html'; }));
+
+/* Shared light/dark theme toggle */
+(function themeToggle() {
+  const button = $('#theme');
+  if (!button) return;
+
+  const root = document.documentElement;
+  const icon = button.querySelector('.icon');
+  const sync = () => {
+    if (icon) icon.textContent = root.classList.contains('dark') ? 'light_mode' : 'dark_mode';
+  };
+
+  sync();
+  button.addEventListener('click', () => {
+    root.classList.toggle('dark');
+    try {
+      localStorage.setItem('sx-theme', root.classList.contains('dark') ? 'dark' : 'light');
+    } catch (e) {}
+    sync();
+  });
+})();

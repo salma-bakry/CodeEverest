@@ -2,7 +2,7 @@
 Notes: (mmkn nshelhom abl el discussion
    Load order: variables.css, then global.css, then components.css, then the page’s own CSS.
 
-   Dark mode only. No light theme, no toggle, no .dark class.
+   Dark mode is the default; :root:not(.dark) provides the light theme.
    Colors are space-separated RGB triplets so you can add opacity:
        color: rgb(var(--c-primary));
        background: rgb(var(--c-primary) / 0.15);
@@ -135,4 +135,29 @@ Notes: (mmkn nshelhom abl el discussion
      sm 640px · md 768px · lg 1024px · xl 1280px */
 
   color-scheme: dark;
+}
+
+:root:not(.dark) {
+  --c-background: 244 250 246;
+  --c-surface-container-lowest: 255 255 255;
+  --c-surface-container-low: 235 245 239;
+  --c-surface-container: 255 255 255;
+  --c-surface-container-high: 227 239 232;
+  --c-surface-container-highest: 211 227 217;
+  --c-on-surface: 18 28 23;
+  --c-on-surface-variant: 61 74 66;
+  --c-outline: 100 114 105;
+  --c-outline-variant: 160 178 167;
+  --c-primary: 4 120 87;
+  --c-on-primary: 255 255 255;
+  --c-primary-fixed-dim: 4 120 87;
+  --c-secondary: 15 118 110;
+  --c-on-secondary: 255 255 255;
+  --c-secondary-container: 15 118 110;
+  --c-tertiary: 77 124 15;
+  --c-on-tertiary: 255 255 255;
+  --c-error: 186 26 26;
+  --c-cta-bg: 12 21 17;
+  --c-cta-accent: 139 233 191;
+  color-scheme: light;
 }

@@ -54,7 +54,7 @@ function showStep(n) {
   document.querySelectorAll('.step').forEach((s) => { s.hidden = Number(s.dataset.step) !== n; });
   document.querySelectorAll('#segs .seg').forEach((s, i) => s.classList.toggle('on', i < n));
   el('stepLabel').textContent = 'Step ' + n + ' of 5';
-  backBtn.hidden = n === 1;
+  backBtn.hidden = n === 1 || n === 5;
   nextBtn.hidden = n === 5;
   nextBtn.textContent = n === 3 ? 'Confirm this path' : 'Next';
   updateNext();
