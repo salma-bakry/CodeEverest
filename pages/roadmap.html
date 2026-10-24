@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="dark" lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My Roadmap · Code Everest</title>
+  <script>try { if (localStorage.getItem('sx-theme') === 'light') document.documentElement.classList.remove('dark'); } catch (e) {}</script>
 
   <!-- Change these paths to match your project folders -->
   <link rel="stylesheet" href="../css/variables.css">
@@ -23,29 +24,27 @@
       </a>
 
       <nav class="nav" aria-label="Main">
-        <a class="nl on" href="dashboard.html" aria-current="page">Dashboard</a>
-        <a class="nl" href="my-roadmap.html">My Roadmap</a>
-        <a class="nl" href="learning-workspace.html">Learning Workspace</a>
-        <a class="nl" href="coding-playground.html">Coding Playground</a>
-        <a class="nl" href="my-progress.html">My Progress</a>
+        <a class="nl" href="dashboard.html">Dashboard</a>
+        <a class="nl on" href="roadmap.html" aria-current="page">Roadmap</a>
+        <a class="nl" href="lesson.html">Lessons</a>
+        <a class="nl" href="playground.html">Playground</a>
+        <a class="nl" href="progress.html">Progress</a>
       </nav>
 
       <div class="header-actions">
-        <div class="stat-pill" title="Current streak">
-          <span><span class="material-symbols-outlined text-tertiary">local_fire_department</span><b data-bind="streakDays"></b> days</span>
+        <div class="stat-pill" title="Streak and XP">
+          <span><span class="material-symbols-outlined text-tertiary">local_fire_department</span>14d</span>
+          <span><span class="material-symbols-outlined text-secondary">bolt</span>3,450 XP</span>
         </div>
         <span class="header-divider"></span>
-
-        <span data-level-badge="small"></span>
-
-        <div class="menu-wrap">
-          <button class="avatar" id="avatarBtn" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" data-bind="initial"></button>
-          <div class="menu" id="userMenu">
-            <div class="menu-label" data-bind="name"></div>
-            <a class="menu-item" href="my-profile.html"><span class="material-symbols-outlined">person</span>My Profile</a>
-            <button class="menu-item danger" type="button" data-logout><span class="material-symbols-outlined">logout</span>Log out</button>
-          </div>
-        </div>
+        <button class="ic" type="button" title="Notifications" aria-label="Notifications">
+          <span class="material-symbols-outlined">notifications</span>
+          <span class="notif-dot"></span>
+        </button>
+        <button class="ic" id="theme" type="button" title="Toggle theme" aria-label="Toggle theme">
+          <span class="material-symbols-outlined">light_mode</span>
+        </button>
+        <a href="profile.html" class="avatar" aria-label="Profile">A</a>
       </div>
     </div>
   </header>

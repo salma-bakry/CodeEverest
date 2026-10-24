@@ -310,7 +310,7 @@ body{overflow:hidden}
 
       <p class="center muted small">
         Already have an account?
-        <a href="signin.html" class="link">Sign in</a>
+        <a href="login.html" class="link">Login</a>
       </p>
     </form>
   </main>
@@ -423,8 +423,8 @@ $('#f').addEventListener('submit',e=>{
     $('#ico').classList.remove('spin');
     $('#ico').textContent='check';
     $('#lbl').textContent='Account created!';
-    toast('Welcome aboard. Taking you to your dashboard…');
-    setTimeout(()=>{location.href='codeeverest-dashboard.html'},1200);
+    toast('Welcome aboard. Taking you to onboarding…');
+    setTimeout(()=>{location.href='onboarding.html'},1200);
   },1100);
 });
 document.querySelectorAll('[data-p]').forEach(b=>b.onclick=()=>toast('Continuing with '+b.dataset.p+'…','link'));
